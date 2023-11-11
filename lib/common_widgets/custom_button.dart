@@ -10,28 +10,36 @@ class CustomButton extends StatelessWidget {
       this.title,
       this.width,
       this.height,
-      this.decoration})
+      this.decoration,
+      this.onTap,
+      this.textStyle})
       : super(key: key);
   final String? title;
   final Color? color;
   final double? height;
   final double? width;
   final BoxDecoration? decoration;
+  final VoidCallback? onTap;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: height ?? 61.h,
-      width: width ?? double.infinity,
-      alignment: Alignment.center,
-      decoration: decoration ??
-          BoxDecoration(
-              color: color ?? ColorPalette.greenColor,
-              borderRadius: BorderRadius.circular(40.r)),
-      child: Text(
-        title ?? '',
-        style: FontPalette.poppinsBold
-            .copyWith(color: Colors.white, fontSize: 17.sp),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        height: height ?? 61.h,
+        width: width ?? double.infinity,
+        alignment: Alignment.center,
+        decoration: decoration ??
+            BoxDecoration(
+                color: color ?? ColorPalette.greenColor,
+                borderRadius: BorderRadius.circular(40.r)),
+        child: Text(
+          title ?? '',
+          style: textStyle ??
+              FontPalette.poppinsBold
+                  .copyWith(color: Colors.white, fontSize: 17.sp),
+        ),
       ),
     );
   }

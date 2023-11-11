@@ -91,6 +91,23 @@ class $AssetsFontsGen {
       ];
 }
 
+class $AssetsIconsGen {
+  const $AssetsIconsGen();
+
+  /// File path: assets/icons/eco_dry_clean.png
+  AssetGenImage get ecoDryClean =>
+      const AssetGenImage('assets/icons/eco_dry_clean.png');
+
+  /// File path: assets/icons/ironing.png
+  AssetGenImage get ironing => const AssetGenImage('assets/icons/ironing.png');
+
+  /// File path: assets/icons/offers.png
+  AssetGenImage get offers => const AssetGenImage('assets/icons/offers.png');
+
+  /// List of all assets
+  List<AssetGenImage> get values => [ecoDryClean, ironing, offers];
+}
+
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
@@ -117,6 +134,7 @@ class Assets {
   Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
+  static const $AssetsIconsGen icons = $AssetsIconsGen();
   static const $AssetsImagesGen images = $AssetsImagesGen();
 }
 

@@ -57,8 +57,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     enableObscure: true,
                   ),
                   60.verticalSpace,
-                  const CustomButton(
+                  CustomButton(
                     title: 'LOGIN',
+                    onTap: () => Navigator.pushNamed(
+                        context, RouteGenerator.routeHomeScreen),
                   ),
                   16.verticalSpace,
                   Align(
