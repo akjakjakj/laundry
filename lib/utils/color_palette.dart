@@ -47,6 +47,10 @@ class ColorPalette {
 
   static Color get secondaryColor => const Color(0xFF212121);
 
+  static Color get hintColor => const Color(0xFF707071);
+
+  static Color get greenColor => const Color(0xFF076633);
+
   static const MaterialColor materialPrimary = MaterialColor(
     0xFFE50019,
     <int, Color>{
@@ -62,4 +66,16 @@ class ColorPalette {
       900: Color(0xFF076633),
     },
   );
+}
+
+class HexColor extends Color {
+  HexColor(final String hexColor) : super(_getColorFromHex(hexColor));
+
+  static int _getColorFromHex(String hexColor) {
+    hexColor = hexColor.toUpperCase().replaceAll('#', '');
+    if (hexColor.length == 6) {
+      hexColor = 'FF$hexColor';
+    }
+    return int.parse(hexColor, radix: 16);
+  }
 }
