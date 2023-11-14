@@ -65,10 +65,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   16.verticalSpace,
                   Align(
                     alignment: Alignment.centerRight,
-                    child: Text(
-                      'Forgot Your Password ?',
-                      style: FontPalette.poppinsBold.copyWith(
-                          color: ColorPalette.secondaryColor, fontSize: 11.sp),
+                    child: InkWell(
+                      onTap: () => Navigator.pushNamed(
+                          context, RouteGenerator.routeForgotPassword),
+                      child: Text(
+                        'Forgot Your Password ?',
+                        style: FontPalette.poppinsBold.copyWith(
+                            color: ColorPalette.secondaryColor,
+                            fontSize: 11.sp),
+                      ),
                     ),
                   ),
                   75.verticalSpace,
