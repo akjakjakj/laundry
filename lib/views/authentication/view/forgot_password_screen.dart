@@ -28,8 +28,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             80.verticalSpace,
             CustomButton(
               title: 'Continue',
-              onTap: () =>
-                  Navigator.pushNamed(context, RouteGenerator.routePastOrders),
+              // onTap: () =>
+              //     Navigator.pushNamed(context, RouteGenerator.routePastOrders),
             )
           ],
         ),
