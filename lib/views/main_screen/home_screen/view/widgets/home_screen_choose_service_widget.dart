@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/gen/assets.gen.dart';
+import 'package:laundry/services/route_generator.dart';
 
 import 'home_screen_service_container.dart';
 
@@ -20,6 +21,8 @@ class ChooseServiceWidget extends StatelessWidget {
         HomeScreenServiceContainer(
           image: Assets.icons.ecoDryClean.image(height: 34.h, width: 34.w),
           title: 'Eco-Dry Clean',
+          onTap: () =>
+              Navigator.pushNamed(context, RouteGenerator.routeEcoDryClean),
         ),
         30.horizontalSpace,
         HomeScreenServiceContainer(

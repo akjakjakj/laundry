@@ -5,8 +5,13 @@ import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/gen/assets.gen.dart';
+import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/utils/validator.dart';
+import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -16,75 +21,134 @@ class RegistrationScreen extends StatefulWidget {
 }
 
 class _RegistrationScreenState extends State<RegistrationScreen> {
+  late final GlobalKey<FormState> _formKey;
+  Validator validator = sl.get<Validator>();
+
+  @override
+  void initState() {
+    _formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            80.verticalSpace,
-            Padding(
-              padding: EdgeInsets.only(left: 28.w),
-              child: Assets.images.loginLogo
-                  .image(height: 105.h, fit: BoxFit.fill),
-            ),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 34.w),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'CREATE YOUR ACCOUNT',
-                    style: FontPalette.poppinsBold.copyWith(
-                        fontSize: 25.sp, color: ColorPalette.secondaryColor),
-                  ),
-                  40.verticalSpace,
-                  const CustomTextField(
-                    labelText: 'Name',
-                    hintText: 'Enter Your name',
-                  ),
-                  35.verticalSpace,
-                  const CustomTextField(
-                    labelText: 'Email',
-                    hintText: 'Enter Your Email address',
-                  ),
-                  35.verticalSpace,
-                  const CustomTextField(
-                    labelText: 'Password',
-                    hintText: 'Enter Your Password',
-                  ),
-                  35.verticalSpace,
-                  const CustomTextField(
-                    labelText: 'Confirm Password',
-                    hintText: 'Enter Your Password',
-                  ),
-                  60.verticalSpace,
-                  const CustomButton(
-                    title: 'REGISTER',
-                  ),
-                  30.verticalSpace,
-                  Align(
-                    alignment: Alignment.center,
-                    child: RichText(
-                        text: TextSpan(
-                            text: "Already an Account ?",
-                            style: FontPalette.poppinsBold
-                                .copyWith(color: ColorPalette.secondaryColor),
-                            children: [
-                          TextSpan(
-                              text: ' LOGIN',
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => Navigator.pop(context),
-                              style: FontPalette.poppinsBold
-                                  .copyWith(color: ColorPalette.greenColor))
-                        ])),
-                  )
-                ],
+        child: Consumer<AuthProvider>(
+          builder: (context, authProvider, child) => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              80.verticalSpace,
+              Padding(
+                padding: EdgeInsets.only(left: 28.w),
+                child: Assets.images.loginLogo
+                    .image(height: 105.h, fit: BoxFit.fill),
               ),
-            )
-          ],
-        ).withBackgroundImage(),
+              Container(
+                padding: EdgeInsets.symmetric(horizontal: 34.w),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'CREATE YOUR ACCOUNT',
+                        style: FontPalette.poppinsBold.copyWith(
+                            fontSize: 25.sp,
+                            color: ColorPalette.secondaryColor),
+                      ),
+                      40.verticalSpace,
+                      CustomTextField(
+                        controller: authProvider.registrationNameController,
+                        labelText: 'Name',
+                        hintText: 'Enter Your name',
+                        validator: (value) =>
+                            validator.validateName(context, value),
+                      ),
+                      35.verticalSpace,
+                      CustomTextField(
+                        controller: authProvider.registrationEmailController,
+                        labelText: 'Email',
+                        hintText: 'Enter Your Email address',
+                        validator: (value) =>
+                            validator.validateEmail(context, value),
+                      ),
+                      35.verticalSpace,
+                      CustomTextField(
+                        controller: authProvider.registrationPasswordController,
+                        labelText: 'Password',
+                        hintText: 'Enter Your Password',
+                        validator: (value) =>
+                            validator.validatePassword(context, value),
+                      ),
+                      35.verticalSpace,
+                      CustomTextField(
+                        controller:
+                            authProvider.registrationConfirmPasswordController,
+                        labelText: 'Confirm Password',
+                        hintText: 'Enter Your Password',
+                        validator: (value) => validator.validateConfirmPassword(
+                            context,
+                            authProvider.registrationPasswordController.text
+                                .trim(),
+                            value ?? ''),
+                      ),
+                      60.verticalSpace,
+                      CustomButton(
+                        title: 'REGISTER',
+                        isLoading: authProvider.btnLoaderState,
+                        onTap: () {
+                          if (_formKey.currentState!.validate()) {
+                            authProvider.register(
+                              onSuccess: () =>
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      RouteGenerator.routeLogin,
+                                      (route) => false),
+                            );
+                          }
+                        },
+                      ),
+                      if ((authProvider.errorMessage ?? '').isNotEmpty)
+                        Align(
+                          alignment: Alignment.center,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              12.verticalSpace,
+                              Text(
+                                authProvider.errorMessage ?? '',
+                                style: FontPalette.poppinsRegular.copyWith(
+                                    color: ColorPalette.errorBorderColor,
+                                    fontSize: 12.sp),
+                              )
+                            ],
+                          ),
+                        ),
+                      30.verticalSpace,
+                      Align(
+                        alignment: Alignment.center,
+                        child: RichText(
+                            text: TextSpan(
+                                text: "Already an Account ?",
+                                style: FontPalette.poppinsBold.copyWith(
+                                    color: ColorPalette.secondaryColor),
+                                children: [
+                              TextSpan(
+                                  text: ' LOGIN',
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () => Navigator.pop(context),
+                                  style: FontPalette.poppinsBold
+                                      .copyWith(color: ColorPalette.greenColor))
+                            ])),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          ).withBackgroundImage(),
+        ),
       ),
     );
   }

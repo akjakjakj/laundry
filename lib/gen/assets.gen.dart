@@ -119,6 +119,10 @@ class $AssetsImagesGen {
   AssetGenImage get electrolux =>
       const AssetGenImage('assets/images/electrolux.png');
 
+  /// File path: assets/images/kids_shoe.png
+  AssetGenImage get kidsShoe =>
+      const AssetGenImage('assets/images/kids_shoe.png');
+
   /// File path: assets/images/login_logo.png
   AssetGenImage get loginLogo =>
       const AssetGenImage('assets/images/login_logo.png');
@@ -126,8 +130,12 @@ class $AssetsImagesGen {
   /// File path: assets/images/logo.png
   AssetGenImage get logo => const AssetGenImage('assets/images/logo.png');
 
+  /// File path: assets/images/shoe.png
+  AssetGenImage get shoe => const AssetGenImage('assets/images/shoe.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [bgImage, electrolux, loginLogo, logo];
+  List<AssetGenImage> get values =>
+      [bgImage, electrolux, kidsShoe, loginLogo, logo, shoe];
 }
 
 class Assets {

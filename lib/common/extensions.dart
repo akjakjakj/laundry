@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 extension Context on BuildContext {
@@ -48,6 +48,17 @@ extension WidgetExtension on Widget {
         ),
       ),
       child: this, // Preserve the child of the original Container
+    );
+  }
+}
+
+extension InkWellExtension on InkWell {
+  InkWell removeSplash({Color color = Colors.white}) {
+    return InkWell(
+      onTap: onTap,
+      splashColor: color,
+      highlightColor: color,
+      child: child,
     );
   }
 }

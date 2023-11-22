@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:laundry/views/authentication/view/forgot_password_screen.dart';
 import 'package:laundry/views/authentication/view/login_screen.dart';
 import 'package:laundry/views/authentication/view/registration_screen.dart';
+import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_screen.dart';
+import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
@@ -20,6 +22,9 @@ class RouteGenerator {
   static const String routeHomeScreen = 'homeScreen';
   static const String routeForgotPassword = 'forgotPasswordScreen';
   static const String routePastOrders = 'pastOrdersScreen';
+  static const String routeEcoDryClean = 'ecoDryCleanScreen';
+  static const String routeEcoDryCleanSelectionScreen =
+      'ecoDryCleanSelectionScreen';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -36,6 +41,11 @@ class RouteGenerator {
         return _buildRoute(routeForgotPassword, const ForgotPasswordScreen());
       case routePastOrders:
         return _buildRoute(routePastOrders, const PastOrdersScreen());
+      case routeEcoDryClean:
+        return _buildRoute(routeEcoDryClean, const EcoDryCleanScreen());
+      case routeEcoDryCleanSelectionScreen:
+        return _buildRoute(routeEcoDryCleanSelectionScreen,
+            const EcoDryScreenItemSelectionScreen());
       default:
         return _buildRoute(routeInitial, const SplashScreen());
     }

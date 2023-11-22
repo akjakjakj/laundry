@@ -39,6 +39,10 @@ dependencies:
   get_it: ^7.6.4
   flutter_screenutil: ^5.9.0
   smooth_page_indicator: ^1.1.0
+  http: ^1.1.0
+  either_dart: ^1.0.0
+  fluttertoast: ^8.2.2
+
 
 dev_dependencies:
   flutter_test:

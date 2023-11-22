@@ -51,6 +51,8 @@ class ColorPalette {
 
   static Color get greenColor => const Color(0xFF076633);
 
+  static Color get errorBorderColor => const Color(0xFFFF0000);
+
   static const MaterialColor materialPrimary = MaterialColor(
     0xFFE50019,
     <int, Color>{
