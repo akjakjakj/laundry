@@ -18,7 +18,7 @@ class HomeImageSlider extends StatelessWidget {
         itemBuilder: (context, index) {
           return Image.network(
             'https://c.dlnws.com/image/upload/c_limit,f_auto,q_auto,w_1800/v1666098428/Blog/putting_clothes_into_washer.jpg',
-            fit: BoxFit.fill,
+            fit: BoxFit.cover,
           );
         },
       ),
@@ -26,8 +26,8 @@ class HomeImageSlider extends StatelessWidget {
           bottom: 60.h,
           child: CustomButton(
             width: 247.w,
-            decoration: BoxDecoration(
-                color: ColorPalette.hintColor, borderRadius: BorderRadius.zero),
+            decoration: const BoxDecoration(
+                color: Color(0XFFa7b8c5), borderRadius: BorderRadius.zero),
             title: 'EXPLORE OUR SERVICE',
             textStyle: FontPalette.poppinsBold
                 .copyWith(fontSize: 15.sp, color: ColorPalette.greenColor),

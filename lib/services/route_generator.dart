@@ -4,6 +4,7 @@ import 'package:laundry/views/authentication/view/login_screen.dart';
 import 'package:laundry/views/authentication/view/registration_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
+import 'package:laundry/views/cart/cart.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
@@ -25,6 +26,7 @@ class RouteGenerator {
   static const String routeEcoDryClean = 'ecoDryCleanScreen';
   static const String routeEcoDryCleanSelectionScreen =
       'ecoDryCleanSelectionScreen';
+  static const String routeCart = 'cartScreen';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -46,6 +48,8 @@ class RouteGenerator {
       case routeEcoDryCleanSelectionScreen:
         return _buildRoute(routeEcoDryCleanSelectionScreen,
             const EcoDryScreenItemSelectionScreen());
+      case routeCart:
+        return _buildRoute(routeCart, const Cart());
       default:
         return _buildRoute(routeInitial, const SplashScreen());
     }
