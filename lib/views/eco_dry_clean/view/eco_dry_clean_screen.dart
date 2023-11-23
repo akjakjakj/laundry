@@ -17,23 +17,69 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 15.r),
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Center(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 4,
+                        blurStyle: BlurStyle.outer,
+                        color: Color.fromARGB(255, 224, 224, 224),
+                        spreadRadius: 0.5)
+                  ],
+                ),
+                child: CircleAvatar(
+                    radius: 18.r,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 6.w),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                          size: 18.r,
+                        ),
+                      ),
+                    )),
+              ),
+            ),
+          ),
+        ),
+        title: Text(
+          "Eco - Dry Clean",
+          style: FontPalette.poppinsBold
+              .copyWith(color: Colors.black, fontSize: 17.sp),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: GridView.builder(
         itemCount: 3,
-        padding: EdgeInsets.symmetric(horizontal: 37.w, vertical: 60.h),
+        padding: EdgeInsets.symmetric(horizontal: 37.w, vertical: 15.h),
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            mainAxisExtent: context.sw(size: .413.w),
+            mainAxisExtent: context.sw(size: .300.w),
             crossAxisSpacing: 16.w,
-            mainAxisSpacing: 33.h),
+            mainAxisSpacing: 15.h),
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () => Navigator.pushNamed(
                 context, RouteGenerator.routeEcoDryCleanSelectionScreen),
             child: Container(
-              width: context.sw(size: .413.w),
+              width: context.sw(size: .400.w),
+              // height: 50,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  color: ColorPalette.hintColor,
+                  color: const Color(0XFFA7B7C4),
+                  // color: ColorPalette.hintColor,
                   borderRadius: BorderRadius.circular(15.r)),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,

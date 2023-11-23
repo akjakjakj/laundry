@@ -19,6 +19,50 @@ class _EcoDryScreenItemSelectionScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 15.r),
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Center(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 4,
+                        blurStyle: BlurStyle.outer,
+                        color: Color.fromARGB(255, 224, 224, 224),
+                        spreadRadius: 0.5)
+                  ],
+                ),
+                child: CircleAvatar(
+                    radius: 18.r,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 6.w),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                          size: 18.r,
+                        ),
+                      ),
+                    )),
+              ),
+            ),
+          ),
+        ),
+        title: Text(
+          "Eco - Dry Clean",
+          style: FontPalette.poppinsBold
+              .copyWith(color: Colors.black, fontSize: 17.sp),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -29,7 +73,7 @@ class _EcoDryScreenItemSelectionScreenState
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  60.verticalSpace,
+                  15.verticalSpace,
                   //const EcoDrySearchBar()
                   SizedBox(
                     height: 42.h,
@@ -43,6 +87,7 @@ class _EcoDryScreenItemSelectionScreenState
                               fontSize: 14.sp, color: HexColor('#404041'))),
                     ),
                   ),
+                   10.verticalSpace,
                   GridView.builder(
                     itemCount: 3,
                     shrinkWrap: true,

@@ -33,12 +33,56 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        centerTitle: true,
+        leading: Padding(
+          padding: EdgeInsets.only(left: 15.r),
+          child: GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Center(
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                        blurRadius: 4,
+                        blurStyle: BlurStyle.outer,
+                        color: Color.fromARGB(255, 224, 224, 224),
+                        spreadRadius: 0.5)
+                  ],
+                ),
+                child: CircleAvatar(
+                    radius: 18.r,
+                    backgroundColor: Colors.white,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 6.w),
+                        child: Icon(
+                          Icons.arrow_back_ios,
+                          color: Colors.black,
+                          size: 18.r,
+                        ),
+                      ),
+                    )),
+              ),
+            ),
+          ),
+        ),
+        title: Text(
+          "",
+          style: FontPalette.poppinsBold
+              .copyWith(color: Colors.black, fontSize: 17.sp),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+      ),
       body: SingleChildScrollView(
         child: Consumer<AuthProvider>(
           builder: (context, authProvider, child) => Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              80.verticalSpace,
+              15.verticalSpace,
               Padding(
                 padding: EdgeInsets.only(left: 28.w),
                 child: Assets.images.loginLogo

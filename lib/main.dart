@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Laundry',
           debugShowCheckedModeBanner: false,
           theme: ColorPalette.themeData,
           onGenerateRoute: RouteGenerator.instance.generateRoute,

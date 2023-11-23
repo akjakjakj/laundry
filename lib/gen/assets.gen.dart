@@ -94,18 +94,56 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/bag.png
+  AssetGenImage get bag => const AssetGenImage('assets/icons/bag.png');
+
+  /// File path: assets/icons/cart.png
+  AssetGenImage get cart => const AssetGenImage('assets/icons/cart.png');
+
   /// File path: assets/icons/eco_dry_clean.png
   AssetGenImage get ecoDryClean =>
       const AssetGenImage('assets/icons/eco_dry_clean.png');
 
+  /// File path: assets/icons/home.png
+  AssetGenImage get home => const AssetGenImage('assets/icons/home.png');
+
   /// File path: assets/icons/ironing.png
   AssetGenImage get ironing => const AssetGenImage('assets/icons/ironing.png');
+
+  /// File path: assets/icons/laundry.png
+  AssetGenImage get laundry => const AssetGenImage('assets/icons/laundry.png');
+
+  /// File path: assets/icons/male.png
+  AssetGenImage get male => const AssetGenImage('assets/icons/male.png');
 
   /// File path: assets/icons/offers.png
   AssetGenImage get offers => const AssetGenImage('assets/icons/offers.png');
 
+  /// File path: assets/icons/order.png
+  AssetGenImage get order => const AssetGenImage('assets/icons/order.png');
+
+  /// File path: assets/icons/settings.png
+  AssetGenImage get settings =>
+      const AssetGenImage('assets/icons/settings.png');
+
+  /// File path: assets/icons/whatsapp.png
+  AssetGenImage get whatsapp =>
+      const AssetGenImage('assets/icons/whatsapp.png');
+
   /// List of all assets
-  List<AssetGenImage> get values => [ecoDryClean, ironing, offers];
+  List<AssetGenImage> get values => [
+        bag,
+        cart,
+        ecoDryClean,
+        home,
+        ironing,
+        laundry,
+        male,
+        offers,
+        order,
+        settings,
+        whatsapp
+      ];
 }
 
 class $AssetsImagesGen {
