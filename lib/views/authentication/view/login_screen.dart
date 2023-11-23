@@ -40,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                80.verticalSpace,
+                60.verticalSpace,
                 Padding(
                   padding: EdgeInsets.only(left: 28.w),
                   child: Assets.images.loginLogo

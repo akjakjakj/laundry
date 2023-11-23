@@ -54,7 +54,7 @@ class ColorPalette {
   static Color get errorBorderColor => const Color(0xFFFF0000);
 
   static const MaterialColor materialPrimary = MaterialColor(
-    0xFFE50019,
+    0xFF076633,
     <int, Color>{
       50: Color(0xFF076633),
       100: Color(0xFF076633),

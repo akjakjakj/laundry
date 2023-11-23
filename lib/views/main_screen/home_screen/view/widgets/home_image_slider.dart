@@ -17,7 +17,7 @@ class HomeImageSlider extends StatelessWidget {
         controller: pageController,
         itemBuilder: (context, index) {
           return Image.network(
-            'https://c.dlnws.com/image/upload/c_limit,f_auto,q_auto,w_1800/v1666098428/Blog/putting_clothes_into_washer.jpg',
+            'https://media.product.which.co.uk/prod/images/original/gm-2afcf653-d966-4cda-9789-79cd1710023e-ironinglead.jpeg',
             fit: BoxFit.cover,
           );
         },

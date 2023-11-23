@@ -19,9 +19,8 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       const Duration(seconds: 2),
       () => Navigator.pushNamedAndRemoveUntil(
-          context, RouteGenerator.routeCart, (route) => false),
+          context, RouteGenerator.routeLogin, (route) => false),
     );
-    
   }
 
   @override

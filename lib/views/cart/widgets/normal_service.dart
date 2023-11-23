@@ -73,7 +73,7 @@ class _NormalServiceState extends State<NormalService> {
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(1950),
                                 lastDate: DateTime(2100));
-
+          
                             if (pickedDate != null) {
                               print(pickedDate);
                               String formattedDate =
@@ -117,7 +117,7 @@ class _NormalServiceState extends State<NormalService> {
                                 initialDate: DateTime.now(),
                                 firstDate: DateTime(1950),
                                 lastDate: DateTime(2100));
-
+          
                             if (pickedDate != null) {
                               print(pickedDate);
                               String formattedDate =
@@ -257,7 +257,6 @@ class _NormalServiceState extends State<NormalService> {
                   borderRadius: BorderRadius.circular(10.r),
                   child: Image.network(
                     "https://i.ebayimg.com/images/g/BYIAAOSwR01jHCuS/s-l500.jpg",
-                    
                     height: 97.w,
                     width: 90.w,
                     fit: BoxFit.cover,
