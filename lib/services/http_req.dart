@@ -7,14 +7,17 @@ import 'package:http/http.dart' as http;
 import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
+import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/enums.dart';
 
 class HttpReq {
   Helpers helpers = sl.get<Helpers>();
-
+  SharedPreferencesHelper sharedPreferencesHelper =
+      sl.get<SharedPreferencesHelper>();
   final String _appJson = 'application/json';
 
   Future<Either<ApiResponse, dynamic>> getRequest(String endPoint) async {
+    String token = await sharedPreferencesHelper.getAuthToken();
     try {
       bool networkStat = await helpers.isInternetAvailable();
       if (!networkStat) {
@@ -27,8 +30,7 @@ class HttpReq {
         headers: <String, String>{
           HttpHeaders.acceptHeader: _appJson,
           HttpHeaders.contentTypeHeader: _appJson,
-          'client-Id': '7608959366',
-          'secret-key': 'c0r5W8Hi96q8EQlg3kOLZ8QTiIY2kI',
+          'Authorization': 'Bearer $token',
         },
       ).timeout(const Duration(seconds: 60));
       return _returnResponse(response, endPoint);
@@ -55,8 +57,6 @@ class HttpReq {
         headers: <String, String>{
           HttpHeaders.acceptHeader: _appJson,
           HttpHeaders.contentTypeHeader: _appJson,
-          'client-Id': '7608959366',
-          'secret-key': 'c0r5W8Hi96q8EQlg3kOLZ8QTiIY2kI',
         },
       ).timeout(const Duration(seconds: 60));
       return _returnResponse(response, endPoint);

@@ -4,16 +4,22 @@ import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/provider_helper_class.dart';
+import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/authentication/model/registration_request_model.dart';
 import 'package:laundry/views/authentication/model/user_model.dart';
-import 'package:laundry/views/repo/login_repo.dart';
-import 'package:laundry/views/repo/registration_repo.dart';
+import 'package:laundry/views/authentication/repo/forgot_password_repo.dart';
+import 'package:laundry/views/authentication/repo/login_repo.dart';
+import 'package:laundry/views/authentication/repo/registration_repo.dart';
 
 class AuthProvider extends ChangeNotifier with ProviderHelperClass {
   Helpers helpers = sl.get<Helpers>();
   LoginRepo loginRepo = sl.get<LoginRepo>();
   RegistrationRepo registrationRepo = sl.get<RegistrationRepo>();
+  ForgotPasswordRepo forgotPasswordRepo = sl.get<ForgotPasswordRepo>();
+  SharedPreferencesHelper sharedPreferencesHelper =
+      sl.get<SharedPreferencesHelper>();
+
   UserData? userData;
   String? errorMessage;
 
@@ -25,11 +31,19 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
       TextEditingController();
   TextEditingController registrationConfirmPasswordController =
       TextEditingController();
+  TextEditingController forgotPasswordEmailController = TextEditingController();
+  TextEditingController forgotPasswordOtpController = TextEditingController();
+  TextEditingController resetPasswordController = TextEditingController();
+  TextEditingController resetPasswordConfirmationController =
+      TextEditingController();
 
-  Future<void> login({Function()? onSuccess}) async {
+  Future<void> login({
+    Function()? onSuccess,
+    Function()? onFailure,
+  }) async {
     updateBtnLoaderState(true);
     final network = await helpers.isInternetAvailable();
-    Future<Either<ApiResponse, dynamic?>>? resp;
+    Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       try {
         resp = loginRepo
@@ -37,36 +51,44 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                 email: loginEmailController.text.trim(),
                 password: loginPasswordController.text.trim(),
                 deviceToken: '1')
-            .thenRight((right) {
+            .thenRight((right) async {
           userData = right;
           updateErrorMessage(null);
+          await sharedPreferencesHelper.saveUserToken(userData?.token ?? '');
+          await sharedPreferencesHelper.saveLoginStatus(true);
           if (onSuccess != null) onSuccess();
           updateBtnLoaderState(false);
           return Right(right);
         }).thenLeft((left) {
           updateErrorMessage(left.message ?? '');
           updateBtnLoaderState(false);
+          if (onFailure != null) onFailure();
           updateLoadState(LoaderState.error);
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         }).onError((error, stackTrace) {
           updateErrorMessage('Oops..! Something went wrong');
           updateBtnLoaderState(false);
           updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         });
       } catch (e) {
         updateErrorMessage('Oops..! Something went wrong');
         updateBtnLoaderState(false);
         //'Login $e'.log(name: 'LoginProvider');
+        if (onFailure != null) onFailure();
         updateLoadState(LoaderState.error);
       }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
     }
   }
 
-  Future<void> register({Function()? onSuccess}) async {
+  Future<void> register({Function()? onSuccess, Function()? onFailure}) async {
     updateBtnLoaderState(true);
     final network = await helpers.isInternetAvailable();
-    Future<Either<ApiResponse, dynamic?>>? resp;
+    Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       try {
         RegistrationRequestModel registrationRequestModel =
@@ -88,20 +110,144 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
         }).thenLeft((left) {
           updateErrorMessage(left.message ?? '');
           updateBtnLoaderState(false);
+          if (onFailure != null) onFailure();
           updateLoadState(LoaderState.error);
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         }).onError((error, stackTrace) {
           updateErrorMessage('Oops..! Something went wrong');
           updateBtnLoaderState(false);
           updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateErrorMessage('Oops..! Something went wrong');
+        if (onFailure != null) onFailure();
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> requestForgotPasswordOtp({
+    Function()? onSuccess,
+    Function()? onFailure,
+  }) async {
+    updateBtnLoaderState(true);
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      try {
+        resp = forgotPasswordRepo
+            .requestForgotPasswordOtp(forgotPasswordEmailController.text.trim())
+            .thenRight((right) {
+          if (onSuccess != null) onSuccess();
+          updateBtnLoaderState(false);
+          return Right(right);
+        }).thenLeft((left) {
+          updateErrorMessage(left.message ?? '');
+          updateBtnLoaderState(false);
+          if (onFailure != null) onFailure();
+          return Left(left);
+        }).onError((error, stackTrace) {
+          updateErrorMessage('Oops..! Something went wrong');
+          updateBtnLoaderState(false);
+          updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         });
       } catch (e) {
         updateErrorMessage('Oops..! Something went wrong');
         updateBtnLoaderState(false);
         //'Login $e'.log(name: 'LoginProvider');
+        if (onFailure != null) onFailure();
         updateLoadState(LoaderState.error);
       }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> verifyForgotPasswordOtp(
+      {Function()? onSuccess, Function()? onFailure}) async {
+    updateBtnLoaderState(true);
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      try {
+        resp = forgotPasswordRepo
+            .verifyForgotPasswordOtp(forgotPasswordEmailController.text.trim(),
+                forgotPasswordOtpController.text.trim())
+            .thenRight((right) {
+          if (onSuccess != null) onSuccess();
+          updateBtnLoaderState(false);
+          return Right(right);
+        }).thenLeft((left) {
+          updateErrorMessage(left.message ?? '');
+          updateBtnLoaderState(false);
+          if (onFailure != null) onFailure();
+          return Left(left);
+        }).onError((error, stackTrace) {
+          updateErrorMessage('Oops..! Something went wrong');
+          updateBtnLoaderState(false);
+          updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateErrorMessage('Oops..! Something went wrong');
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        if (onFailure != null) onFailure();
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> resetPassword(
+      {Function()? onSuccess, Function()? onFailure}) async {
+    updateBtnLoaderState(true);
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      try {
+        resp = forgotPasswordRepo
+            .verifyForgotPasswordOtp(forgotPasswordEmailController.text.trim(),
+                forgotPasswordOtpController.text.trim())
+            .thenRight((right) {
+          if (onSuccess != null) onSuccess();
+          updateBtnLoaderState(false);
+          return Right(right);
+        }).thenLeft((left) {
+          updateErrorMessage(left.message ?? '');
+          updateBtnLoaderState(false);
+          if (onFailure != null) onFailure();
+          return Left(left);
+        }).onError((error, stackTrace) {
+          updateErrorMessage('Oops..! Something went wrong');
+          updateBtnLoaderState(false);
+          updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateErrorMessage('Oops..! Something went wrong');
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        if (onFailure != null) onFailure();
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
     }
   }
 

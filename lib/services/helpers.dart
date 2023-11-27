@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/utils/color_palette.dart';
@@ -42,7 +43,18 @@ class Helpers {
         timeInSecForIosWeb: 1,
         backgroundColor: ColorPalette.primaryColor,
         textColor: Colors.white,
-        fontSize: 16.0);
+        fontSize: 16.sp);
+  }
+
+  void errorToast(String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: ColorPalette.errorBorderColor,
+        textColor: Colors.white,
+        fontSize: 16.sp);
   }
 
   // Future flushToast(BuildContext context, {required String msg}) {

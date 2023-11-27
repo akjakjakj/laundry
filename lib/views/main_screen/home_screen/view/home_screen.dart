@@ -65,54 +65,54 @@ class _HomeScreenState extends State<HomeScreen> {
           )),
         ).withBackgroundImage(),
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        index: 2,
-        animationCurve: Curves.easeInOutSine,
-        height: 75,
-        color: ColorPalette.primaryColor,
-        backgroundColor: Colors.white,
-        items: <Widget>[
-          Center(
-              child: Center(
-                  child: Container(
-                      height: 30,
-                      width: 30,
-                      padding: EdgeInsets.all(1),
-                      child: Assets.icons.order.image(
-                          height: 30,
-                          width: 30,
-                          fit: BoxFit.fill,
-                          color: Colors.white)))),
-          Center(
-              child: Assets.icons.whatsapp.image(
-                  height: 30,
-                  width: 30,
-                  fit: BoxFit.fill,
-                  color: Colors.white)),
-          Center(
-              child: Center(
-                  child: Container(
-                      height: 30,
-                      width: 30,
-                      child: Assets.icons.home
-                          .image(height: 20, width: 20, fit: BoxFit.fill)))),
-          Center(
-              child: Assets.icons.male.image(
-                  height: 30,
-                  width: 30,
-                  fit: BoxFit.fill,
-                  color: Colors.white)),
-          Center(
-              child: Assets.icons.settings.image(
-                  height: 30,
-                  width: 30,
-                  fit: BoxFit.fill,
-                  color: Colors.white)),
-        ],
-        onTap: (index) {
-          //Handle button tap
-        },
-      ),
+      // bottomNavigationBar: CurvedNavigationBar(
+      //   index: 2,
+      //   animationCurve: Curves.easeInOutSine,
+      //   height: 75,
+      //   color: ColorPalette.primaryColor,
+      //   backgroundColor: Colors.white,
+      //   items: <Widget>[
+      //     Center(
+      //         child: Center(
+      //             child: Container(
+      //                 height: 30,
+      //                 width: 30,
+      //                 padding: EdgeInsets.all(1),
+      //                 child: Assets.icons.order.image(
+      //                     height: 30,
+      //                     width: 30,
+      //                     fit: BoxFit.fill,
+      //                     color: Colors.white)))),
+      //     Center(
+      //         child: Assets.icons.whatsapp.image(
+      //             height: 30,
+      //             width: 30,
+      //             fit: BoxFit.fill,
+      //             color: Colors.white)),
+      //     Center(
+      //         child: Center(
+      //             child: Container(
+      //                 height: 30,
+      //                 width: 30,
+      //                 child: Assets.icons.home
+      //                     .image(height: 20, width: 20, fit: BoxFit.fill)))),
+      //     Center(
+      //         child: Assets.icons.male.image(
+      //             height: 30,
+      //             width: 30,
+      //             fit: BoxFit.fill,
+      //             color: Colors.white)),
+      //     Center(
+      //         child: Assets.icons.settings.image(
+      //             height: 30,
+      //             width: 30,
+      //             fit: BoxFit.fill,
+      //             color: Colors.white)),
+      //   ],
+      //   onTap: (index) {
+      //     //Handle button tap
+      //   },
+      // ),
     );
   }
 }

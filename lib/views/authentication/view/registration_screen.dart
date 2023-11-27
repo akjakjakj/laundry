@@ -6,6 +6,7 @@ import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
@@ -23,6 +24,7 @@ class RegistrationScreen extends StatefulWidget {
 class _RegistrationScreenState extends State<RegistrationScreen> {
   late final GlobalKey<FormState> _formKey;
   Validator validator = sl.get<Validator>();
+  Helpers helpers = sl.get<Helpers>();
 
   @override
   void initState() {
@@ -142,6 +144,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         title: 'REGISTER',
                         isLoading: authProvider.btnLoaderState,
                         onTap: () {
+                          FocusScope.of(context).unfocus();
                           if (_formKey.currentState!.validate()) {
                             authProvider.register(
                               onSuccess: () =>
@@ -149,26 +152,28 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                       context,
                                       RouteGenerator.routeLogin,
                                       (route) => false),
+                              onFailure: () => helpers
+                                  .errorToast(authProvider.errorMessage ?? ''),
                             );
                           }
                         },
                       ),
-                      if ((authProvider.errorMessage ?? '').isNotEmpty)
-                        Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              12.verticalSpace,
-                              Text(
-                                authProvider.errorMessage ?? '',
-                                style: FontPalette.poppinsRegular.copyWith(
-                                    color: ColorPalette.errorBorderColor,
-                                    fontSize: 12.sp),
-                              )
-                            ],
-                          ),
-                        ),
+                      // if ((authProvider.errorMessage ?? '').isNotEmpty)
+                      //   Align(
+                      //     alignment: Alignment.center,
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       children: [
+                      //         12.verticalSpace,
+                      //         Text(
+                      //           authProvider.errorMessage ?? '',
+                      //           style: FontPalette.poppinsRegular.copyWith(
+                      //               color: ColorPalette.errorBorderColor,
+                      //               fontSize: 12.sp),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
                       30.verticalSpace,
                       Align(
                         alignment: Alignment.center,

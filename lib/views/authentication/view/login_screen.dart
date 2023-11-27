@@ -6,6 +6,7 @@ import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
@@ -23,6 +24,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   late final GlobalKey<FormState> _formKey;
   Validator validator = sl.get<Validator>();
+  Helpers helpers = sl.get<Helpers>();
 
   @override
   void initState() {
@@ -85,16 +87,17 @@ class _LoginScreenState extends State<LoginScreen> {
                         title: 'LOGIN',
                         isLoading: authProvider.btnLoaderState,
                         onTap: () {
+                          FocusScope.of(context).unfocus();
                           if (_formKey.currentState!.validate()) {
                             authProvider.login(
                               onSuccess: () {
                                 authProvider.updateErrorMessage(null);
                                 authProvider.clearRegistrationControllers();
                                 Navigator.pushNamed(
-                                        context, RouteGenerator.routeHomeScreen)
-                                    .then((value) =>
-                                        authProvider.updateErrorMessage(null));
+                                    context, RouteGenerator.routeMainScreen);
                               },
+                              onFailure: () => helpers
+                                  .errorToast(authProvider.errorMessage ?? ''),
                             );
                           }
                         },
@@ -113,22 +116,22 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ),
-                      if ((authProvider.errorMessage ?? '').isNotEmpty)
-                        Align(
-                          alignment: Alignment.center,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              12.verticalSpace,
-                              Text(
-                                authProvider.errorMessage ?? '',
-                                style: FontPalette.poppinsRegular.copyWith(
-                                    color: ColorPalette.errorBorderColor,
-                                    fontSize: 12.sp),
-                              )
-                            ],
-                          ),
-                        ),
+                      // if ((authProvider.errorMessage ?? '').isNotEmpty)
+                      //   Align(
+                      //     alignment: Alignment.center,
+                      //     child: Column(
+                      //       crossAxisAlignment: CrossAxisAlignment.center,
+                      //       children: [
+                      //         12.verticalSpace,
+                      //         Text(
+                      //           authProvider.errorMessage ?? '',
+                      //           style: FontPalette.poppinsRegular.copyWith(
+                      //               color: ColorPalette.errorBorderColor,
+                      //               fontSize: 12.sp),
+                      //         )
+                      //       ],
+                      //     ),
+                      //   ),
                       75.verticalSpace,
                       Align(
                         alignment: Alignment.center,

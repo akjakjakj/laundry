@@ -5,6 +5,8 @@ import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 class EcoDryCleanScreen extends StatefulWidget {
   const EcoDryCleanScreen({Key? key}) : super(key: key);
@@ -14,6 +16,14 @@ class EcoDryCleanScreen extends StatefulWidget {
 }
 
 class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
+  late HomeProvider homeProvider;
+
+  @override
+  void initState() {
+    homeProvider = context.read<HomeProvider>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,41 +71,48 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: GridView.builder(
-        itemCount: 3,
-        padding: EdgeInsets.symmetric(horizontal: 37.w, vertical: 15.h),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            mainAxisExtent: context.sw(size: .300.w),
-            crossAxisSpacing: 16.w,
-            mainAxisSpacing: 15.h),
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () => Navigator.pushNamed(
-                context, RouteGenerator.routeEcoDryCleanSelectionScreen),
-            child: Container(
-              width: context.sw(size: .400.w),
-              // height: 50,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                  color: const Color(0XFFA7B7C4),
-                  // color: ColorPalette.hintColor,
-                  borderRadius: BorderRadius.circular(15.r)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Assets.images.shoe.image(height: 55.h, width: 55.w),
-                  Text(
-                    'Shoes',
-                    style: FontPalette.poppinsBold.copyWith(
-                        fontSize: 17.sp, color: ColorPalette.greenColor),
-                  )
-                ],
+      body: homeProvider.categoriesList.isNotEmpty
+          ? GridView.builder(
+              itemCount: homeProvider.categoriesList.length,
+              padding: EdgeInsets.symmetric(horizontal: 37.w, vertical: 15.h),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisExtent: context.sw(size: .300.w),
+                  crossAxisSpacing: 16.w,
+                  mainAxisSpacing: 15.h),
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () => Navigator.pushNamed(
+                      context, RouteGenerator.routeEcoDryCleanSelectionScreen),
+                  child: Container(
+                    width: context.sw(size: .400.w),
+                    // height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: const Color(0XFFA7B7C4),
+                        // color: ColorPalette.hintColor,
+                        borderRadius: BorderRadius.circular(15.r)),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Assets.images.shoe.image(height: 55.h, width: 55.w),
+                        Text(
+                          homeProvider.categoriesList[index].name ?? '',
+                          style: FontPalette.poppinsBold.copyWith(
+                              fontSize: 17.sp, color: ColorPalette.greenColor),
+                        )
+                      ],
+                    ),
+                  ),
+                ).removeSplash();
+              },
+            )
+          : Center(
+              child: Text(
+                'No categories found',
+                style: FontPalette.poppinsBold,
               ),
             ),
-          ).removeSplash();
-        },
-      ),
     );
   }
 }

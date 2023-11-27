@@ -3,7 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
+import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
+import 'package:laundry/utils/validator.dart';
+import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../../utils/font_palette.dart';
 
@@ -15,6 +20,18 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+  late AuthProvider authProvider;
+  Helpers helpers = sl.get<Helpers>();
+  Validator validator = sl.get<Validator>();
+  late final GlobalKey<FormState> _formKey;
+
+  @override
+  void initState() {
+    authProvider = context.read<AuthProvider>();
+    _formKey = GlobalKey<FormState>();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,20 +78,52 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 34.w),
-        child: Column(
-          children: [
-            50.verticalSpace,
-            const CustomTextField(
-              hintText: 'Enter Your Email Address',
-              labelText: 'Email',
-            ),
-            50.verticalSpace,
-            CustomButton(
-              title: 'Sent OTP',
-              // onTap: () =>
-              //     Navigator.pushNamed(context, RouteGenerator.routePastOrders),
-            )
-          ],
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              50.verticalSpace,
+              CustomTextField(
+                controller: authProvider.forgotPasswordEmailController,
+                hintText: 'Enter Your Email Address',
+                labelText: 'Email',
+                validator: (value) => validator.validateEmail(context, value),
+              ),
+              50.verticalSpace,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Padding(
+                    padding: EdgeInsets.only(bottom: 60.h),
+                    child: Selector<AuthProvider, bool>(
+                      selector: (context, authProvider) =>
+                          authProvider.btnLoaderState,
+                      builder: (context, value, child) => CustomButton(
+                          title: 'Send OTP',
+                          isLoading: value,
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            if (_formKey.currentState!.validate()) {
+                              authProvider.requestForgotPasswordOtp(
+                                  onSuccess: () {
+                                    authProvider.updateErrorMessage(null);
+                                    helpers.successToast(
+                                        'OTP sent to the given Email address');
+                                    Navigator.pushNamed(
+                                        context,
+                                        RouteGenerator
+                                            .routeForgotPasswordOtpVerificationScreen);
+                                  },
+                                  onFailure: () => helpers.errorToast(
+                                      authProvider.errorMessage ?? ''));
+                            }
+                          }),
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ).withBackgroundImage(),
     );
