@@ -27,9 +27,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     homeProvider = context.read<HomeProvider>();
-    homeProvider
-      ..getServices()
-      ..getCategories();
+    // homeProvider
+    //   ..getServices()
+    //   ..getCategories();
     selectedIndex = ValueNotifier(2);
     pageController = PageController(initialPage: 2, keepPage: true);
     homeScrollController = ScrollController();

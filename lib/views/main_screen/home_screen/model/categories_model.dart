@@ -20,11 +20,13 @@ class CategoriesResponseModel {
 class Categories {
   int? id;
   String? name;
+  String? icon;
 
   Categories({this.id, this.name});
 
   Categories.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    icon = json['icon'];
   }
 }

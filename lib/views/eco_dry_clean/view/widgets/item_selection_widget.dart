@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:laundry/common_widgets/common_fade_in_image.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
-import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/eco_dry_clean/model/products_response_model.dart';
 
 class ItemSelectionWidget extends StatelessWidget {
-  const ItemSelectionWidget({Key? key}) : super(key: key);
+  const ItemSelectionWidget({Key? key, this.productItem}) : super(key: key);
+  final Products? productItem;
 
   @override
   Widget build(BuildContext context) {
@@ -30,18 +32,19 @@ class ItemSelectionWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10.r),
                       color: HexColor('#F3F3F4')),
-                  child:
-                      Assets.images.kidsShoe.image(height: 79.h, width: 86.w),
+                  child: CommonFadeInImage(
+                      image: productItem?.image, height: 79.h, width: 86.w),
+                  //Assets.images.kidsShoe.image(height: 79.h, width: 86.w),
                 ),
                 10.verticalSpace,
                 Text(
-                  'Baby soft shoe',
+                  productItem?.name ?? '',
                   style: FontPalette.poppinsRegular
                       .copyWith(fontSize: 13.sp, color: Colors.black),
                 ),
                 2.verticalSpace,
                 Text(
-                  'AED9/Cloth',
+                  'AED ${productItem?.rate ?? ''}/Cloth',
                   style: FontPalette.poppinsRegular
                       .copyWith(fontSize: 11.sp, color: HexColor('#404041')),
                 ),

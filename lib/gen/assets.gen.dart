@@ -153,6 +153,10 @@ class $AssetsImagesGen {
   AssetGenImage get bgImage =>
       const AssetGenImage('assets/images/bg_image.png');
 
+  /// File path: assets/images/blank_image.png
+  AssetGenImage get blankImage =>
+      const AssetGenImage('assets/images/blank_image.png');
+
   /// File path: assets/images/electrolux.png
   AssetGenImage get electrolux =>
       const AssetGenImage('assets/images/electrolux.png');
@@ -173,7 +177,7 @@ class $AssetsImagesGen {
 
   /// List of all assets
   List<AssetGenImage> get values =>
-      [bgImage, electrolux, kidsShoe, loginLogo, logo, shoe];
+      [bgImage, blankImage, electrolux, kidsShoe, loginLogo, logo, shoe];
 }
 
 class Assets {

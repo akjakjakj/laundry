@@ -53,6 +53,10 @@ class ColorPalette {
 
   static Color get errorBorderColor => const Color(0xFFFF0000);
 
+  static Color get shimmerHighlightColor => shimmerBaseColor.withOpacity(0.5);
+
+  static Color get shimmerBaseColor => const Color(0xFFF4F4F4);
+
   static const MaterialColor materialPrimary = MaterialColor(
     0xFF076633,
     <int, Color>{

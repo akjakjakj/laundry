@@ -43,6 +43,7 @@ class HttpReq {
       {param}) async {
     try {
       bool networkStat = await helpers.isInternetAvailable();
+      String token = await sharedPreferencesHelper.getAuthToken();
       if (!networkStat) {
         return Left(ApiResponse(exceptions: ApiExceptions.networkError));
       }
@@ -57,6 +58,7 @@ class HttpReq {
         headers: <String, String>{
           HttpHeaders.acceptHeader: _appJson,
           HttpHeaders.contentTypeHeader: _appJson,
+          'Authorization': 'Bearer $token',
         },
       ).timeout(const Duration(seconds: 60));
       return _returnResponse(response, endPoint);

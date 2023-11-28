@@ -12,6 +12,8 @@ import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
 
+import '../views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
+
 class RouteGenerator {
   static RouteGenerator? _instance;
 
@@ -34,7 +36,7 @@ class RouteGenerator {
       'forgotPasswordOtpVerificationScreen';
   static const String routeForgotPasswordResetPasswordScreen =
       'forgotPasswordResetPasswordScreen';
-  static const String routeMainScreen='mainScreen';
+  static const String routeMainScreen = 'mainScreen';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -54,8 +56,12 @@ class RouteGenerator {
       case routeEcoDryClean:
         return _buildRoute(routeEcoDryClean, const EcoDryCleanScreen());
       case routeEcoDryCleanSelectionScreen:
-        return _buildRoute(routeEcoDryCleanSelectionScreen,
-            const EcoDryScreenItemSelectionScreen());
+        EcoDryCleanArguments routeArgs = args as EcoDryCleanArguments;
+        return _buildRoute(
+            routeEcoDryCleanSelectionScreen,
+            EcoDryScreenItemSelectionScreen(
+              categoryId: routeArgs.categoryId ?? 0,
+            ));
       case routeCart:
         return _buildRoute(routeCart, const Cart());
       case routeForgotPasswordOtpVerificationScreen:

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:laundry/utils/color_palette.dart';
+import 'package:shimmer/shimmer.dart';
 
 extension Context on BuildContext {
   double sh({double size = 1.0}) {
@@ -50,6 +52,28 @@ extension WidgetExtension on Widget {
       child: this, // Preserve the child of the original Container
     );
   }
+
+  Widget addShimmer({Color? baseColor, Color? highlightColor}) {
+    return Shimmer.fromColors(
+      baseColor: ColorPalette.shimmerBaseColor,
+      highlightColor: ColorPalette.shimmerHighlightColor,
+      child: this,
+    );
+  }
+
+  Widget translateWidgetVertically({double value = 0}) {
+    return Transform.translate(
+      offset: Offset(0.0, value),
+      child: this,
+    );
+  }
+
+  Widget translateWidgetHorizontally({double value = 0}) {
+    return Transform.translate(
+      offset: Offset(value, 0.0),
+      child: this,
+    );
+  }
 }
 
 extension InkWellExtension on InkWell {
@@ -62,4 +86,3 @@ extension InkWellExtension on InkWell {
     );
   }
 }
-
