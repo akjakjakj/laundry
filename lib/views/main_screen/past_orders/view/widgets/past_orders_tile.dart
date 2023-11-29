@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
 
 class PastOrdersTile extends StatelessWidget {
-  const PastOrdersTile({Key? key}) : super(key: key);
+  const PastOrdersTile({Key? key, required this.ordersList}) : super(key: key);
+  final List<Orders> ordersList;
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: 10,
+      itemCount: ordersList.length,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => Container(
@@ -24,13 +26,13 @@ class PastOrdersTile extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'Order ID : #PQIWY1TMVL',
+                  'Order ID : #${ordersList[index].id}',
                   style: FontPalette.poppinsRegular
                       .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
                 ),
                 const Spacer(),
                 Text(
-                  '15-08-2023',
+                  ordersList[index].date ?? '',
                   style: FontPalette.poppinsRegular.copyWith(
                       fontSize: 11.sp, color: ColorPalette.greenColor),
                 )
@@ -40,7 +42,7 @@ class PastOrdersTile extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  'T-SHIRT,LONG SHIRTS',
+                  ordersList[index].product ?? '',
                   style: FontPalette.poppinsRegular
                       .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
                 ),
@@ -62,7 +64,7 @@ class PastOrdersTile extends StatelessWidget {
                 ),
                 const Spacer(),
                 Text(
-                  '1',
+                  ordersList[index].quantity.toString(),
                   style: FontPalette.poppinsRegular
                       .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
                 ),
