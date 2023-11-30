@@ -10,6 +10,7 @@ import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
+import 'package:laundry/views/profile/profile.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
 
 import '../views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
@@ -32,6 +33,7 @@ class RouteGenerator {
   static const String routeEcoDryCleanSelectionScreen =
       'ecoDryCleanSelectionScreen';
   static const String routeCart = 'cartScreen';
+  static const String routeProfile = 'profileScreen';
   static const String routeForgotPasswordOtpVerificationScreen =
       'forgotPasswordOtpVerificationScreen';
   static const String routeForgotPasswordResetPasswordScreen =
@@ -64,6 +66,8 @@ class RouteGenerator {
             ));
       case routeCart:
         return _buildRoute(routeCart, const Cart());
+      case routeProfile:
+        return _buildRoute(routeCart, const Profile());
       case routeForgotPasswordOtpVerificationScreen:
         return _buildRoute(routeForgotPasswordOtpVerificationScreen,
             const ForgotPasswordOtpVerificationScreen());

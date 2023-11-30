@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Navigator.pushNamed(context, RouteGenerator.routeCart);
+                        Navigator.pushNamed(context, RouteGenerator.routeCart);
                       },
                       child: Padding(
                           padding: EdgeInsets.only(right: 15.w),

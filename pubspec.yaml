@@ -49,6 +49,8 @@ dependencies:
   pinput: ^3.0.1
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
+    
+
 
 dev_dependencies:
   flutter_test:
@@ -65,12 +67,7 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-flutter_icons:
-  image_path: "assets/images/login_logo.png" 
-  android: true
-  ios: true
-  # optionally, as transparency is not allowed on app store
-  # remove_alpha_ios: true
+
 # The following section is specific to Flutter packages.
 flutter:
 
