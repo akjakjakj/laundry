@@ -15,7 +15,8 @@ class AddressTile extends StatelessWidget {
       itemBuilder: (context, index) => Container(
         padding: EdgeInsets.only(left: 12.w, bottom: 15.h, top: 15.h),
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.r), color: Colors.grey),
+            borderRadius: BorderRadius.circular(10.r),
+            color: const Color(0XFFF3F3F4)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -41,7 +42,7 @@ class AddressTile extends StatelessWidget {
                 const Spacer(),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w),
-                  color: ColorPalette.errorBorderColor,
+                  color: const Color(0XFFC11E00),
                   height: 23.h,
                   alignment: Alignment.center,
                   child: Text(

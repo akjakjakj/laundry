@@ -12,6 +12,7 @@ class PastOrdersShimmer extends StatelessWidget {
       child: ListView.separated(
         itemCount: 10,
         shrinkWrap: true,
+        padding: EdgeInsets.only(top: 30.h),
         physics: const NeverScrollableScrollPhysics(),
         itemBuilder: (context, index) => Container(
           padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),

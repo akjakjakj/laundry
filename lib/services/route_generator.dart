@@ -10,6 +10,7 @@ import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
+import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
 import 'package:laundry/views/profile/profile.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
 
@@ -39,6 +40,7 @@ class RouteGenerator {
   static const String routeForgotPasswordResetPasswordScreen =
       'forgotPasswordResetPasswordScreen';
   static const String routeMainScreen = 'mainScreen';
+  static const String routeAddressScreen = 'addressScreen';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -57,6 +59,8 @@ class RouteGenerator {
         return _buildRoute(routePastOrders, const PastOrdersScreen());
       case routeEcoDryClean:
         return _buildRoute(routeEcoDryClean, const EcoDryCleanScreen());
+      case routeAddressScreen:
+        return _buildRoute(routeAddressScreen, const ManageAddressScreen());
       case routeEcoDryCleanSelectionScreen:
         EcoDryCleanArguments routeArgs = args as EcoDryCleanArguments;
         return _buildRoute(
