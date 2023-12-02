@@ -1,9 +1,12 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import '../../../../../common_widgets/common_fade_in_image.dart';
 
 class HomeImageSlider extends StatelessWidget {
   HomeImageSlider({Key? key}) : super(key: key);
@@ -16,8 +19,9 @@ class HomeImageSlider extends StatelessWidget {
         itemCount: 3,
         controller: pageController,
         itemBuilder: (context, index) {
-          return Image.network(
-            'https://media.product.which.co.uk/prod/images/original/gm-2afcf653-d966-4cda-9789-79cd1710023e-ironinglead.jpeg',
+          return CommonFadeInImage(
+            image:
+                'https://media.product.which.co.uk/prod/images/original/gm-2afcf653-d966-4cda-9789-79cd1710023e-ironinglead.jpeg',
             fit: BoxFit.cover,
           );
         },

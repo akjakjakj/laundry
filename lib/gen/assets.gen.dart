@@ -113,6 +113,13 @@ class $AssetsIconsGen {
   /// File path: assets/icons/laundry.png
   AssetGenImage get laundry => const AssetGenImage('assets/icons/laundry.png');
 
+  /// File path: assets/icons/location.png
+  AssetGenImage get location =>
+      const AssetGenImage('assets/icons/location.png');
+
+  /// File path: assets/icons/logout.png
+  AssetGenImage get logout => const AssetGenImage('assets/icons/logout.png');
+
   /// File path: assets/icons/male.png
   AssetGenImage get male => const AssetGenImage('assets/icons/male.png');
 
@@ -122,9 +129,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/order.png
   AssetGenImage get order => const AssetGenImage('assets/icons/order.png');
 
+  /// File path: assets/icons/policy.png
+  AssetGenImage get policy => const AssetGenImage('assets/icons/policy.png');
+
   /// File path: assets/icons/settings.png
   AssetGenImage get settings =>
       const AssetGenImage('assets/icons/settings.png');
+
+  /// File path: assets/icons/terms.png
+  AssetGenImage get terms => const AssetGenImage('assets/icons/terms.png');
 
   /// File path: assets/icons/whatsapp.png
   AssetGenImage get whatsapp =>
@@ -138,10 +151,14 @@ class $AssetsIconsGen {
         home,
         ironing,
         laundry,
+        location,
+        logout,
         male,
         offers,
         order,
+        policy,
         settings,
+        terms,
         whatsapp
       ];
 }

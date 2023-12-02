@@ -9,6 +9,9 @@ import 'package:laundry/views/main_screen/past_orders/view/widgets/past_orders_t
 import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../../gen/assets.gen.dart';
+import '../../../../services/route_generator.dart';
+
 class PastOrdersScreen extends StatefulWidget {
   const PastOrdersScreen({Key? key}) : super(key: key);
 
@@ -28,60 +31,101 @@ class _PastOrdersScreenState extends State<PastOrdersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 25.w),
-        child: ChangeNotifierProvider.value(
-          value: pastOrdersProvider,
-          child: Consumer<PastOrdersProvider>(
-            builder: (context, provider, child) {
-              switch (provider.loaderState) {
-                case LoaderState.loading:
-                  return const PastOrdersShimmer();
-                case LoaderState.loaded:
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      60.verticalSpace,
-                      Text(
-                        'Past Orders',
-                        style: FontPalette.poppinsBold.copyWith(
-                            fontSize: 11.sp, color: HexColor('#000000')),
+      body: SafeArea(
+        child: SizedBox(
+          height: double.maxFinite,
+          width: double.maxFinite,
+          child: Column(
+            children: [
+              SizedBox(
+                height: 50.h,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 15.w),
+                      child: Assets.images.logo.image(
+                        height: 50.h,
                       ),
-                      Expanded(child: PastOrdersTile(ordersList: pastOrdersProvider.ordersList)),
-                      50.verticalSpace
-                    ],
-                  );
-                case LoaderState.noProducts:
-                  return Center(
-                    child: Text(
-                      'No orders found',
-                      style: FontPalette.poppinsBold,
                     ),
-                  );
-                case LoaderState.networkErr:
-                  return Center(
-                    child: Text(
-                      'Network Error',
-                      style: FontPalette.poppinsBold,
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, RouteGenerator.routeCart);
+                      },
+                      child: Padding(
+                          padding: EdgeInsets.only(right: 15.w),
+                          child:
+                              Assets.icons.cart.image(height: 30, width: 30)),
                     ),
-                  );
-                case LoaderState.error:
-                  return Center(
-                    child:
-                        Text('Oops...! Error', style: FontPalette.poppinsBold),
-                  );
-                case LoaderState.noData:
-                  return Center(
-                    child: Text(
-                      'No orders Found',
-                      style: FontPalette.poppinsBold,
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  height: context.sh(),
+                  padding: EdgeInsets.symmetric(horizontal: 25.w),
+                  child: ChangeNotifierProvider.value(
+                    value: pastOrdersProvider,
+                    child: Consumer<PastOrdersProvider>(
+                      builder: (context, provider, child) {
+                        switch (provider.loaderState) {
+                          case LoaderState.loading:
+                            return const PastOrdersShimmer();
+                          case LoaderState.loaded:
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                20.verticalSpace,
+                                Text(
+                                  'Past Orders',
+                                  style: FontPalette.poppinsBold.copyWith(
+                                      fontSize: 11.sp,
+                                      color: HexColor('#000000')),
+                                ),
+                                10.verticalSpace,
+                                Expanded(
+                                    child: PastOrdersTile(
+                                        ordersList:
+                                            pastOrdersProvider.ordersList)),
+                                50.verticalSpace
+                              ],
+                            );
+                          case LoaderState.noProducts:
+                            return Center(
+                              child: Text(
+                                'No orders found',
+                                style: FontPalette.poppinsBold,
+                              ),
+                            );
+                          case LoaderState.networkErr:
+                            return Center(
+                              child: Text(
+                                'Network Error',
+                                style: FontPalette.poppinsBold,
+                              ),
+                            );
+                          case LoaderState.error:
+                            return Center(
+                              child: Text('Oops...! Error',
+                                  style: FontPalette.poppinsBold),
+                            );
+                          case LoaderState.noData:
+                            return Center(
+                              child: Text(
+                                'No orders Found',
+                                style: FontPalette.poppinsBold,
+                              ),
+                            );
+                        }
+                      },
                     ),
-                  );
-              }
-            },
-          ),
+                  ),
+                ),
+              ),
+            ],
+          ).withBackgroundImage(),
         ),
-      ).withBackgroundImage(),
+      ),
     );
   }
 }

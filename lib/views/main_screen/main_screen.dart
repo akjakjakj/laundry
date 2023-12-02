@@ -8,6 +8,7 @@ import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
 import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
+import 'package:laundry/views/profile/profile.dart';
 import 'package:provider/provider.dart';
 
 class MainScreen extends StatefulWidget {
@@ -51,13 +52,16 @@ class _MainScreenState extends State<MainScreen> {
                     return const Center(child: CircularProgressIndicator());
                   case LoaderState.loaded:
                     return PageView(
+                      physics: const NeverScrollableScrollPhysics(),
                       controller: pageController,
                       children: const [
                         PastOrdersScreen(),
-                        ManageAddressScreen(),
+                         SizedBox(),
+                        // ManageAddressScreen(),
                         HomeScreen(),
-                        PastOrdersScreen(),
-                        PastOrdersScreen(),
+                        Profile(),
+                        SizedBox()
+                        // ManageAddressScreen(),
                       ],
                     );
                   case LoaderState.error:

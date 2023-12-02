@@ -93,24 +93,20 @@ class _CartState extends State<Cart> {
                 ),
               ),
             ),
-            body: const TabBarView(
+            body:  const TabBarView(
               children: <Widget>[
-                SingleChildScrollView(
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[NormalService()],
-                    ),
+                Center(
+                  child: Column(
+                    children: <Widget>[NormalService()],
                   ),
                 ),
-                SingleChildScrollView(
-                  child: Center(
-                    child: Column(
-                      children: <Widget>[NormalService()],
-                    ),
+                Center(
+                  child: Column(
+                    children: <Widget>[NormalService()],
                   ),
                 )
               ],
-            ),
+            ).withBackgroundImage(),
           ),
         ));
   }
