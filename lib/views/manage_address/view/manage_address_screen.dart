@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 import 'package:laundry/views/manage_address/view/widgets/manage_address_shimmer.dart';
 import 'package:laundry/views/manage_address/view/widgets/manage_address_tile.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
@@ -21,7 +23,9 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
 
   @override
   void initState() {
-    manageAddressProvider.getAddress();
+    manageAddressProvider
+      ..getLocation()
+      ..getAddress();
     super.initState();
   }
 
@@ -79,7 +83,11 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           color: ColorPalette.primaryColor,
           size: 40.h,
         ),
-        onPressed: () {},
+        onPressed: () => Navigator.pushNamed(
+                context, RouteGenerator.routeAddAddressScreen,
+                arguments: AddAddressArguments(
+                    manageAddressProvider: manageAddressProvider))
+            .then((value) => manageAddressProvider.clearAddressControllers()),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
@@ -91,7 +99,10 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                 case LoaderState.loading:
                   return const ManageAddressShimmer();
                 case LoaderState.loaded:
-                  return AddressTile(addressList: provider.addressesList);
+                  return AddressTile(
+                    addressList: provider.addressesList,
+                    manageAddressProvider: provider,
+                  );
                 case LoaderState.noProducts:
                   return Center(
                     child: Text(

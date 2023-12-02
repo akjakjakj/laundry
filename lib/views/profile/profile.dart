@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/common_functions.dart';
+import 'package:laundry/common_widgets/custom_alert_dialogue.dart';
 import 'package:laundry/gen/assets.gen.dart';
+import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/route_generator.dart';
+import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
@@ -23,6 +27,8 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   ProfileProvider profileDetailProvider = ProfileProvider();
+  SharedPreferencesHelper sharedPreferencesHelper =
+      sl.get<SharedPreferencesHelper>();
 
   @override
   void initState() {
@@ -211,7 +217,22 @@ class _ProfileState extends State<Profile> {
                     child: Assets.icons.logout.image(),
                   ),
                   title: "Logout",
-                  onTap: () {},
+                  onTap: () => CommonFunctions.showDialogPopUp(
+                      context,
+                      CustomAlertDialog(
+                        title: 'Logout',
+                        message: 'Are you sure, you want to logout?',
+                        actionButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                        isLoading: false,
+                        onCancelButtonPressed: () => Navigator.pop(context),
+                        onActionButtonPressed: () async {
+                          await sharedPreferencesHelper.removeLoginToken();
+                          CommonFunctions.afterInit(() =>
+                              Navigator.pushNamedAndRemoveUntil(context,
+                                  RouteGenerator.routeLogin, (route) => false));
+                        },
+                      )),
                 ),
               ],
             ),

@@ -50,6 +50,7 @@ dependencies:
   shared_preferences: ^2.2.2
   shimmer: ^3.0.0
   cached_network_image: ^3.3.0
+  location: ^5.0.3
     
 
 

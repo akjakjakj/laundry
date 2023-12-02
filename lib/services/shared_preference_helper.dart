@@ -12,15 +12,11 @@ class SharedPreferencesHelper {
   final String loginStatus = "login_status";
   final String authCustomerDetails = "auth_customer_details";
 
-
-
   Future<String> getAuthToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? stringValue = prefs.getString(authToken);
     return stringValue ?? "";
   }
-
-
 
   Future<void> saveUserToken(String token) async {
     final prefs = await SharedPreferences.getInstance();
@@ -30,6 +26,7 @@ class SharedPreferencesHelper {
 
   Future<void> removeLoginToken() async {
     final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
     AppConfig.accessToken = '';
     await prefs.remove(authToken);
   }

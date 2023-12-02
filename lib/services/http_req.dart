@@ -30,7 +30,7 @@ class HttpReq {
         headers: <String, String>{
           HttpHeaders.acceptHeader: _appJson,
           HttpHeaders.contentTypeHeader: _appJson,
-          'Authorization': 'Bearer 27|qtX9m7T3ETWBss5Gnz4H8Yrp6O3z12fo1MPOVMiP',
+          'Authorization': 'Bearer $token',
         },
       ).timeout(const Duration(seconds: 60));
       return _returnResponse(response, endPoint);
