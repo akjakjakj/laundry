@@ -35,14 +35,31 @@ class ManageAddressRepo {
 
   Future<Either<ApiResponse, dynamic>> addAddress(
       AddAddressRequestModel addAddressRequestModel) async {
-    return httpReq.postRequest('/api/customer/add-address?address', param: {
-      'address': addAddressRequestModel.address,
-      'city': addAddressRequestModel.city,
-      'state': addAddressRequestModel.state,
-      'country': addAddressRequestModel.country,
-      'postal_code': addAddressRequestModel.postalCode,
-      'latitude': addAddressRequestModel.latitude,
-      'longitude': addAddressRequestModel.longitude
-    });
+    return httpReq
+        .postRequest('/api/customer/add-address?address', param: {
+          'address': addAddressRequestModel.address,
+          'city': addAddressRequestModel.city,
+          'state': addAddressRequestModel.state,
+          'country': addAddressRequestModel.country,
+          'postal_code': addAddressRequestModel.postalCode,
+          'latitude': addAddressRequestModel.latitude,
+          'longitude': addAddressRequestModel.longitude
+        })
+        .thenRight((right) => Right(right))
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
+
+  Future<Either<ApiResponse, dynamic>> setDefaultAddress(int addressId) async {
+    return httpReq
+        .postRequest('/api/customer/addresses/default/set',
+            param: {'address_id': addressId})
+        .thenRight((right) => Right(right))
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
   }
 }

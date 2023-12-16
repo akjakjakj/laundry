@@ -27,10 +27,22 @@ class AddressTile extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              addressList[index].name ?? '',
-              style: FontPalette.poppinsRegular
-                  .copyWith(color: HexColor('#404041'), fontSize: 15.sp),
+            Row(
+              children: [
+                Text(
+                  addressList[index].name ?? '',
+                  style: FontPalette.poppinsRegular
+                      .copyWith(color: HexColor('#404041'), fontSize: 15.sp),
+                ),
+                const Spacer(),
+                if (addressList[index].isDefault == 1)
+                  Text(
+                    'Default Address',
+                    style: FontPalette.poppinsBold
+                        .copyWith(color: ColorPalette.primaryColor),
+                  ),
+                20.horizontalSpace
+              ],
             ),
             2.verticalSpace,
             Text(
@@ -41,12 +53,41 @@ class AddressTile extends StatelessWidget {
             2.verticalSpace,
             Row(
               children: [
-                Text(
-                  addressList[index].city ?? '',
-                  style: FontPalette.poppinsRegular
-                      .copyWith(color: HexColor('#404041'), fontSize: 15.sp),
+                SizedBox(
+                  width: 145.w,
+                  child: Text(
+                    addressList[index].city ?? '',
+                    style: FontPalette.poppinsRegular
+                        .copyWith(color: HexColor('#404041'), fontSize: 15.sp),
+                    maxLines: 10,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
                 const Spacer(),
+                if (addressList[index].isDefault != 1)
+                  Row(
+                    children: [
+                      InkWell(
+                        onTap: () => manageAddressProvider?.setDefaultAddress(
+                            addressList[index].id ?? 0,
+                            onSuccess: () => manageAddressProvider?.getAddress(
+                                enableLoader: true)),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8.w),
+                          color: ColorPalette.primaryColor,
+                          height: 23.h,
+                          width: 100.w,
+                          alignment: Alignment.center,
+                          child: Text(
+                            'Set As Default',
+                            style: FontPalette.poppinsRegular
+                                .copyWith(fontSize: 12.sp, color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      10.horizontalSpace,
+                    ],
+                  ),
                 InkWell(
                   onTap: () => CommonFunctions.showDialogPopUp(
                     context,
@@ -75,7 +116,7 @@ class AddressTile extends StatelessWidget {
                           .copyWith(fontSize: 12.sp, color: Colors.white),
                     ),
                   ),
-                ).removeSplash()
+                ).removeSplash(),
               ],
             ),
           ],

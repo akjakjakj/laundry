@@ -4,6 +4,7 @@ import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/http_req.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/enums.dart';
+import 'package:laundry/views/eco_dry_clean/model/add_to_cart_model.dart';
 import 'package:laundry/views/eco_dry_clean/model/products_response_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/categories_model.dart';
 
@@ -52,5 +53,22 @@ class EcoDryCleanRepo {
     }).onError((error, stackTrace) {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
     });
+  }
+
+  Future<Either<ApiResponse, dynamic>> addToCart(
+      AddToCartModel addToCartModel) async {
+    return httpReq
+        .postRequest('/api/customer/cart/add', param: {
+          'service_id': addToCartModel.serviceId,
+          'category_id': addToCartModel.categoryId,
+          'product_id': addToCartModel.productId,
+          'quantity': addToCartModel.quantity,
+          'rate': addToCartModel.rate
+        })
+        .thenRight((right) => Right(right))
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
   }
 }

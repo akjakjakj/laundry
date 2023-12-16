@@ -25,21 +25,25 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
 
   LocationData? locationData;
 
-  Future<void> getAddress({Function()? onSuccess}) async {
+  Future<void> getAddress(
+      {Function()? onSuccess, bool enableLoader = true}) async {
     final network = await helpers.isInternetAvailable();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
-      updateLoadState(LoaderState.loading);
+      if (enableLoader) updateLoadState(LoaderState.loading);
       resp = manageAddressRepo.getAddress().thenRight((right) {
         manageAddressResponse = right;
         updateAddressList(manageAddressResponse);
         if (onSuccess != null) onSuccess();
+        updateBtnLoaderState(false);
         return Right(right);
       }).thenLeft((left) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       }).onError((error, stackTrace) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
     } else {
@@ -106,6 +110,38 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  Future<void> setDefaultAddress(int addressId,
+      {Function? onSuccess, Function? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      updateLoadState(LoaderState.loading);
+      try {
+        resp =
+            manageAddressRepo.setDefaultAddress(addressId).thenRight((right) {
+          if (right['status']) {
+            if (onSuccess != null) onSuccess();
+          }
+          return Right(right);
+        }).thenLeft((left) {
+          updateErrorMessage(left.message ?? '');
+          updateLoadState(LoaderState.loaded);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        }).onError((error, stackTrace) {
+          updateLoadState(LoaderState.error);
+          updateBtnLoaderState(false);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
   Future<void> getLocation() async {
     Location location = Location();
     locationData = await location.getLocation();
@@ -137,6 +173,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   @override
   void updateBtnLoaderState(bool val) {
     btnLoaderState = val;
+    notifyListeners();
     super.updateBtnLoaderState(val);
   }
 

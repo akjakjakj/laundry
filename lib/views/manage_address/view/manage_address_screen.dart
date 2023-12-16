@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
-import 'package:laundry/views/manage_address/view/widgets/manage_address_shimmer.dart';
 import 'package:laundry/views/manage_address/view/widgets/manage_address_tile.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
 import 'package:provider/provider.dart';
@@ -90,18 +90,21 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
             .then((value) => manageAddressProvider.clearAddressControllers()),
       ),
       body: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 40.h),
+        padding: EdgeInsets.symmetric(horizontal: 20.w),
         child: ChangeNotifierProvider.value(
           value: manageAddressProvider,
           child: Consumer<ManageAddressProvider>(
             builder: (context, provider, child) {
               switch (provider.loaderState) {
                 case LoaderState.loading:
-                  return const ManageAddressShimmer();
+                  return const CustomLinearProgress();
                 case LoaderState.loaded:
-                  return AddressTile(
-                    addressList: provider.addressesList,
-                    manageAddressProvider: provider,
+                  return Padding(
+                    padding: EdgeInsets.only(top: 40.h),
+                    child: AddressTile(
+                      addressList: provider.addressesList,
+                      manageAddressProvider: provider,
+                    ),
                   );
                 case LoaderState.noProducts:
                   return Center(

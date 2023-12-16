@@ -67,7 +67,7 @@ class ItemSelectionWidget extends StatelessWidget {
                     ),
                     15.horizontalSpace,
                     Text(
-                      '1',
+                      (productItem?.quantity ?? '0').toString(),
                       style: FontPalette.poppinsRegular.copyWith(
                           fontSize: 10.sp, color: HexColor('#404041')),
                     ),

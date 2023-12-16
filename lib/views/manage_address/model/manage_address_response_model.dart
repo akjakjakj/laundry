@@ -30,6 +30,7 @@ class Addresses {
   String? longitude;
   String? createdAt;
   String? updatedAt;
+  int? isDefault;
 
   Addresses(
       {this.id,
@@ -43,7 +44,8 @@ class Addresses {
       this.latitude,
       this.longitude,
       this.createdAt,
-      this.updatedAt});
+      this.updatedAt,
+      this.isDefault});
 
   Addresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -58,5 +60,6 @@ class Addresses {
     longitude = json['longitude'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    isDefault = json['is_default'];
   }
 }

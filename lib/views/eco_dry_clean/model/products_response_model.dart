@@ -24,6 +24,7 @@ class Products {
   String? category;
   String? image;
   String? rate;
+  int? quantity;
 
   Products(
       {this.id,
@@ -31,7 +32,8 @@ class Products {
       this.categoryId,
       this.category,
       this.image,
-      this.rate});
+      this.rate,
+      this.quantity = 0});
 
   Products.fromJson(Map<String, dynamic> json) {
     id = json['id'];

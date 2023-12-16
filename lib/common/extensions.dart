@@ -86,3 +86,26 @@ extension InkWellExtension on InkWell {
     );
   }
 }
+
+extension TextExtension on Text {
+  Text avoidOverFlow({int maxLine = 1}) {
+    return Text(
+      (data ?? '').trim().replaceAll('', '\u200B'),
+      style: style,
+      strutStyle: strutStyle,
+      textAlign: textAlign,
+      maxLines: maxLine,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+
+  Text addEllipsis({int maxLine = 1}) {
+    return Text(
+      (data ?? '').trim(),
+      style: style,
+      strutStyle: strutStyle,
+      maxLines: maxLine,
+      overflow: TextOverflow.ellipsis,
+    );
+  }
+}
