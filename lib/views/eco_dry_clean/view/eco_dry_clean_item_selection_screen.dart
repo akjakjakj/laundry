@@ -12,9 +12,11 @@ import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:provider/provider.dart';
 
 class EcoDryScreenItemSelectionScreen extends StatefulWidget {
-  EcoDryScreenItemSelectionScreen({Key? key, required this.categoryId})
+  EcoDryScreenItemSelectionScreen(
+      {Key? key, required this.categoryId, this.title})
       : super(key: key);
   final int categoryId;
+  final String? title;
 
   @override
   _EcoDryScreenItemSelectionScreenState createState() =>
@@ -75,7 +77,7 @@ class _EcoDryScreenItemSelectionScreenState
             ),
           ),
           title: Text(
-            "Eco - Dry Clean",
+            widget.title ?? '',
             style: FontPalette.poppinsBold
                 .copyWith(color: Colors.black, fontSize: 17.sp),
           ),
@@ -144,6 +146,7 @@ class _EcoDryScreenItemSelectionScreenState
                                           crossAxisSpacing: 12.w),
                                   itemBuilder: (context, index) =>
                                       ItemSelectionWidget(
+                                    ecoDryProvider: ecoDryProvider,
                                     productItem: provider.productsList[index],
                                   ),
                                 ),

@@ -5,6 +5,8 @@ import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_image_slider.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_choose_service_widget.dart';
+import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../services/route_generator.dart';
@@ -26,8 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: SingleChildScrollView(
               child: Column(
             children: [
-              // 20.verticalSpace,
-              Container(
+              SizedBox(
                 height: 50.h,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,59 +60,16 @@ class _HomeScreenState extends State<HomeScreen> {
                     .copyWith(color: ColorPalette.greenColor, fontSize: 15.sp),
               ),
               16.verticalSpace,
-              const ChooseServiceWidget()
+              SizedBox(
+                height: 95.h,
+                child: ChooseServiceWidget(
+                  servicesList: context.read<HomeProvider>().servicesList,
+                ),
+              )
             ],
           )),
         ).withBackgroundImage(),
       ),
-      // bottomNavigationBar: CurvedNavigationBar(
-      //   index: 2,
-      //   animationCurve: Curves.easeInOutSine,
-      //   height: 75,
-      //   color: ColorPalette.primaryColor,
-      //   backgroundColor: Colors.white,
-      //   items: <Widget>[
-      //     Center(
-      //         child: Center(
-      //             child: Container(
-      //                 height: 30,
-      //                 width: 30,
-      //                 padding: EdgeInsets.all(1),
-      //                 child: Assets.icons.order.image(
-      //                     height: 30,
-      //                     width: 30,
-      //                     fit: BoxFit.fill,
-      //                     color: Colors.white)))),
-      //     Center(
-      //         child: Assets.icons.whatsapp.image(
-      //             height: 30,
-      //             width: 30,
-      //             fit: BoxFit.fill,
-      //             color: Colors.white)),
-      //     Center(
-      //         child: Center(
-      //             child: Container(
-      //                 height: 30,
-      //                 width: 30,
-      //                 child: Assets.icons.home
-      //                     .image(height: 20, width: 20, fit: BoxFit.fill)))),
-      //     Center(
-      //         child: Assets.icons.male.image(
-      //             height: 30,
-      //             width: 30,
-      //             fit: BoxFit.fill,
-      //             color: Colors.white)),
-      //     Center(
-      //         child: Assets.icons.settings.image(
-      //             height: 30,
-      //             width: 30,
-      //             fit: BoxFit.fill,
-      //             color: Colors.white)),
-      //   ],
-      //   onTap: (index) {
-      //     //Handle button tap
-      //   },
-      // ),
     );
   }
 }

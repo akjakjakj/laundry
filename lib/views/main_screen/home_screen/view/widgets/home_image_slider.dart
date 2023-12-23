@@ -19,7 +19,7 @@ class HomeImageSlider extends StatelessWidget {
         itemCount: 3,
         controller: pageController,
         itemBuilder: (context, index) {
-          return CommonFadeInImage(
+          return const CommonFadeInImage(
             image:
                 'https://media.product.which.co.uk/prod/images/original/gm-2afcf653-d966-4cda-9789-79cd1710023e-ironinglead.jpeg',
             fit: BoxFit.cover,

@@ -5,9 +5,9 @@ import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
+import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_shimmer.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
-import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
 import 'package:laundry/views/profile/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -29,9 +29,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     homeProvider = context.read<HomeProvider>();
-    // homeProvider
-    //   ..getServices()
-    //   ..getCategories();
+    homeProvider.getServices();
     selectedIndex = ValueNotifier(2);
     pageController = PageController(initialPage: 2, keepPage: true);
     homeScrollController = ScrollController();
@@ -49,14 +47,14 @@ class _MainScreenState extends State<MainScreen> {
               builder: (context, value, child) {
                 switch (value.loaderState) {
                   case LoaderState.loading:
-                    return const Center(child: CircularProgressIndicator());
+                    return const Center(child: HomeScreenShimmer());
                   case LoaderState.loaded:
                     return PageView(
                       physics: const NeverScrollableScrollPhysics(),
                       controller: pageController,
                       children: const [
                         PastOrdersScreen(),
-                         SizedBox(),
+                        SizedBox(),
                         // ManageAddressScreen(),
                         HomeScreen(),
                         Profile(),

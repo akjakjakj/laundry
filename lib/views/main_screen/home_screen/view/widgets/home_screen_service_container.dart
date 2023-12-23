@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/common_fade_in_image.dart';
 import 'package:laundry/utils/font_palette.dart';
 
 class HomeScreenServiceContainer extends StatelessWidget {
   const HomeScreenServiceContainer(
       {Key? key, required this.image, this.title, this.onTap})
       : super(key: key);
-  final Widget image;
+  final String image;
   final String? title;
   final Function()? onTap;
 
@@ -34,9 +35,14 @@ class HomeScreenServiceContainer extends StatelessWidget {
                 ),
               ],
             ),
-            child: image,
+            child: CommonFadeInImage(
+              image: image,
+              height: 25.h,
+              // width: 38.w,
+              fit: BoxFit.contain,
+            ),
           ),
-          20.verticalSpace,
+          10.verticalSpace,
           Text(
             title ?? '',
             style: FontPalette.poppinsRegular

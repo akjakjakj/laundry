@@ -16,7 +16,6 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
   TextEditingController searchTexEditingController = TextEditingController();
 
   int? categoryId;
-
   String? keyword;
   String? errorMessage;
 
@@ -114,13 +113,18 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
-  Future<void> addToCart({Function()? onSuccess}) async {
+  Future<void> addToCart(int productId, int quantity, double rate,
+      {Function()? onSuccess}) async {
     final network = await helpers.isInternetAvailable();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       updateBtnLoaderState(true);
       try {
-        AddToCartModel addToCartModel = AddToCartModel();
+        AddToCartModel addToCartModel = AddToCartModel(
+            categoryId: categoryId,
+            productId: productId,
+            quantity: quantity,
+            rate: rate);
         resp = ecoDryCleanRepo.addToCart(addToCartModel).thenRight((right) {
           if (right['status']) {
             if (onSuccess != null) onSuccess();
@@ -145,7 +149,7 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
-  updateCategoryId(int value) {
+  void updateCategoryId(int value) {
     categoryId = value;
     notifyListeners();
   }

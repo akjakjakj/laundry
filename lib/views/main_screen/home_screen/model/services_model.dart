@@ -21,12 +21,14 @@ class Services {
   int? id;
   String? name;
   String? price;
+  String? icon;
 
-  Services({this.id, this.name, this.price});
+  Services({this.id, this.name, this.price, this.icon});
 
   Services.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     price = json['price'];
+    icon = json['icon'];
   }
 }

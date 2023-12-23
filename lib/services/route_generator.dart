@@ -61,7 +61,12 @@ class RouteGenerator {
       case routePastOrders:
         return _buildRoute(routePastOrders, const PastOrdersScreen());
       case routeEcoDryClean:
-        return _buildRoute(routeEcoDryClean, const EcoDryCleanScreen());
+        EcoDryCleanArguments routeArgs = args as EcoDryCleanArguments;
+        return _buildRoute(
+            routeEcoDryClean,
+            EcoDryCleanScreen(
+              title: routeArgs.title ?? '',
+            ));
       case routeAddressScreen:
         return _buildRoute(routeAddressScreen, const ManageAddressScreen());
       case routeEcoDryCleanSelectionScreen:
@@ -70,6 +75,7 @@ class RouteGenerator {
             routeEcoDryCleanSelectionScreen,
             EcoDryScreenItemSelectionScreen(
               categoryId: routeArgs.categoryId ?? 0,
+              title: routeArgs.title ?? '',
             ));
       case routeCart:
         return _buildRoute(routeCart, const Cart());

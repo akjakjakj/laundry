@@ -11,7 +11,7 @@ import 'package:laundry/views/main_screen/home_screen/model/categories_model.dar
 class EcoDryCleanRepo {
   HttpReq httpReq = sl.get<HttpReq>();
   SharedPreferencesHelper sharedPreferencesHelper =
-      sl.get<SharedPreferencesHelper>();
+  sl.get<SharedPreferencesHelper>();
 
   Future<Either<ApiResponse, dynamic>> getProducts(int categoryId) async {
     return httpReq.postRequest('/api/customer/products',
@@ -25,8 +25,8 @@ class EcoDryCleanRepo {
     });
   }
 
-  Future<Either<ApiResponse, dynamic>> getProductsWithSearch(
-      int categoryId, String keyword) async {
+  Future<Either<ApiResponse, dynamic>> getProductsWithSearch(int categoryId,
+      String keyword) async {
     return httpReq.postRequest('/api/customer/products', param: {
       'category_id': categoryId,
       'keyword': keyword
@@ -59,16 +59,18 @@ class EcoDryCleanRepo {
       AddToCartModel addToCartModel) async {
     return httpReq
         .postRequest('/api/customer/cart/add', param: {
-          'service_id': addToCartModel.serviceId,
-          'category_id': addToCartModel.categoryId,
-          'product_id': addToCartModel.productId,
-          'quantity': addToCartModel.quantity,
-          'rate': addToCartModel.rate
-        })
+      'service_id': addToCartModel.serviceId,
+      'category_id': addToCartModel.categoryId,
+      'product_id': addToCartModel.productId,
+      'quantity': addToCartModel.quantity,
+      'rate': addToCartModel.rate
+    })
         .thenRight((right) => Right(right))
         .thenLeft((left) => Left(left))
         .onError((error, stackTrace) {
-          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
-        });
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
   }
+
+
 }

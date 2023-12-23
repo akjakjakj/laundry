@@ -13,7 +13,8 @@ import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model
 import 'package:provider/provider.dart';
 
 class EcoDryCleanScreen extends StatefulWidget {
-  const EcoDryCleanScreen({Key? key}) : super(key: key);
+  const EcoDryCleanScreen({Key? key, this.title}) : super(key: key);
+  final String? title;
 
   @override
   _EcoDryCleanScreenState createState() => _EcoDryCleanScreenState();
@@ -22,6 +23,8 @@ class EcoDryCleanScreen extends StatefulWidget {
 class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
   late HomeProvider homeProvider;
   late EcoDryProvider ecoDryProvider;
+
+  int? id;
 
   @override
   void initState() {
@@ -71,7 +74,7 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
             ),
           ),
           title: Text(
-            "Eco - Dry Clean",
+            widget.title ?? '',
             style: FontPalette.poppinsBold
                 .copyWith(color: Colors.black, fontSize: 17.sp),
           ),
@@ -101,7 +104,8 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                               RouteGenerator.routeEcoDryCleanSelectionScreen,
                               arguments: EcoDryCleanArguments(
                                   categoryId:
-                                      ecoDryProvider.categoriesList[index].id)),
+                                      ecoDryProvider.categoriesList[index].id,
+                                  title: widget.title)),
                           child: Container(
                             width: context.sw(size: .400.w),
                             // height: 50,

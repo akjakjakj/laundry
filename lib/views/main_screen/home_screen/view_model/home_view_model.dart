@@ -28,6 +28,7 @@ class HomeProvider extends ChangeNotifier with ProviderHelperClass {
         resp = homeRepo.getServices().thenRight((right) {
           debugPrint(right.toString());
           servicesResponseModel = right;
+          updateServicesList(servicesResponseModel);
           return Right(right);
         }).thenLeft((left) {
           debugPrint(left.toString());
@@ -78,6 +79,12 @@ class HomeProvider extends ChangeNotifier with ProviderHelperClass {
 
   void updateCategoriesList(CategoriesResponseModel? categoriesResponseModel) {
     categoriesList = categoriesResponseModel?.categories ?? [];
+    updateLoadState(LoaderState.loaded);
+    notifyListeners();
+  }
+
+  void updateServicesList(ServicesResponseModel? servicesResponseModel) {
+    servicesList = servicesResponseModel?.services ?? [];
     updateLoadState(LoaderState.loaded);
     notifyListeners();
   }
