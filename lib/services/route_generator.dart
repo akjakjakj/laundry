@@ -7,6 +7,7 @@ import 'package:laundry/views/authentication/view/registration_screen.dart';
 import 'package:laundry/views/cart/cart.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
+import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
@@ -66,6 +67,7 @@ class RouteGenerator {
             routeEcoDryClean,
             EcoDryCleanScreen(
               title: routeArgs.title ?? '',
+              serviceId: routeArgs.serviceId ?? 0,
             ));
       case routeAddressScreen:
         return _buildRoute(routeAddressScreen, const ManageAddressScreen());
@@ -76,6 +78,7 @@ class RouteGenerator {
             EcoDryScreenItemSelectionScreen(
               categoryId: routeArgs.categoryId ?? 0,
               title: routeArgs.title ?? '',
+              ecoDryProvider: routeArgs.ecoDryProvider ?? EcoDryProvider(),
             ));
       case routeCart:
         return _buildRoute(routeCart, const Cart());

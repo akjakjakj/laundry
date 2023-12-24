@@ -16,6 +16,7 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
   TextEditingController searchTexEditingController = TextEditingController();
 
   int? categoryId;
+  int? serviceId;
   String? keyword;
   String? errorMessage;
 
@@ -124,6 +125,7 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
             categoryId: categoryId,
             productId: productId,
             quantity: quantity,
+            serviceId: serviceId,
             rate: rate);
         resp = ecoDryCleanRepo.addToCart(addToCartModel).thenRight((right) {
           if (right['status']) {
@@ -170,7 +172,7 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
     notifyListeners();
   }
 
-  updateProductsList(ProductsResponseModel? productsResponseModel) {
+  void updateProductsList(ProductsResponseModel? productsResponseModel) {
     productsList = productsResponseModel?.products ?? [];
     if (productsList.isNotEmpty) {
       updateLoadState(LoaderState.loaded);
@@ -178,6 +180,11 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
       updateLoadState(LoaderState.noProducts);
     }
 
+    notifyListeners();
+  }
+
+  void updateServiceId(int id) {
+    serviceId = id;
     notifyListeners();
   }
 

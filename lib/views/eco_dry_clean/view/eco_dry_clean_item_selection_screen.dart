@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
@@ -13,10 +14,14 @@ import 'package:provider/provider.dart';
 
 class EcoDryScreenItemSelectionScreen extends StatefulWidget {
   EcoDryScreenItemSelectionScreen(
-      {Key? key, required this.categoryId, this.title})
+      {Key? key,
+      required this.categoryId,
+      this.title,
+      required this.ecoDryProvider})
       : super(key: key);
   final int categoryId;
   final String? title;
+  final EcoDryProvider ecoDryProvider;
 
   @override
   _EcoDryScreenItemSelectionScreenState createState() =>
@@ -25,14 +30,11 @@ class EcoDryScreenItemSelectionScreen extends StatefulWidget {
 
 class _EcoDryScreenItemSelectionScreenState
     extends State<EcoDryScreenItemSelectionScreen> {
-  late EcoDryProvider ecoDryProvider;
-
   @override
   void initState() {
-    ecoDryProvider = EcoDryProvider();
-    ecoDryProvider
+    CommonFunctions.afterInit(() => widget.ecoDryProvider
       ..updateCategoryId(widget.categoryId)
-      ..getProducts();
+      ..getProducts());
     super.initState();
   }
 
@@ -85,7 +87,7 @@ class _EcoDryScreenItemSelectionScreenState
           elevation: 0.0,
         ),
         body: ChangeNotifierProvider.value(
-          value: ecoDryProvider,
+          value: widget.ecoDryProvider,
           child: Consumer<EcoDryProvider>(builder: (context, provider, child) {
             switch (provider.loaderState) {
               case LoaderState.loading:
@@ -146,7 +148,7 @@ class _EcoDryScreenItemSelectionScreenState
                                           crossAxisSpacing: 12.w),
                                   itemBuilder: (context, index) =>
                                       ItemSelectionWidget(
-                                    ecoDryProvider: ecoDryProvider,
+                                    ecoDryProvider: widget.ecoDryProvider,
                                     productItem: provider.productsList[index],
                                   ),
                                 ),

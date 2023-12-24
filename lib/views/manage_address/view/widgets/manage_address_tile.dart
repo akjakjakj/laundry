@@ -3,17 +3,20 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_alert_dialogue.dart';
+import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/manage_address/model/manage_address_response_model.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
 
 class AddressTile extends StatelessWidget {
-  const AddressTile(
-      {Key? key, required this.addressList, this.manageAddressProvider})
+  AddressTile({Key? key, required this.addressList, this.manageAddressProvider})
       : super(key: key);
   final List<Addresses> addressList;
   final ManageAddressProvider? manageAddressProvider;
+  final SharedPreferencesHelper sharedPreferencesHelper =
+      sl.get<SharedPreferencesHelper>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +72,11 @@ class AddressTile extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () => manageAddressProvider?.setDefaultAddress(
-                            addressList[index].id ?? 0,
-                            onSuccess: () => manageAddressProvider?.getAddress(
-                                enableLoader: true)),
+                            addressList[index].id ?? 0, onSuccess: () async {
+                          await sharedPreferencesHelper
+                              .setDefaultAddress(addressList[index]);
+                          manageAddressProvider?.getAddress(enableLoader: true);
+                        }),
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 8.w),
                           color: ColorPalette.primaryColor,

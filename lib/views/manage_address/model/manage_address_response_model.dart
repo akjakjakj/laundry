@@ -3,7 +3,7 @@ class ManageAddressResponse {
   List<Addresses>? addresses;
   String? message;
 
-  ManageAddressResponse({this.status, this.addresses, this.message});
+  ManageAddressResponse({status, addresses, message});
 
   ManageAddressResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
@@ -33,19 +33,19 @@ class Addresses {
   int? isDefault;
 
   Addresses(
-      {this.id,
-      this.customerId,
-      this.name,
-      this.address,
-      this.city,
-      this.state,
-      this.country,
-      this.postalCode,
-      this.latitude,
-      this.longitude,
-      this.createdAt,
-      this.updatedAt,
-      this.isDefault});
+      {id,
+      customerId,
+      name,
+      address,
+      city,
+      state,
+      country,
+      postalCode,
+      latitude,
+      longitude,
+      createdAt,
+      updatedAt,
+      isDefault});
 
   Addresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -61,5 +61,23 @@ class Addresses {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isDefault = json['is_default'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['customer_id'] = customerId;
+    data['name'] = name;
+    data['address'] = address;
+    data['city'] = city;
+    data['state'] = state;
+    data['country'] = country;
+    data['postal_code'] = postalCode;
+    data['latitude'] = latitude;
+    data['longitude'] = longitude;
+    data['is_default'] = isDefault;
+    data['created_at'] = createdAt;
+    data['updated_at'] = updatedAt;
+    return data;
   }
 }

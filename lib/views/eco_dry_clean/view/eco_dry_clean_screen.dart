@@ -13,8 +13,10 @@ import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model
 import 'package:provider/provider.dart';
 
 class EcoDryCleanScreen extends StatefulWidget {
-  const EcoDryCleanScreen({Key? key, this.title}) : super(key: key);
+  const EcoDryCleanScreen({Key? key, this.title, this.serviceId})
+      : super(key: key);
   final String? title;
+  final int? serviceId;
 
   @override
   _EcoDryCleanScreenState createState() => _EcoDryCleanScreenState();
@@ -30,7 +32,9 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
   void initState() {
     homeProvider = context.read<HomeProvider>();
     ecoDryProvider = EcoDryProvider();
-    ecoDryProvider.getCategories();
+    ecoDryProvider
+      ..updateServiceId(widget.serviceId ?? 0)
+      ..getCategories();
     super.initState();
   }
 
@@ -105,14 +109,13 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                               arguments: EcoDryCleanArguments(
                                   categoryId:
                                       ecoDryProvider.categoriesList[index].id,
-                                  title: widget.title)),
+                                  title: widget.title,
+                                  ecoDryProvider: ecoDryProvider)),
                           child: Container(
                             width: context.sw(size: .400.w),
-                            // height: 50,
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                                 color: const Color(0XFFA7B7C4),
-                                // color: ColorPalette.hintColor,
                                 borderRadius: BorderRadius.circular(15.r)),
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -123,7 +126,6 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                                         '',
                                     height: 55.h,
                                     width: 55.w),
-                                // Assets.images.shoe.image(height: 55.h, width: 55.w),
                                 Text(
                                   ecoDryProvider.categoriesList[index].name ??
                                       '',

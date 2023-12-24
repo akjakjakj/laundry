@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:laundry/views/manage_address/model/manage_address_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'app_config.dart';
@@ -11,6 +14,7 @@ class SharedPreferencesHelper {
   final String wishListId = "wish_list_id";
   final String loginStatus = "login_status";
   final String authCustomerDetails = "auth_customer_details";
+  final String defaultAddress = "default_address";
 
   Future<String> getAuthToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -70,5 +74,19 @@ class SharedPreferencesHelper {
   Future<String> getCartId() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(userCartId) ?? '';
+  }
+
+  Future<void> setDefaultAddress(Addresses defaultAddressModel) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+        defaultAddress, jsonEncode(defaultAddressModel.toJson()));
+  }
+
+  Future<Map<String, dynamic>> getDefaultAddress() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? defaultAddressString = prefs.getString(defaultAddress);
+    Map<String, dynamic> defaultAddressModel =
+        jsonDecode(defaultAddressString ?? '');
+    return defaultAddressModel;
   }
 }
