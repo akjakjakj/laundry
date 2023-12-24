@@ -197,7 +197,10 @@ class _ProfileState extends State<Profile> {
                     child: Assets.icons.terms.image(),
                   ),
                   title: "Terms Of Use",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, RouteGenerator.routeTermsOfuse);
+                  },
                 ),
 
                 5.verticalSpace,
@@ -207,7 +210,10 @@ class _ProfileState extends State<Profile> {
                     child: Assets.icons.policy.image(),
                   ),
                   title: "Privacy Policy",
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, RouteGenerator.routePrivacyPolicy);
+                  },
                 ),
 
                 5.verticalSpace,

@@ -6,6 +6,7 @@ import 'package:laundry/utils/validator.dart';
 import 'package:laundry/views/authentication/repo/forgot_password_repo.dart';
 import 'package:laundry/views/authentication/repo/login_repo.dart';
 import 'package:laundry/views/authentication/repo/registration_repo.dart';
+import 'package:laundry/views/cart/repo/cart_repo.dart';
 import 'package:laundry/views/eco_dry_clean/repo/eco_dry_clean_repo.dart';
 import 'package:laundry/views/main_screen/home_screen/repo/home_screen_repo.dart';
 import 'package:laundry/views/main_screen/past_orders/repo/past_orders_repo.dart';
@@ -27,4 +28,5 @@ void setUpLocator() {
   sl.registerLazySingleton(() => PastOrdersRepo());
   sl.registerLazySingleton(() => ManageAddressRepo());
   sl.registerLazySingleton(() => ProfileRepo());
+  sl.registerLazySingleton(() => CartRepo());
 }

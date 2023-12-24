@@ -14,8 +14,10 @@ import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.da
 import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 import 'package:laundry/views/manage_address/view/add_address_screen.dart';
 import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
+import 'package:laundry/views/privacy_policy/privacy_policy.dart';
 import 'package:laundry/views/profile/profile.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
+import 'package:laundry/views/terms_of_use/terms_of_use.dart';
 
 import '../views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
 
@@ -45,6 +47,8 @@ class RouteGenerator {
   static const String routeMainScreen = 'mainScreen';
   static const String routeAddressScreen = 'addressScreen';
   static const String routeAddAddressScreen = 'addAddAddressScreen';
+  static const String routeTermsOfuse = 'routeTermsOfuse';
+  static const String routePrivacyPolicy = 'routePrivacyPolicy';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -71,6 +75,10 @@ class RouteGenerator {
             ));
       case routeAddressScreen:
         return _buildRoute(routeAddressScreen, const ManageAddressScreen());
+      case routeTermsOfuse:
+        return _buildRoute(routeTermsOfuse, const Terms());
+      case routePrivacyPolicy:
+        return _buildRoute(routePrivacyPolicy, const Privacy());
       case routeEcoDryCleanSelectionScreen:
         EcoDryCleanArguments routeArgs = args as EcoDryCleanArguments;
         return _buildRoute(
