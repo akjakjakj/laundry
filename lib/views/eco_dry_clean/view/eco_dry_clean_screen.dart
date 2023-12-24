@@ -110,7 +110,7 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                                   categoryId:
                                       ecoDryProvider.categoriesList[index].id,
                                   title: widget.title,
-                                  ecoDryProvider: ecoDryProvider)),
+                                  ecoDryProvider: ecoDryProvider)).then((value) => ecoDryProvider.getCategories()),
                           child: Container(
                             width: context.sw(size: .400.w),
                             alignment: Alignment.center,
@@ -154,9 +154,11 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                       ),
                     );
                   case LoaderState.error:
-                    return Center(
-                      child: Text('Oops...! Error',
-                          style: FontPalette.poppinsBold),
+                    return Expanded(
+                      child: Center(
+                        child: Text('Oops...! Error',
+                            style: FontPalette.poppinsBold),
+                      ),
                     );
                   case LoaderState.noData:
                     return Center(

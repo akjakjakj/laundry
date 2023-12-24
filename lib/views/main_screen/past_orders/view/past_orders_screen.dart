@@ -84,10 +84,12 @@ class _PastOrdersScreenState extends State<PastOrdersScreen> {
                                 ),
                                 10.verticalSpace,
                                 Expanded(
-                                    child: PastOrdersTile(
-                                        ordersList:
-                                            pastOrdersProvider.ordersList)),
-                                50.verticalSpace
+                                    child: SingleChildScrollView(
+                                  child: PastOrdersTile(
+                                      ordersList:
+                                          pastOrdersProvider.ordersList),
+                                )),
+                                30.verticalSpace
                               ],
                             );
                           case LoaderState.noProducts:

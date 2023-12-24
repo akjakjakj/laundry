@@ -10,14 +10,14 @@ import 'package:provider/provider.dart';
 
 import '../../../utils/color_palette.dart';
 
-class NormalService extends StatefulWidget {
-  const NormalService({super.key});
+class ExpressService extends StatefulWidget {
+  const ExpressService({super.key});
 
   @override
-  State<NormalService> createState() => _NormalServiceState();
+  State<ExpressService> createState() => _ExpressServiceState();
 }
 
-class _NormalServiceState extends State<NormalService> {
+class _ExpressServiceState extends State<ExpressService> {
   TextEditingController pickDateInput = TextEditingController();
   TextEditingController deliveryDateInput = TextEditingController();
   TextEditingController pickTime = TextEditingController();
@@ -58,7 +58,7 @@ class _NormalServiceState extends State<NormalService> {
 
   @override
   void initState() {
-    cartProvider.getNormalService();
+    cartProvider.getExpressService();
     pickDateInput.text = "";
     deliveryDateInput.text = "";
     pickTime.text = "";
@@ -72,11 +72,11 @@ class _NormalServiceState extends State<NormalService> {
       value: cartProvider,
       child: Consumer<CartViewProvider>(
         builder: (context, provider, child) {
-          List<Cart>? cart = provider.cartNomalResponse?.cart ?? [];
+          List<Cart>? cart = provider.cartExpressResponse?.cart ?? [];
           if (cart.isEmpty) {
-            print("IS EMPTY");
+            print("Express IS EMPTY");
           } else {
-            print("NOT EMPTY");
+            print("Express service NOT  EMPTY");
           }
           switch (provider.loaderState) {
             case LoaderState.loading:
@@ -102,8 +102,7 @@ class _NormalServiceState extends State<NormalService> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  10.verticalSpace,
-
+                                  35.verticalSpace,
                                   Row(
                                     children: [
                                       Flexible(
@@ -388,8 +387,7 @@ class _NormalServiceState extends State<NormalService> {
                                             amount: item.amount.toString(),
                                             productImage:
                                                 item.product?.image ?? "",
-                                            service: item.service?.name ?? "",
-                                            qty: item.quantity);
+                                            service: item.service?.name ?? "");
                                       },
                                     ),
                                   ),
@@ -525,7 +523,6 @@ class _NormalServiceState extends State<NormalService> {
       {String? productImage,
       String? productName,
       String? service,
-      int? qty,
       String? amount}) {
     return Container(
       height: 97.h,
@@ -543,14 +540,15 @@ class _NormalServiceState extends State<NormalService> {
             child: Row(
               children: [
                 ClipRRect(
-                    borderRadius: BorderRadius.circular(10.r),
-                    child: CommonFadeInImage(
-                      image: productImage ??
-                          "https://i.ebayimg.com/images/g/BYIAAOSwR01jHCuS/s-l500.jpg",
-                      fit: BoxFit.cover,
-                      height: 97.w,
-                      width: 90.w,
-                    )),
+                  borderRadius: BorderRadius.circular(10.r),
+                  child: Image.network(
+                    productImage ??
+                        "https://i.ebayimg.com/images/g/BYIAAOSwR01jHCuS/s-l500.jpg",
+                    height: 97.w,
+                    width: 90.w,
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 20.horizontalSpace,
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -584,7 +582,6 @@ class _NormalServiceState extends State<NormalService> {
           //quanity
           Row(
             children: [
-              
               CircleAvatar(
                   radius: 10.r,
                   backgroundColor: ColorPalette.greenColor,
@@ -593,16 +590,13 @@ class _NormalServiceState extends State<NormalService> {
                     style: FontPalette.poppinsRegular
                         .copyWith(color: Colors.white, fontSize: 15.sp),
                   )),
-
-
               10.horizontalSpace,
               Text(
-                "$qty",
+                "1",
                 style: FontPalette.poppinsRegular
                     .copyWith(color: Colors.black, fontSize: 15.sp),
               ),
               10.horizontalSpace,
-
               CircleAvatar(
                   radius: 10.r,
                   backgroundColor: ColorPalette.greenColor,
@@ -611,9 +605,6 @@ class _NormalServiceState extends State<NormalService> {
                     style: FontPalette.poppinsRegular
                         .copyWith(color: Colors.white, fontSize: 15.sp),
                   )),
-
-
-                  
             ],
           ),
         ],

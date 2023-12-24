@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
@@ -161,6 +162,8 @@ class _EcoDryScreenItemSelectionScreenState
                     ),
                     CustomButton(
                       title: 'Go To Cart',
+                      onTap: () => Navigator.pushNamed(
+                          context, RouteGenerator.routeCart),
                       decoration: BoxDecoration(
                           color: ColorPalette.greenColor,
                           borderRadius: BorderRadius.only(
@@ -182,9 +185,11 @@ class _EcoDryScreenItemSelectionScreenState
                           provider.getProductsWithSearch();
                         },
                       ),
-                      Center(
-                        child: Text('Oops...! Error',
-                            style: FontPalette.poppinsBold),
+                      Expanded(
+                        child: Center(
+                          child: Text('Oops...! Error',
+                              style: FontPalette.poppinsBold),
+                        ),
                       ),
                     ],
                   ),
@@ -202,9 +207,11 @@ class _EcoDryScreenItemSelectionScreenState
                           provider.getProductsWithSearch();
                         },
                       ),
-                      Center(
-                        child: Text('Oops...! Error',
-                            style: FontPalette.poppinsBold),
+                      Expanded(
+                        child: Center(
+                          child: Text('No Products Found',
+                              style: FontPalette.poppinsBold),
+                        ),
                       ),
                     ],
                   ),
@@ -222,9 +229,11 @@ class _EcoDryScreenItemSelectionScreenState
                           provider.getProductsWithSearch();
                         },
                       ),
-                      Center(
-                        child: Text('Oops...! Error',
-                            style: FontPalette.poppinsBold),
+                      Expanded(
+                        child: Center(
+                          child: Text('No Products Found',
+                              style: FontPalette.poppinsBold),
+                        ),
                       ),
                     ],
                   ),
@@ -242,9 +251,11 @@ class _EcoDryScreenItemSelectionScreenState
                           provider.getProductsWithSearch();
                         },
                       ),
-                      Center(
-                        child: Text('Oops...! Error',
-                            style: FontPalette.poppinsBold),
+                      Expanded(
+                        child: Center(
+                          child: Text('Network Error',
+                              style: FontPalette.poppinsBold),
+                        ),
                       ),
                     ],
                   ),

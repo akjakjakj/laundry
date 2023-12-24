@@ -8,6 +8,7 @@ import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_shimmer.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
+import 'package:laundry/views/main_screen/whatsapp_share/whatsapp.dart';
 import 'package:laundry/views/profile/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -54,11 +55,12 @@ class _MainScreenState extends State<MainScreen> {
                       controller: pageController,
                       children: const [
                         PastOrdersScreen(),
-                        SizedBox(),
+                        Whatsapp(),
+                        // SizedBox(),
                         // ManageAddressScreen(),
                         HomeScreen(),
                         Profile(),
-                        SizedBox()
+                        // SizedBox()
                         // ManageAddressScreen(),
                       ],
                     );

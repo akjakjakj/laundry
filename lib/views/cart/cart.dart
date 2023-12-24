@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/cart/view_model/cart_view_model.dart';
+import 'package:laundry/views/cart/widgets/express_service.dart';
 import 'package:laundry/views/cart/widgets/normal_service.dart';
 
 class Cart extends StatefulWidget {
@@ -12,7 +14,15 @@ class Cart extends StatefulWidget {
   State<Cart> createState() => _CartState();
 }
 
-class _CartState extends State<Cart> {
+class _CartState extends State<Cart> with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(length: 2, vsync: this);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,54 +70,52 @@ class _CartState extends State<Cart> {
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),
-        body: DefaultTabController(
-          length: 2,
-          child: Scaffold(
-            appBar: PreferredSize(
-              preferredSize: const Size.fromHeight(kToolbarHeight),
-              child: SafeArea(
-                child: Column(
-                  children: <Widget>[
-                    Expanded(child: Container()),
-                    TabBar(
-                      indicator: UnderlineTabIndicator(
-                          borderSide: BorderSide(
-                              width: 3.w, color: ColorPalette.greenColor),
-                          insets: EdgeInsets.symmetric(
-                              horizontal: 50.w, vertical: -10.h)),
-                      unselectedLabelColor: Colors.black,
-                      tabs: [
-                        Text(
-                          "Normal Service",
-                          style: FontPalette.poppinsBold.copyWith(
-                              color: ColorPalette.greenColor, fontSize: 15.sp),
-                        ),
-                        Text(
-                          "Express Service",
-                          style: FontPalette.poppinsBold.copyWith(
-                              color: ColorPalette.greenColor, fontSize: 15.sp),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+        body: Scaffold(
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(kToolbarHeight),
+            child: SafeArea(
+              child: Column(
+                children: <Widget>[
+                  TabBar(
+                    controller: tabController,
+                    indicator: UnderlineTabIndicator(
+                        borderSide: BorderSide(
+                            width: 3.w, color: ColorPalette.greenColor),
+                        insets: EdgeInsets.symmetric(
+                            horizontal: 50.w, vertical: -10.h)),
+                    unselectedLabelColor: Colors.black,
+                    tabs: [
+                      Text(
+                        "Normal Service",
+                        style: FontPalette.poppinsBold.copyWith(
+                            color: ColorPalette.greenColor, fontSize: 15.sp),
+                      ),
+                      Text(
+                        "Express Service",
+                        style: FontPalette.poppinsBold.copyWith(
+                            color: ColorPalette.greenColor, fontSize: 15.sp),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            body:  const TabBarView(
-              children: <Widget>[
-                Center(
-                  child: Column(
-                    children: <Widget>[NormalService()],
-                  ),
-                ),
-                Center(
-                  child: Column(
-                    children: <Widget>[NormalService()],
-                  ),
-                )
-              ],
-            ).withBackgroundImage(),
           ),
+          body: TabBarView(
+            controller: tabController,
+            children: <Widget>[
+              Center(
+                child: Column(
+                  children: <Widget>[NormalService()],
+                ),
+              ),
+              Center(
+                child: Column(
+                  children: <Widget>[ExpressService()],
+                ),
+              )
+            ],
+          ).withBackgroundImage(),
         ));
   }
 }
