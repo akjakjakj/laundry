@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/http_req.dart';
+import 'package:laundry/services/notification_services.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/validator.dart';
 import 'package:laundry/views/authentication/repo/forgot_password_repo.dart';
@@ -18,6 +19,7 @@ GetIt sl = GetIt.instance;
 void setUpLocator() {
   sl.registerLazySingleton(() => Helpers());
   sl.registerLazySingleton(() => HttpReq());
+  sl.registerLazySingleton(() => PushNotificationService());
   sl.registerLazySingleton(() => Validator());
   sl.registerLazySingleton(() => LoginRepo());
   sl.registerLazySingleton(() => RegistrationRepo());

@@ -115,7 +115,7 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   Future<void> addToCart(int productId, int quantity, double rate,
-      {Function()? onSuccess}) async {
+      {Function()? onSuccess, Function()? onFailure}) async {
     final network = await helpers.isInternetAvailable();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
@@ -134,6 +134,7 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
           return Right(right);
         }).thenLeft((left) {
           updateErrorMessage(left.message ?? '');
+          if (onFailure != null) onFailure();
           updateLoadState(LoaderState.loaded);
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         }).onError((error, stackTrace) {

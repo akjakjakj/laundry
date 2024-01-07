@@ -223,22 +223,22 @@ class _ProfileState extends State<Profile> {
                     child: Assets.icons.logout.image(),
                   ),
                   title: "Logout",
-                  onTap: () => CommonFunctions.showDialogPopUp(
-                      context,
-                      CustomAlertDialog(
-                        title: 'Logout',
-                        message: 'Are you sure, you want to logout?',
-                        actionButtonText: 'Yes',
-                        cancelButtonText: 'No',
-                        isLoading: false,
-                        onCancelButtonPressed: () => Navigator.pop(context),
-                        onActionButtonPressed: () async {
-                          await sharedPreferencesHelper.removeLoginToken();
-                          CommonFunctions.afterInit(() =>
-                              Navigator.pushNamedAndRemoveUntil(context,
-                                  RouteGenerator.routeLogin, (route) => false));
-                        },
-                      )),
+                    onTap: () => CommonFunctions.showDialogPopUp(
+                        context,
+                        CustomAlertDialog(
+                          title: 'Logout',
+                          message: 'Are you sure, you want to logout?',
+                          actionButtonText: 'Yes',
+                          cancelButtonText: 'No',
+                          isLoading: false,
+                          onCancelButtonPressed: () => Navigator.pop(context),
+                          onActionButtonPressed: () async {
+                            await sharedPreferencesHelper.removeLoginToken();
+                            CommonFunctions.afterInit(() =>
+                                Navigator.pushNamedAndRemoveUntil(context,
+                                    RouteGenerator.routeLogin, (route) => false));
+                          },
+                        )),
                 ),
               ],
             ),

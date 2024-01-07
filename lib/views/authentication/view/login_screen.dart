@@ -80,7 +80,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         hintText: 'Enter Your Password',
                         enableObscure: true,
                         validator: (value) =>
-                            validator.validatePassword(context, value),
+                            validator.validateName(context, value),
                       ),
                       60.verticalSpace,
                       CustomButton(

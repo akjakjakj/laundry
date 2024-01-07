@@ -3,6 +3,7 @@ import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/http_req.dart';
 import 'package:laundry/utils/enums.dart';
+import 'package:laundry/views/main_screen/past_orders/model/order_details_model.dart';
 import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
 
 class PastOrdersRepo {
@@ -14,6 +15,20 @@ class PastOrdersRepo {
         .thenRight((right) {
           final pastOrdersResponse = PastOrdersResponse.fromJson(right);
           return Right(pastOrdersResponse);
+        })
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
+
+  Future<Either<ApiResponse, dynamic>> getOrderDetails(int orderId) async {
+    return httpReq
+        .postRequest('/api/customer/orders/details',
+            param: {'order_id': orderId})
+        .thenRight((right) {
+          final orderDetailsResponse = OrderDetailsModel.fromJson(right);
+          return Right(orderDetailsResponse);
         })
         .thenLeft((left) => Left(left))
         .onError((error, stackTrace) {

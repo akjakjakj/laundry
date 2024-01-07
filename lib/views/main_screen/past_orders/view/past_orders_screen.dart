@@ -86,8 +86,9 @@ class _PastOrdersScreenState extends State<PastOrdersScreen> {
                                 Expanded(
                                     child: SingleChildScrollView(
                                   child: PastOrdersTile(
-                                      ordersList:
-                                          pastOrdersProvider.ordersList),
+                                    ordersList: pastOrdersProvider.ordersList,
+                                    pastOrdersProvider: pastOrdersProvider,
+                                  ),
                                 )),
                                 30.verticalSpace
                               ],

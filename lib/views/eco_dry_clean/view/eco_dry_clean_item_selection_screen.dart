@@ -54,13 +54,13 @@ class _EcoDryScreenItemSelectionScreenState
                   decoration: const BoxDecoration(
                     color: Colors.white,
                     shape: BoxShape.circle,
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 4,
-                          blurStyle: BlurStyle.outer,
-                          color: Color.fromARGB(255, 224, 224, 224),
-                          spreadRadius: 0.5)
-                    ],
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            blurStyle: BlurStyle.outer,
+                            color: Color.fromARGB(255, 224, 224, 224),
+                            spreadRadius: 0.5)
+                      ],
                   ),
                   child: CircleAvatar(
                       radius: 18.r,

@@ -10,7 +10,10 @@ import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
+import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
+import 'package:laundry/views/main_screen/past_orders/view/order_details_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
+import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
 import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 import 'package:laundry/views/manage_address/view/add_address_screen.dart';
 import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
@@ -49,6 +52,7 @@ class RouteGenerator {
   static const String routeAddAddressScreen = 'addAddAddressScreen';
   static const String routeTermsOfuse = 'routeTermsOfuse';
   static const String routePrivacyPolicy = 'routePrivacyPolicy';
+  static const String routeOrderDetails = 'routeOrderDetails';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -102,11 +106,19 @@ class RouteGenerator {
         return _buildRoute(routeMainScreen, const MainScreen());
       case routeAddAddressScreen:
         AddAddressArguments routeArgs = args as AddAddressArguments;
-
         return _buildRoute(
             routeAddAddressScreen,
             AddAddressScreen(
               manageAddressProvider: routeArgs.manageAddressProvider,
+            ));
+      case routeOrderDetails:
+        OrderDetailsArguments routeArgs = args as OrderDetailsArguments;
+        return _buildRoute(
+            routeOrderDetails,
+            OrderDetailsScreen(
+              pastOrdersProvider:
+                  routeArgs.pastOrdersProvider ?? PastOrdersProvider(),
+              orderId: routeArgs.orderId,
             ));
       default:
         return _buildRoute(routeInitial, const SplashScreen());

@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:laundry/services/api_reponse.dart';
+import 'package:laundry/services/app_config.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/provider_helper_class.dart';
@@ -43,6 +44,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
   }) async {
     updateBtnLoaderState(true);
     final network = await helpers.isInternetAvailable();
+    String deviceToken =
+        AppConfig.deviceToken ?? await sharedPreferencesHelper.getDeviceToken();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       try {
@@ -50,7 +53,7 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
             .login(
                 email: loginEmailController.text.trim(),
                 password: loginPasswordController.text.trim(),
-                deviceToken: '1')
+                deviceToken: deviceToken)
             .thenRight((right) async {
           userData = right;
           updateErrorMessage(null);
@@ -88,6 +91,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
   Future<void> register({Function()? onSuccess, Function()? onFailure}) async {
     updateBtnLoaderState(true);
     final network = await helpers.isInternetAvailable();
+    String deviceToken =
+        AppConfig.deviceToken ?? await sharedPreferencesHelper.getDeviceToken();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       try {
@@ -98,7 +103,7 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                 confirmPassword:
                     registrationConfirmPasswordController.text.trim(),
                 name: registrationNameController.text.trim(),
-                deviceToken: '1');
+                deviceToken: deviceToken);
         resp = registrationRepo
             .register(registrationRequestModel)
             .thenRight((right) {

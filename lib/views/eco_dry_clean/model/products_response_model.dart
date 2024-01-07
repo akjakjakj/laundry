@@ -25,6 +25,7 @@ class Products {
   String? image;
   String? rate;
   int? quantity;
+  bool? isAdded;
 
   Products(
       {this.id,
@@ -33,7 +34,8 @@ class Products {
       this.category,
       this.image,
       this.rate,
-      this.quantity = 0});
+      this.quantity = 0,
+      this.isAdded = false});
 
   Products.fromJson(Map<String, dynamic> json) {
     id = json['id'];

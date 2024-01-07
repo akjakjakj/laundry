@@ -5,6 +5,7 @@ class AppConfig {
 
   AppConfig._internal();
   static String? accessToken;
+  static String? deviceToken;
 
 
   static bool get isAuthorized => (AppConfig.accessToken ?? '').isNotEmpty;

@@ -23,11 +23,13 @@ class _ItemSelectionWidgetState extends State<ItemSelectionWidget> {
   late final ValueNotifier<int> quantity;
 
   late final ValueNotifier<bool> isLoading;
+  late final ValueNotifier<bool> isAdded;
 
   @override
   void initState() {
     isLoading = ValueNotifier(false);
-    quantity = ValueNotifier(widget.productItem?.quantity ?? 0);
+    quantity = ValueNotifier(widget.productItem?.quantity ?? 1);
+    isAdded = ValueNotifier(false);
     super.initState();
   }
 
@@ -74,122 +76,135 @@ class _ItemSelectionWidgetState extends State<ItemSelectionWidget> {
                         .copyWith(fontSize: 11.sp, color: HexColor('#404041')),
                   ),
                   5.verticalSpace,
-                  if ((quantityValue) > 0)
-                    ValueListenableBuilder<bool>(
-                      valueListenable: isLoading,
-                      builder: (context, isLoadingValue, child) => Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          InkWell(
-                            onTap: () => addToCart(isAdd: false),
-                            child: Container(
-                              height: 28.h,
-                              width: 28..w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: ColorPalette.greenColor,
-                                  shape: BoxShape.circle),
-                              child: Text(
-                                '-',
-                                style: FontPalette.poppinsRegular.copyWith(
-                                    color: Colors.white, fontSize: 19.sp),
-                              ),
-                            ),
-                          ).removeSplash(),
-                          15.horizontalSpace,
-                          Text(
-                            (quantityValue).toString(),
-                            style: FontPalette.poppinsRegular.copyWith(
-                                fontSize: 10.sp, color: HexColor('#404041')),
+                  //if ((quantityValue) > 0)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (quantity.value > 1) {
+                            updateCount(quantityValue - 1);
+                          }
+                        },
+                        child: Container(
+                          height: 28.h,
+                          width: 28..w,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: ColorPalette.greenColor,
+                              shape: BoxShape.circle),
+                          child: Text(
+                            '-',
+                            style: FontPalette.poppinsRegular
+                                .copyWith(color: Colors.white, fontSize: 19.sp),
                           ),
-                          15.horizontalSpace,
-                          InkWell(
-                            onTap: addToCart,
-                            child: Container(
-                              height: 28.h,
-                              width: 28..w,
-                              alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  color: ColorPalette.greenColor,
-                                  shape: BoxShape.circle),
-                              child: Icon(
-                                Icons.add,
-                                color: Colors.white,
-                                size: 15.h,
-                              ),
-                            ),
-                          ).removeSplash(),
-                        ],
+                        ),
+                      ).removeSplash(),
+                      15.horizontalSpace,
+                      Text(
+                        (quantityValue).toString(),
+                        style: FontPalette.poppinsRegular.copyWith(
+                            fontSize: 10.sp, color: HexColor('#404041')),
                       ),
-                    ),
+                      15.horizontalSpace,
+                      InkWell(
+                        onTap: () {
+                          updateCount(quantityValue + 1);
+                        },
+                        child: Container(
+                          height: 28.h,
+                          width: 28..w,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                              color: ColorPalette.greenColor,
+                              shape: BoxShape.circle),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                            size: 15.h,
+                          ),
+                        ),
+                      ).removeSplash(),
+                    ],
+                  ),
                   38.verticalSpace,
                 ],
               ),
             ),
-            if ((quantityValue) == 0)
-              ValueListenableBuilder<bool>(
-                valueListenable: isLoading,
-                builder: (context, value, child) => InkWell(
-                  onTap: addToCart,
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: Container(
-                      height: 31.h,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                          color: ColorPalette.greenColor,
-                          borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(10.r),
-                            bottomRight: Radius.circular(10.r),
-                          )),
-                      child: value
-                          ? ThreeBounce(
-                              size: 25.r,
-                            )
-                          : Text(
-                              'Add',
+            // if ((quantityValue) == 0)
+            ValueListenableBuilder<bool>(
+              valueListenable: isLoading,
+              builder: (context, loadingValue, child) => InkWell(
+                onTap:
+                    (widget.productItem?.isAdded ?? false) ? null : addToCart,
+                child: AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: Container(
+                    height: 31.h,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                        color: ColorPalette.greenColor,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(10.r),
+                          bottomRight: Radius.circular(10.r),
+                        )),
+                    child: loadingValue
+                        ? ThreeBounce(
+                            size: 25.r,
+                          )
+                        : ValueListenableBuilder<bool>(
+                            valueListenable: isAdded,
+                            builder: (context, value, child) => Text(
+                              (value) ? 'Added' : 'Add',
                               style: FontPalette.poppinsRegular.copyWith(
                                   fontSize: 11.sp, color: Colors.white),
                             ),
-                    ),
+                          ),
                   ),
                 ),
-              )
+              ),
+            )
           ],
         ),
       ),
     );
   }
 
+  void updateCount(int count) {
+    quantity.value = count;
+    isAdded.value = false;
+  }
+
   void addToCart({bool isAdd = true}) {
     isLoading.value = true;
-    if (isAdd) {
-      widget.ecoDryProvider
-          .addToCart(
-        widget.productItem?.id ?? 0,
-        (widget.productItem?.quantity ?? 0) + 1,
-        double.parse((widget.productItem?.rate) ?? '0'),
-        onSuccess: () => widget.productItem?.quantity =
-            (widget.productItem?.quantity ?? 0) + 1,
-      )
-          .then((value) {
-        isLoading.value = false;
-        quantity.value = quantity.value + 1;
-      });
-    } else {
-      widget.ecoDryProvider
-          .addToCart(
-        widget.productItem?.id ?? 0,
-        (widget.productItem?.quantity ?? 0) - 1,
-        double.parse((widget.productItem?.rate) ?? '0'),
-        onSuccess: () => widget.productItem?.quantity =
-            (widget.productItem?.quantity ?? 0) - 1,
-      )
-          .then((value) {
-        isLoading.value = false;
-        quantity.value = quantity.value - 1;
-      });
-    }
+    isAdded.value = true;
+    // if (isAdd) {
+    widget.ecoDryProvider
+        .addToCart(
+      widget.productItem?.id ?? 0,
+      (widget.productItem?.quantity ?? 0),
+      double.parse((widget.productItem?.rate) ?? '0'),
+      onSuccess: () => isAdded.value = true,
+      onFailure: () => isAdded.value = false,
+    )
+        .then((value) {
+      isLoading.value = false;
+      // quantity.value = quantity.value + 1;
+    });
+    // } else {
+    //   widget.ecoDryProvider
+    //       .addToCart(
+    //     widget.productItem?.id ?? 0,
+    //     (widget.productItem?.quantity ?? 0) - 1,
+    //     double.parse((widget.productItem?.rate) ?? '0'),
+    //     onSuccess: () => widget.productItem?.quantity =
+    //         (widget.productItem?.quantity ?? 0) - 1,
+    //   )
+    //       .then((value) {
+    //     isLoading.value = false;
+    //     quantity.value = quantity.value - 1;
+    //   });
+    // }
   }
 }
 
