@@ -98,8 +98,12 @@ class SharedPreferencesHelper {
   Future<Map<String, dynamic>> getDefaultAddress() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     String? defaultAddressString = prefs.getString(defaultAddress);
-    Map<String, dynamic> defaultAddressModel =
-        jsonDecode(defaultAddressString ?? '');
-    return defaultAddressModel;
+    if (defaultAddressString != null) {
+      Map<String, dynamic> defaultAddressModel =
+          jsonDecode(defaultAddressString);
+      return defaultAddressModel;
+    } else {
+      return {};
+    }
   }
 }

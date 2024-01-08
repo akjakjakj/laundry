@@ -4,7 +4,7 @@ import 'package:laundry/views/authentication/view/forgot_password_reset_password
 import 'package:laundry/views/authentication/view/forgot_password_screen.dart';
 import 'package:laundry/views/authentication/view/login_screen.dart';
 import 'package:laundry/views/authentication/view/registration_screen.dart';
-import 'package:laundry/views/cart/cart.dart';
+import 'package:laundry/views/cart/view/cart.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
@@ -78,7 +78,15 @@ class RouteGenerator {
               serviceId: routeArgs.serviceId ?? 0,
             ));
       case routeAddressScreen:
-        return _buildRoute(routeAddressScreen, const ManageAddressScreen());
+        ManageAddressArguments? routeArgs;
+        if (args != null) {
+          routeArgs = args as ManageAddressArguments;
+        }
+        return _buildRoute(
+            routeAddressScreen,
+            ManageAddressScreen(
+              isFromCart: routeArgs?.isFromCart,
+            ));
       case routeTermsOfuse:
         return _buildRoute(routeTermsOfuse, const Terms());
       case routePrivacyPolicy:

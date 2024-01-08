@@ -182,7 +182,7 @@ class _ItemSelectionWidgetState extends State<ItemSelectionWidget> {
     widget.ecoDryProvider
         .addToCart(
       widget.productItem?.id ?? 0,
-      (widget.productItem?.quantity ?? 0),
+      (quantity.value),
       double.parse((widget.productItem?.rate) ?? '0'),
       onSuccess: () => isAdded.value = true,
       onFailure: () => isAdded.value = false,

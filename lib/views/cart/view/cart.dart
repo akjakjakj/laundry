@@ -3,9 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
-import 'package:laundry/views/cart/view_model/cart_view_model.dart';
-import 'package:laundry/views/cart/widgets/express_service.dart';
-import 'package:laundry/views/cart/widgets/normal_service.dart';
+import 'package:laundry/views/cart/view/widgets/normal_service.dart';
 
 class Cart extends StatefulWidget {
   const Cart({super.key});
@@ -106,12 +104,20 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
             children: <Widget>[
               Center(
                 child: Column(
-                  children: <Widget>[NormalService()],
+                  children: <Widget>[
+                    NormalService(
+                      index: tabController.index,
+                    )
+                  ],
                 ),
               ),
               Center(
                 child: Column(
-                  children: <Widget>[ExpressService()],
+                  children: <Widget>[
+                    NormalService(
+                      index: tabController.index,
+                    )
+                  ],
                 ),
               )
             ],

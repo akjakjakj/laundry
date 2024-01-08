@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
-import 'package:laundry/common_widgets/common_fade_in_image.dart';
+import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/cart/model/cart_model.dart';
 import 'package:laundry/views/cart/view_model/cart_view_model.dart';
 import 'package:provider/provider.dart';
-
-import '../../../utils/color_palette.dart';
 
 class ExpressService extends StatefulWidget {
   const ExpressService({super.key});

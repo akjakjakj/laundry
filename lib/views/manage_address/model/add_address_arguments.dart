@@ -5,3 +5,9 @@ class AddAddressArguments {
 
   AddAddressArguments({required this.manageAddressProvider});
 }
+
+class ManageAddressArguments{
+  bool? isFromCart;
+
+  ManageAddressArguments({this.isFromCart});
+}

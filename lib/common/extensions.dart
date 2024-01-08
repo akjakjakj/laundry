@@ -40,6 +40,10 @@ extension Context on BuildContext {
   }
 }
 
+extension ListExtension on List? {
+  bool get notEmpty => (this ?? []).isNotEmpty;
+}
+
 extension WidgetExtension on Widget {
   Widget withBackgroundImage() {
     return Container(

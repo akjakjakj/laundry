@@ -12,8 +12,8 @@ import 'package:laundry/views/manage_address/view_model/manage_address_view_mode
 import 'package:provider/provider.dart';
 
 class ManageAddressScreen extends StatefulWidget {
-  const ManageAddressScreen({Key? key}) : super(key: key);
-
+  const ManageAddressScreen({Key? key, this.isFromCart}) : super(key: key);
+  final bool? isFromCart;
   @override
   _ManageAddressScreenState createState() => _ManageAddressScreenState();
 }
@@ -69,7 +69,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           ),
         ),
         title: Text(
-          'Manage Address',
+          (widget.isFromCart ?? false) ? 'Choose Address' : 'Manage Address',
           style: FontPalette.poppinsBold
               .copyWith(color: Colors.black, fontSize: 17.sp),
         ),
@@ -104,6 +104,7 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                     child: AddressTile(
                       addressList: provider.addressesList,
                       manageAddressProvider: provider,
+                      isFromCart: widget.isFromCart,
                     ),
                   );
                 case LoaderState.noProducts:
