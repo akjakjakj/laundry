@@ -5,6 +5,7 @@ import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_image_slider.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_choose_service_widget.dart';
+import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_service_container.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 

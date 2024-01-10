@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_fade_in_image.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
+import 'package:laundry/common_widgets/stack_loader.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
@@ -94,363 +96,390 @@ class _NormalServiceState extends State<NormalService> {
                   child: Center(child: CircularProgressIndicator()));
             case LoaderState.loaded:
               return Expanded(
-                child: SingleChildScrollView(
-                  child: Stack(
-                    alignment: Alignment.bottomCenter,
-                    children: [
-                      SingleChildScrollView(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              10.verticalSpace,
-                              AddressSelectionWidget(
-                                address:
-                                    cartProvider.defaultAddress?['address'],
-                                cartViewProvider: cartProvider,
-                              ),
-                              20.verticalSpace,
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xfff3f3f4),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        height: 50.h,
-                                        child: Center(
-                                            child: TextField(
-                                          controller: pickDateInput,
-                                          style: FontPalette.poppinsRegular
-                                              .copyWith(
-                                                  color:
-                                                      const Color(0xff404041),
-                                                  fontSize: 13.sp),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffixIcon: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 15,
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 15.w,
-                                                    vertical: 15.h),
-                                            hintText: "Pickup Date",
-                                            hintStyle: FontPalette
-                                                .poppinsRegular
-                                                .copyWith(
-                                                    color:
-                                                        const Color(0xff404041),
-                                                    fontSize: 11.sp),
-                                          ),
-                                          readOnly: true,
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1950),
-                                                    lastDate: DateTime(2100));
-
-                                            if (pickedDate != null) {
-                                              String formattedDate =
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(pickedDate);
-                                              setState(() {
-                                                pickDateInput.text =
-                                                    formattedDate;
-                                              });
-                                            } else {}
-                                          },
-                                        ))),
-                                  ),
-                                  12.horizontalSpace,
-                                  Flexible(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xfff3f3f4),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        height: 50.h,
-                                        child: Center(
-                                            child: TextField(
-                                          controller: pickTime,
-                                          style: FontPalette.poppinsRegular
-                                              .copyWith(
-                                                  color:
-                                                      const Color(0xff404041),
-                                                  fontSize: 13.sp),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffixIcon: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 15,
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 15.w,
-                                                    vertical: 15.h),
-                                            hintText: "Pickup Time",
-                                            hintStyle: FontPalette
-                                                .poppinsRegular
-                                                .copyWith(
-                                                    color:
-                                                        const Color(0xff404041),
-                                                    fontSize: 11.sp),
-                                          ),
-                                          readOnly: true,
-                                          onTap: () async {
-                                            _selectPickTime();
-                                          },
-                                        ))),
-                                  ),
-                                ],
-                              ),
-                              12.verticalSpace,
-                              Row(
-                                children: [
-                                  Flexible(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xfff3f3f4),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        height: 50.h,
-                                        child: Center(
-                                            child: TextField(
-                                          controller: deliveryDateInput,
-                                          style: FontPalette.poppinsRegular
-                                              .copyWith(
-                                                  color:
-                                                      const Color(0xff404041),
-                                                  fontSize: 13.sp),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffixIcon: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 15,
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 15.w,
-                                                    vertical: 15.h),
-                                            hintText: "Delivery Date",
-                                            hintStyle: FontPalette
-                                                .poppinsRegular
-                                                .copyWith(
-                                                    color:
-                                                        const Color(0xff404041),
-                                                    fontSize: 11.sp),
-                                          ),
-                                          readOnly: true,
-                                          onTap: () async {
-                                            DateTime? pickedDate =
-                                                await showDatePicker(
-                                                    context: context,
-                                                    initialDate: DateTime.now(),
-                                                    firstDate: DateTime(1950),
-                                                    lastDate: DateTime(2100));
-
-                                            if (pickedDate != null) {
-                                              String formattedDate =
-                                                  DateFormat('yyyy-MM-dd')
-                                                      .format(pickedDate);
-                                              setState(() {
-                                                deliveryDateInput.text =
-                                                    formattedDate;
-                                              });
-                                            } else {}
-                                          },
-                                        ))),
-                                  ),
-                                  12.horizontalSpace,
-                                  Flexible(
-                                    child: Container(
-                                        decoration: BoxDecoration(
-                                            color: const Color(0xfff3f3f4),
-                                            borderRadius:
-                                                BorderRadius.circular(10.r)),
-                                        height: 50.h,
-                                        child: Center(
-                                            child: TextField(
-                                          controller: deliveryTime,
-                                          style: FontPalette.poppinsRegular
-                                              .copyWith(
-                                                  color:
-                                                      const Color(0xff404041),
-                                                  fontSize: 13.sp),
-                                          decoration: InputDecoration(
-                                            border: InputBorder.none,
-                                            suffixIcon: const Icon(
-                                              Icons.arrow_forward_ios,
-                                              color: Colors.black,
-                                              size: 15,
-                                            ),
-                                            contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 15.w,
-                                                    vertical: 15.h),
-                                            hintText: "Delivery Time",
-                                            hintStyle: FontPalette
-                                                .poppinsRegular
-                                                .copyWith(
-                                                    color:
-                                                        const Color(0xff404041),
-                                                    fontSize: 11.sp),
-                                          ),
-                                          readOnly: true,
-                                          onTap: () async {
-                                            _selectDeliverTime();
-                                          },
-                                        ))),
-                                  ),
-                                ],
-                              ),
-                              20.verticalSpace,
-                              Text(
-                                "Add Your Comments",
-                                style: FontPalette.poppinsBold.copyWith(
-                                    color: Colors.black, fontSize: 11.sp),
-                              ),
-                              15.verticalSpace,
-                              Container(
-                                height: 100,
-                                width: double.maxFinite,
-                                decoration: BoxDecoration(
-                                  color: const Color(0xfff3f3f4),
-                                  borderRadius: BorderRadius.circular(10.r),
+                child: StackLoader(
+                  inAsyncCall: provider.btnLoaderState,
+                  child: SingleChildScrollView(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        IgnorePointer(
+                          ignoring: provider.btnLoaderState,
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                10.verticalSpace,
+                                AddressSelectionWidget(
+                                  address:
+                                      cartProvider.defaultAddress?['address'],
+                                  cartViewProvider: cartProvider,
                                 ),
-                                child: Column(
+                                20.verticalSpace,
+                                Row(
                                   children: [
-                                    Expanded(
-                                      child: TextField(
-                                        decoration: InputDecoration(
-                                          contentPadding: EdgeInsets.symmetric(
-                                              horizontal: 15.w, vertical: 10.h),
-                                          border: InputBorder.none,
-                                        ),
-                                        maxLines: null,
-                                        expands: true,
-                                        keyboardType: TextInputType.multiline,
-                                      ),
+                                    Flexible(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xfff3f3f4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          height: 50.h,
+                                          child: Center(
+                                              child: TextField(
+                                            controller: pickDateInput,
+                                            style: FontPalette.poppinsRegular
+                                                .copyWith(
+                                                    color:
+                                                        const Color(0xff404041),
+                                                    fontSize: 13.sp),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              suffixIcon: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.black,
+                                                size: 15,
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 15.w,
+                                                      vertical: 15.h),
+                                              hintText: "Pickup Date",
+                                              hintStyle: FontPalette
+                                                  .poppinsRegular
+                                                  .copyWith(
+                                                      color: const Color(
+                                                          0xff404041),
+                                                      fontSize: 11.sp),
+                                            ),
+                                            readOnly: true,
+                                            onTap: () async {
+                                              DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime(1950),
+                                                      lastDate: DateTime(2100));
+
+                                              if (pickedDate != null) {
+                                                String formattedDate =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(pickedDate);
+                                                setState(() {
+                                                  pickDateInput.text =
+                                                      formattedDate;
+                                                });
+                                              } else {}
+                                            },
+                                          ))),
+                                    ),
+                                    12.horizontalSpace,
+                                    Flexible(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xfff3f3f4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          height: 50.h,
+                                          child: Center(
+                                              child: TextField(
+                                            controller: pickTime,
+                                            style: FontPalette.poppinsRegular
+                                                .copyWith(
+                                                    color:
+                                                        const Color(0xff404041),
+                                                    fontSize: 13.sp),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              suffixIcon: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.black,
+                                                size: 15,
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 15.w,
+                                                      vertical: 15.h),
+                                              hintText: "Pickup Time",
+                                              hintStyle: FontPalette
+                                                  .poppinsRegular
+                                                  .copyWith(
+                                                      color: const Color(
+                                                          0xff404041),
+                                                      fontSize: 11.sp),
+                                            ),
+                                            readOnly: true,
+                                            onTap: () async {
+                                              _selectPickTime();
+                                            },
+                                          ))),
                                     ),
                                   ],
                                 ),
-                              ),
-                              10.verticalSpace,
-                              AddPhotoWidget(cartViewProvider: cartProvider),
-                              15.verticalSpace,
-                              Text(
-                                "Your Items",
-                                style: FontPalette.poppinsBold.copyWith(
-                                    color: Colors.black, fontSize: 10.sp),
-                              ),
-                              15.verticalSpace,
-                              Container(
-                                height: 200.h * 1,
-                                padding: EdgeInsets.all(10.r),
-                                width: double.maxFinite,
-                                decoration: BoxDecoration(
+                                12.verticalSpace,
+                                Row(
+                                  children: [
+                                    Flexible(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xfff3f3f4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          height: 50.h,
+                                          child: Center(
+                                              child: TextField(
+                                            controller: deliveryDateInput,
+                                            style: FontPalette.poppinsRegular
+                                                .copyWith(
+                                                    color:
+                                                        const Color(0xff404041),
+                                                    fontSize: 13.sp),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              suffixIcon: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.black,
+                                                size: 15,
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 15.w,
+                                                      vertical: 15.h),
+                                              hintText: "Delivery Date",
+                                              hintStyle: FontPalette
+                                                  .poppinsRegular
+                                                  .copyWith(
+                                                      color: const Color(
+                                                          0xff404041),
+                                                      fontSize: 11.sp),
+                                            ),
+                                            readOnly: true,
+                                            onTap: () async {
+                                              DateTime? pickedDate =
+                                                  await showDatePicker(
+                                                      context: context,
+                                                      initialDate:
+                                                          DateTime.now(),
+                                                      firstDate: DateTime(1950),
+                                                      lastDate: DateTime(2100));
+
+                                              if (pickedDate != null) {
+                                                String formattedDate =
+                                                    DateFormat('yyyy-MM-dd')
+                                                        .format(pickedDate);
+                                                setState(() {
+                                                  deliveryDateInput.text =
+                                                      formattedDate;
+                                                });
+                                              } else {}
+                                            },
+                                          ))),
+                                    ),
+                                    12.horizontalSpace,
+                                    Flexible(
+                                      child: Container(
+                                          decoration: BoxDecoration(
+                                              color: const Color(0xfff3f3f4),
+                                              borderRadius:
+                                                  BorderRadius.circular(10.r)),
+                                          height: 50.h,
+                                          child: Center(
+                                              child: TextField(
+                                            controller: deliveryTime,
+                                            style: FontPalette.poppinsRegular
+                                                .copyWith(
+                                                    color:
+                                                        const Color(0xff404041),
+                                                    fontSize: 13.sp),
+                                            decoration: InputDecoration(
+                                              border: InputBorder.none,
+                                              suffixIcon: const Icon(
+                                                Icons.arrow_forward_ios,
+                                                color: Colors.black,
+                                                size: 15,
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 15.w,
+                                                      vertical: 15.h),
+                                              hintText: "Delivery Time",
+                                              hintStyle: FontPalette
+                                                  .poppinsRegular
+                                                  .copyWith(
+                                                      color: const Color(
+                                                          0xff404041),
+                                                      fontSize: 11.sp),
+                                            ),
+                                            readOnly: true,
+                                            onTap: () async {
+                                              _selectDeliverTime();
+                                            },
+                                          ))),
+                                    ),
+                                  ],
+                                ),
+                                20.verticalSpace,
+                                Text(
+                                  "Add Your Comments",
+                                  style: FontPalette.poppinsBold.copyWith(
+                                      color: Colors.black, fontSize: 11.sp),
+                                ),
+                                15.verticalSpace,
+                                Container(
+                                  height: 100,
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xfff3f3f4),
                                     borderRadius: BorderRadius.circular(10.r),
-                                    border: Border.all(
-                                        color: const Color.fromARGB(
-                                            255, 128, 128, 128),
-                                        width: 1)),
-                                child: ListView.builder(
-                                  itemCount: cart.length,
-                                  itemBuilder: (context, index) {
-                                    Cart item = cart[index];
-                                    return ProductCardWidget(
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Expanded(
+                                        child: TextField(
+                                          decoration: InputDecoration(
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    horizontal: 15.w,
+                                                    vertical: 10.h),
+                                            border: InputBorder.none,
+                                          ),
+                                          maxLines: null,
+                                          expands: true,
+                                          keyboardType: TextInputType.multiline,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                10.verticalSpace,
+                                AddPhotoWidget(cartViewProvider: cartProvider),
+                                15.verticalSpace,
+                                Text(
+                                  "Your Items",
+                                  style: FontPalette.poppinsBold.copyWith(
+                                      color: Colors.black, fontSize: 10.sp),
+                                ),
+                                15.verticalSpace,
+                                Container(
+                                  height: 200.h * 1,
+                                  padding: EdgeInsets.all(10.r),
+                                  width: double.maxFinite,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.r),
+                                      border: Border.all(
+                                          color: const Color.fromARGB(
+                                              255, 128, 128, 128),
+                                          width: 1)),
+                                  child: ListView.builder(
+                                    itemCount: cart.length,
+                                    itemBuilder: (context, index) {
+                                      Cart item = cart[index];
+                                      return ProductCardWidget(
+                                        cartViewProvider: cartProvider,
                                         productName: item.product?.name ?? "",
                                         amount: item.amount.toString(),
                                         productImage: item.product?.image ?? "",
                                         service: item.service?.name ?? "",
-                                        qty: item.quantity);
-                                  },
+                                        qty: item.quantity,
+                                        cartId: item.id,
+                                        index: widget.index,
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                              15.verticalSpace,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
+                                15.verticalSpace,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    ElevatedButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        style: ElevatedButton.styleFrom(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                          ),
                                         ),
-                                      ),
-                                      child: const Text('Continue shopping')),
-                                  ElevatedButton(
-                                      onPressed: () {},
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor: Colors.red,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(30.0),
+                                        child: const Text('Continue shopping')),
+                                    ElevatedButton(
+                                        onPressed: () =>
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context,
+                                                RouteGenerator.routeMainScreen,
+                                                (route) => false),
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.red,
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(30.0),
+                                          ),
                                         ),
-                                      ),
-                                      child: const Text('Cancel Order'))
-                                ],
-                              ),
-                              180.verticalSpace
-                            ],
+                                        child: const Text('Cancel Order'))
+                                  ],
+                                ),
+                                180.verticalSpace
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                      //
-                      // total section
-                      Container(
-                        color: const Color(0xfff3f3f4),
-                        padding: EdgeInsets.symmetric(horizontal: 20.w),
-                        width: double.maxFinite,
-                        height: 100.h,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    "Total (incl. VAT): ",
-                                    style: FontPalette.poppinsRegular.copyWith(
-                                        color: const Color(0xff404041),
-                                        fontSize: 12.sp),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "AED 45.00",
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                      style: FontPalette.poppinsRegular
-                                          .copyWith(
-                                              color: ColorPalette.greenColor,
-                                              fontSize: 15.sp),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
+                        //
+                        // total section
+
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          left: 0,
+                          child: Container(
+                            color: const Color(0xfff3f3f4),
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
+                            width: double.maxFinite,
+                            height: 100.h,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        "Total (incl. VAT): ",
+                                        style: FontPalette.poppinsRegular
+                                            .copyWith(
+                                                color: const Color(0xff404041),
+                                                fontSize: 12.sp),
+                                      ),
+                                      Flexible(
+                                        child: Text(
+                                          "AED ${cartProvider.cartNormalResponse?.total}",
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                          style: FontPalette.poppinsRegular
+                                              .copyWith(
+                                                  color:
+                                                      ColorPalette.greenColor,
+                                                  fontSize: 15.sp),
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ),
-                                child: const Text('Make Payment')),
-                          ],
+                                ElevatedButton(
+                                    onPressed: () {},
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(30.0),
+                                      ),
+                                    ),
+                                    child: const Text('Place Order')),
+                              ],
+                            ),
+                          ),
                         ),
-                      )
-                    ],
+                        // if (provider.btnLoaderState)
+                        //   const Center(child: CircularProgressIndicator()),
+                      ],
+                    ),
                   ),
                 ),
               );

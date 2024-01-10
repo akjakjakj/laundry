@@ -25,49 +25,136 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   Map<String, dynamic>? defaultAddress;
   List<List<int>> imageFilesList = [];
 
-  Future<void> getNormalService() async {
+  Future<void> getNormalService(
+      {bool enableLoader = true, bool enableBtnLoader = false}) async {
     final network = await helpers.isInternetAvailable();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
-      updateLoadState(LoaderState.loading);
-      resp = cartRepo.getNormalSerive().thenRight((right) {
+      if (enableLoader) updateLoadState(LoaderState.loading);
+      if (enableBtnLoader) updateBtnLoaderState(true);
+      resp = cartRepo.getNormalService().thenRight((right) {
         cartNormalResponse = right;
         updateNormalService(cartNormalResponse);
         return Right(right);
       }).thenLeft((left) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       }).onError((error, stackTrace) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
     }
   }
 
   void updateNormalService(CartModel? cartNormalServiceResponse) {
-    if (cartNormalServiceResponse?.cart != null) {
+    if ((cartNormalServiceResponse?.cart ?? []).notEmpty) {
       updateLoadState(LoaderState.loaded);
+      updateBtnLoaderState(false);
     } else {
       updateLoadState(LoaderState.noData);
+      updateBtnLoaderState(false);
     }
   }
 
-  Future<void> getExpressService() async {
+  Future<void> getExpressService(
+      {bool enableLoader = true, bool enableBtnLoader = false}) async {
     final network = await helpers.isInternetAvailable();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
-      updateLoadState(LoaderState.loading);
-      resp = cartRepo.getExpressSerive().thenRight((right) {
+      if (enableLoader) updateLoadState(LoaderState.loading);
+      if (enableBtnLoader) updateBtnLoaderState(true);
+      resp = cartRepo.getExpressService().thenRight((right) {
         cartNormalResponse = right;
         updateNormalService(cartNormalResponse);
         return Right(right);
       }).thenLeft((left) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       }).onError((error, stackTrace) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> updateCart(
+      {required int cartId,
+      required int quantity,
+      Function()? onSuccess,
+      Function()? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    updateBtnLoaderState(true);
+    if (network) {
+      try {
+        resp = cartRepo
+            .updateCart(cartId: cartId, quantity: quantity)
+            .thenRight((right) {
+          if (right['status']) {
+            if (onSuccess != null) onSuccess();
+          }
+          return Right(right);
+        }).thenLeft((left) {
+          updateLoadState(LoaderState.error);
+          updateBtnLoaderState(false);
+          if (onFailure != null) onFailure();
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        }).onError((error, stackTrace) {
+          updateLoadState(LoaderState.error);
+          updateBtnLoaderState(false);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> removeFromCart(int cartId,
+      {Function()? onSuccess, Function()? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    updateBtnLoaderState(true);
+    if (network) {
+      try {
+        resp = cartRepo.removeCart(cartId).thenRight((right) {
+          if (right['status']) {
+            if (onSuccess != null) onSuccess();
+          }
+          return Right(right);
+        }).thenLeft((left) {
+          updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        }).onError((error, stackTrace) {
+          updateLoadState(LoaderState.error);
+          updateBtnLoaderState(false);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
     }
   }
 
@@ -123,5 +210,12 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   void updateLoadState(LoaderState state) {
     loaderState = state;
     notifyListeners();
+  }
+
+  @override
+  void updateBtnLoaderState(bool val) {
+    btnLoaderState = val;
+    notifyListeners();
+    super.updateBtnLoaderState(val);
   }
 }

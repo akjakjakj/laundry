@@ -19,13 +19,17 @@ class ChooseServiceWidget extends StatelessWidget {
         itemBuilder: (context, index) => HomeScreenServiceContainer(
               image: servicesList[index].icon ?? '',
               title: servicesList[index].name ?? '',
-              onTap: () => Navigator.pushNamed(
-                context,
-                RouteGenerator.routeEcoDryClean,
-                arguments: EcoDryCleanArguments(
-                    title: servicesList[index].name ?? '',
-                    serviceId: servicesList[index].id),
-              ),
+              onTap: () {
+                if (index <= 1) {
+                  Navigator.pushNamed(
+                    context,
+                    RouteGenerator.routeEcoDryClean,
+                    arguments: EcoDryCleanArguments(
+                        title: servicesList[index].name ?? '',
+                        serviceId: servicesList[index].id),
+                  );
+                }
+              },
             ),
         separatorBuilder: (context, index) => 30.horizontalSpace,
         itemCount: servicesList.length);
