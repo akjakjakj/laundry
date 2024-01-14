@@ -14,6 +14,7 @@ class CustomButton extends StatelessWidget {
       this.decoration,
       this.onTap,
       this.textStyle,
+      this.isEnabled = true,
       this.isLoading = false})
       : super(key: key);
   final String? title;
@@ -24,11 +25,11 @@ class CustomButton extends StatelessWidget {
   final VoidCallback? onTap;
   final TextStyle? textStyle;
   final bool isLoading;
-
+  final bool isEnabled;
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: isLoading ? null : onTap,
+      onTap: isLoading || !isEnabled ? null : onTap,
       child: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
         child: Container(
@@ -37,7 +38,10 @@ class CustomButton extends StatelessWidget {
           alignment: Alignment.center,
           decoration: decoration ??
               BoxDecoration(
-                  color: color ?? ColorPalette.greenColor,
+                  color: color ??
+                      (isEnabled
+                          ? ColorPalette.greenColor
+                          : ColorPalette.greenColor.withOpacity(.5)),
                   borderRadius: BorderRadius.circular(40.r)),
           child: isLoading
               ? ThreeBounce(

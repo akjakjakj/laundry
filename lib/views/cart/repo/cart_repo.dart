@@ -4,6 +4,7 @@ import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/http_req.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/cart/model/cart_model.dart';
+import 'package:laundry/views/cart/model/place_order_request.dart';
 
 class CartRepo {
   HttpReq httpReq = sl.get<HttpReq>();
@@ -12,15 +13,13 @@ class CartRepo {
     return httpReq
         .postRequest('/api/customer/cart?service_type=normal')
         .thenRight((right) {
-          final normalServices = CartModel.fromJson(right);
-          return Right(normalServices);
-        })
-        .thenLeft((left) {
-          return Left(left);
-    } )
-        .onError((error, stackTrace) {
-          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
-        });
+      final normalServices = CartModel.fromJson(right);
+      return Right(normalServices);
+    }).thenLeft((left) {
+      return Left(left);
+    }).onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
   }
 
   Future<Either<ApiResponse, dynamic>> getExpressService() async {
@@ -56,5 +55,16 @@ class CartRepo {
         .onError((error, stackTrace) {
           return Left(ApiResponse(exceptions: ApiExceptions.networkError));
         });
+  }
+
+  Future<Either<ApiResponse, dynamic>> createOrder(
+      PlaceOrderRequest placeOrderRequest) async {
+    return httpReq
+        .postRequest('/api/customer/orders/create', param: placeOrderRequest)
+        .thenRight((right) => Right(right))
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
   }
 }

@@ -5,12 +5,16 @@ import 'package:intl/intl.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_fade_in_image.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
+import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/stack_loader.dart';
+import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/cart/model/cart_model.dart';
+import 'package:laundry/views/cart/model/place_order_request.dart';
 import 'package:laundry/views/cart/view/widgets/add_photo_widget.dart';
 import 'package:laundry/views/cart/view/widgets/address_selection_widget.dart';
 import 'package:laundry/views/cart/view/widgets/product_card_widget.dart';
@@ -25,44 +29,9 @@ class NormalService extends StatefulWidget {
 }
 
 class _NormalServiceState extends State<NormalService> {
-  TextEditingController pickDateInput = TextEditingController();
-  TextEditingController deliveryDateInput = TextEditingController();
-  TextEditingController pickTime = TextEditingController();
-  TextEditingController deliveryTime = TextEditingController();
-
-  TimeOfDay _pickUpTime = TimeOfDay.now();
-  TimeOfDay _pickDeliverTime = TimeOfDay.now();
-
-  void _selectPickTime() async {
-    final TimeOfDay? newTime = await showTimePicker(
-      context: context,
-      initialTime: _pickUpTime,
-    );
-    if (newTime != null) {
-      setState(() {
-        _pickUpTime = newTime;
-        debugPrint(_pickUpTime.format(context));
-        pickTime.text = _pickUpTime.format(context);
-      });
-    }
-  }
-
-  void _selectDeliverTime() async {
-    final TimeOfDay? newTime = await showTimePicker(
-      context: context,
-      initialTime: _pickDeliverTime,
-    );
-    if (newTime != null) {
-      setState(() {
-        _pickDeliverTime = newTime;
-        deliveryTime.text = _pickDeliverTime.format(context);
-        debugPrint(_pickUpTime.format(context));
-      });
-    }
-  }
-
   CartViewProvider cartProvider = CartViewProvider();
 
+  Helpers helpers = sl.get<Helpers>();
   @override
   void initState() {
     CommonFunctions.afterInit(() {
@@ -76,10 +45,7 @@ class _NormalServiceState extends State<NormalService> {
           ..getExpressService();
       }
     });
-    pickDateInput.text = "";
-    deliveryDateInput.text = "";
-    pickTime.text = "";
-    deliveryTime.text = "";
+    cartProvider.clearDateAndTime();
     super.initState();
   }
 
@@ -127,7 +93,8 @@ class _NormalServiceState extends State<NormalService> {
                                           height: 50.h,
                                           child: Center(
                                               child: TextField(
-                                            controller: pickDateInput,
+                                            controller:
+                                                cartProvider.pickDateController,
                                             style: FontPalette.poppinsRegular
                                                 .copyWith(
                                                     color:
@@ -166,11 +133,12 @@ class _NormalServiceState extends State<NormalService> {
                                                 String formattedDate =
                                                     DateFormat('yyyy-MM-dd')
                                                         .format(pickedDate);
-                                                setState(() {
-                                                  pickDateInput.text =
-                                                      formattedDate;
-                                                });
-                                              } else {}
+
+                                                cartProvider.pickDateController
+                                                    .text = formattedDate;
+                                                cartProvider
+                                                    .updateIsCatFormValidated();
+                                              }
                                             },
                                           ))),
                                     ),
@@ -184,7 +152,8 @@ class _NormalServiceState extends State<NormalService> {
                                           height: 50.h,
                                           child: Center(
                                               child: TextField(
-                                            controller: pickTime,
+                                            controller: cartProvider
+                                                .pickUpTimeController,
                                             style: FontPalette.poppinsRegular
                                                 .copyWith(
                                                     color:
@@ -211,7 +180,8 @@ class _NormalServiceState extends State<NormalService> {
                                             ),
                                             readOnly: true,
                                             onTap: () async {
-                                              _selectPickTime();
+                                              cartProvider
+                                                  .selectPickTime(context);
                                             },
                                           ))),
                                     ),
@@ -229,7 +199,8 @@ class _NormalServiceState extends State<NormalService> {
                                           height: 50.h,
                                           child: Center(
                                               child: TextField(
-                                            controller: deliveryDateInput,
+                                            controller: cartProvider
+                                                .deliveryDateController,
                                             style: FontPalette.poppinsRegular
                                                 .copyWith(
                                                     color:
@@ -268,11 +239,13 @@ class _NormalServiceState extends State<NormalService> {
                                                 String formattedDate =
                                                     DateFormat('yyyy-MM-dd')
                                                         .format(pickedDate);
-                                                setState(() {
-                                                  deliveryDateInput.text =
-                                                      formattedDate;
-                                                });
-                                              } else {}
+
+                                                cartProvider
+                                                    .deliveryDateController
+                                                    .text = formattedDate;
+                                                cartProvider
+                                                    .updateIsCatFormValidated();
+                                              }
                                             },
                                           ))),
                                     ),
@@ -286,7 +259,8 @@ class _NormalServiceState extends State<NormalService> {
                                           height: 50.h,
                                           child: Center(
                                               child: TextField(
-                                            controller: deliveryTime,
+                                            controller: cartProvider
+                                                .deliveryTimeController,
                                             style: FontPalette.poppinsRegular
                                                 .copyWith(
                                                     color:
@@ -313,7 +287,8 @@ class _NormalServiceState extends State<NormalService> {
                                             ),
                                             readOnly: true,
                                             onTap: () async {
-                                              _selectDeliverTime();
+                                              cartProvider
+                                                  .selectDeliverTime(context);
                                             },
                                           ))),
                                     ),
@@ -337,6 +312,8 @@ class _NormalServiceState extends State<NormalService> {
                                     children: [
                                       Expanded(
                                         child: TextField(
+                                          controller:
+                                              cartProvider.commentsController,
                                           decoration: InputDecoration(
                                             contentPadding:
                                                 EdgeInsets.symmetric(
@@ -463,21 +440,91 @@ class _NormalServiceState extends State<NormalService> {
                                     ],
                                   ),
                                 ),
-                                ElevatedButton(
-                                    onPressed: () {},
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(30.0),
-                                      ),
-                                    ),
-                                    child: const Text('Place Order')),
+                                CustomButton(
+                                  width: 129.w,
+                                  height: 31.h,
+                                  title: 'Place Order',
+                                  textStyle: FontPalette.poppinsRegular
+                                      .copyWith(
+                                          fontSize: 13.sp, color: Colors.white),
+                                  isEnabled: provider.isCartFormValidated,
+                                  onTap: () {
+                                    String deliveryAt =
+                                        '${cartProvider.deliveryDateController.text.trim()} ${cartProvider.deliveryTimeForApiCall}';
+                                    String pickUpAt =
+                                        '${cartProvider.pickDateController.text.trim()} ${cartProvider.pickUpTimeForApiCall}';
+
+                                    cartProvider.createOrder(
+                                        PlaceOrderRequest(
+                                          image: cartProvider.imageFilesList,
+                                          serviceId: widget.index == 0 ? 1 : 2,
+                                          serviceType: widget.index == 0
+                                              ? 'normal'
+                                              : 'express',
+                                          addressId: cartProvider
+                                              .defaultAddress?['id'],
+                                          comments: cartProvider
+                                              .commentsController.text
+                                              .trim(),
+                                          deliveryAt: deliveryAt,
+                                          pickupAt: pickUpAt,
+                                        ),
+                                        onSuccess: () {
+                                          helpers.successToast(
+                                              'Order Placed Successfully...!');
+                                          Navigator.pushNamedAndRemoveUntil(
+                                              context,
+                                              RouteGenerator.routeMainScreen,
+                                              (route) => false);
+                                        },
+                                        onFailure: () => helpers.errorToast(
+                                            'OOps...! Something went wrong...!'));
+                                  },
+                                )
+                                // ElevatedButton(
+                                //     onPressed: () {
+                                //       String deliveryAt =
+                                //           '${cartProvider.deliveryDateInput.text.trim()} ${cartProvider.deliveryTime}';
+                                //       String pickUpAt =
+                                //           '${cartProvider.pickDateInput.text.trim()} ${cartProvider.pickTime}';
+                                //       cartProvider.createOrder(
+                                //           PlaceOrderRequest(
+                                //             image: cartProvider.imageFilesList,
+                                //             serviceId:
+                                //                 widget.index == 0 ? 1 : 2,
+                                //             serviceType: widget.index == 0
+                                //                 ? 'normal'
+                                //                 : 'express',
+                                //             addressId: cartProvider
+                                //                 .defaultAddress?['id'],
+                                //             comments: cartProvider
+                                //                 .commentsController.text
+                                //                 .trim(),
+                                //             deliveryAt: deliveryAt,
+                                //             pickupAt: pickUpAt,
+                                //           ),
+                                //           onSuccess: () {
+                                //             helpers.successToast(
+                                //                 'Order Placed Successfully...!');
+                                //             Navigator.pushNamedAndRemoveUntil(
+                                //                 context,
+                                //                 RouteGenerator.routeMainScreen,
+                                //                 (route) => false);
+                                //           },
+                                //           onFailure: () => helpers.errorToast(
+                                //               'OOps...! Something went wrong...!'));
+                                //     },
+                                //     style: ElevatedButton.styleFrom(
+                                //       shape: RoundedRectangleBorder(
+                                //         borderRadius:
+                                //             BorderRadius.circular(30.0),
+                                //       ),
+                                //     ),
+                                //     child: const Text('Place Order')),
                               ],
                             ),
                           ),
                         ),
-                        // if (provider.btnLoaderState)
-                        //   const Center(child: CircularProgressIndicator()),
                       ],
                     ),
                   ),

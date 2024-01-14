@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
@@ -80,9 +81,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
             case LoaderState.loading:
               return const CustomLinearProgress();
             case LoaderState.loaded:
-              return SingleChildScrollView(
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+              return Container(
+                height: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 24.w),
+                child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -110,9 +112,10 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
                       ),
                       25.verticalSpace,
-                      const _OrderDetailsTile(
+                      _OrderDetailsTile(
                         title: 'Name',
-                        value: '',
+                        value:
+                            provider.orderDetailsModel?.order?.customer ?? '',
                       ),
                       32.verticalSpace,
                       const _OrderDetailsTile(
@@ -130,10 +133,108 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         value: provider
                             .orderDetailsModel?.order?.expectedDeliveryDate,
                       ),
+                      32.verticalSpace,
+                      Text(
+                        'Total Items',
+                        style:
+                            FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
+                      ),
+                      32.verticalSpace,
+                      _OrderDetailsTile(
+                        title: 'Total items is',
+                        value: provider
+                            .orderDetailsModel?.order?.details?.length
+                            .toString(),
+                      ),
+                      25.verticalSpace,
+                      Text(
+                        'Included Items',
+                        style:
+                            FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
+                      ),
+                      25.verticalSpace,
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 25.w),
+                        decoration: BoxDecoration(
+                            color: const Color(0xfff3f3f4),
+                            borderRadius: BorderRadius.circular(7.r)),
+                        child: Column(
+                          children: [
+                            15.verticalSpace,
+                            ListView.separated(
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          provider.orderDetailsModel?.order
+                                                  ?.details?[index].product ??
+                                              '',
+                                          style: FontPalette.poppinsBold
+                                              .copyWith(fontSize: 14.sp),
+                                        ),
+                                        Text(
+                                          'Stream Ironing x (${provider.orderDetailsModel?.order?.details?[index].quantity})',
+                                          style: FontPalette.poppinsRegular
+                                              .copyWith(
+                                                  fontSize: 11.sp,
+                                                  color: HexColor('#404041')),
+                                        )
+                                      ],
+                                    ),
+                                    Text(
+                                      'AED ${provider.orderDetailsModel?.order?.details?[index].amount}',
+                                      style: FontPalette.poppinsRegular
+                                          .copyWith(
+                                              fontSize: 15.sp,
+                                              color: HexColor('#404041')),
+                                    )
+                                  ],
+                                );
+                              },
+                              separatorBuilder: (context, index) =>
+                                  10.verticalSpace,
+                              itemCount:
+                                  (provider.orderDetailsModel?.order?.details !=
+                                          null)
+                                      ? provider.orderDetailsModel!.order!
+                                          .details!.length
+                                      : 0,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                            ),
+                            20.verticalSpace,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  'Total (Incl. VAT)',
+                                  style: FontPalette.poppinsRegular.copyWith(
+                                      fontSize: 13.sp,
+                                      color: HexColor('#404041')),
+                                ),
+                                Text(
+                                  'AED ${provider.orderDetailsModel?.order?.totalCost}',
+                                  style: FontPalette.poppinsBold.copyWith(
+                                      fontSize: 15.sp,
+                                      color: HexColor('#404041')),
+                                )
+                              ],
+                            ),
+                            20.verticalSpace
+                          ],
+                        ),
+                      ),
+                      50.verticalSpace
                     ],
                   ),
                 ),
-              );
+              ).withBackgroundImage();
 
             case LoaderState.noProducts:
               return Center(

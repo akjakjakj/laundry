@@ -19,10 +19,10 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   List<Orders> ordersList = [];
 
   Future<void> getPastOrders() async {
+    updateLoadState(LoaderState.loading);
     final network = await helpers.isInternetAvailable();
     Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
-      updateLoadState(LoaderState.loading);
       try {
         resp = pastOrdersRepo.getPastOrders().thenRight((right) {
           pastOrdersResponse = right;
