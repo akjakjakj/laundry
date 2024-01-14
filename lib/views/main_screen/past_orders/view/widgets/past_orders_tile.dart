@@ -53,12 +53,17 @@ class PastOrdersTile extends StatelessWidget {
               30.verticalSpace,
               Row(
                 children: [
-                  Text(
-                    ordersList[index].product ?? '',
-                    style: FontPalette.poppinsRegular
-                        .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
+                  Flexible(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        ordersList[index].productsName?.join(', ') ?? '',
+                        style: FontPalette.poppinsRegular.copyWith(
+                            fontSize: 11.sp, color: HexColor('#000000')),
+                      ),
+                    ),
                   ),
-                  const Spacer(),
+                  15.horizontalSpace,
                   Text(
                     'Items',
                     style: FontPalette.poppinsRegular

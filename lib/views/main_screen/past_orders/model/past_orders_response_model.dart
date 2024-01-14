@@ -1,3 +1,5 @@
+import 'order_details_model.dart';
+
 class PastOrdersResponse {
   bool? status;
   List<Orders>? orders;
@@ -24,6 +26,8 @@ class Orders {
   String? product;
   int? quantity;
   String? date;
+  List<Details>? details;
+  List<String>? productsName;
 
   Orders(
       {this.id,
@@ -31,7 +35,9 @@ class Orders {
       this.category,
       this.product,
       this.quantity,
-      this.date});
+      this.date,
+      this.details,
+      this.productsName});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -40,5 +46,13 @@ class Orders {
     product = json['product'];
     quantity = json['quantity'];
     date = json['date'];
+    if (json['details'] != null) {
+      details = <Details>[];
+      productsName = [];
+      json['details'].forEach((v) {
+        details!.add(Details.fromJson(v));
+        productsName!.add(v['product']);
+      });
+    }
   }
 }
