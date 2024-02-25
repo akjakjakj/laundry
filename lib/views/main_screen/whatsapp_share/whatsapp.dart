@@ -96,14 +96,12 @@ class _WhatsappState extends State<Whatsapp> {
   }
 
   Future<void> isInstalled() async {
-    isWhatsapp =
-        await WhatsappShare.isInstalled(package: Package.businessWhatsapp);
-    isWhatsapp =
-        await WhatsappShare.isInstalled(package: Package.businessWhatsapp);
+    isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
+    isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
     debugPrint('Whatsapp  is installed: $isWhatsapp');
     if (isWhatsapp == true) share();
     if (isWhatsapp == null || isWhatsapp == false) {
-      helpers.errorToast("No Whatsapp is installed");
+      helpers.errorToast("Whatsapp is not installed");
     }
   }
 

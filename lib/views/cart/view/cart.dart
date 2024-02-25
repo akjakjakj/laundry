@@ -17,7 +17,7 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    tabController = TabController(length: 2, vsync: this);
+    tabController = TabController(length: 1, vsync: this);
     super.initState();
   }
 
@@ -78,21 +78,21 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
                     controller: tabController,
                     indicator: UnderlineTabIndicator(
                         borderSide: BorderSide(
-                            width: 3.w, color: ColorPalette.greenColor),
+                            width: 3.w, color: Colors.transparent),
                         insets: EdgeInsets.symmetric(
                             horizontal: 50.w, vertical: -10.h)),
                     unselectedLabelColor: Colors.black,
                     tabs: [
                       Text(
-                        "Normal Service",
+                        "",
                         style: FontPalette.poppinsBold.copyWith(
                             color: ColorPalette.greenColor, fontSize: 15.sp),
                       ),
-                      Text(
-                        "Express Service",
-                        style: FontPalette.poppinsBold.copyWith(
-                            color: ColorPalette.greenColor, fontSize: 15.sp),
-                      ),
+                      // Text(
+                      //   "Express Service",
+                      //   style: FontPalette.poppinsBold.copyWith(
+                      //       color: ColorPalette.greenColor, fontSize: 15.sp),
+                      // ),
                     ],
                   ),
                 ],
@@ -111,15 +111,15 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              Center(
-                child: Column(
-                  children: <Widget>[
-                    NormalService(
-                      index: tabController.index,
-                    )
-                  ],
-                ),
-              )
+              // Center(
+              //   child: Column(
+              //     children: <Widget>[
+              //       NormalService(
+              //         index: tabController.index,
+              //       )
+              //     ],
+              //   ),
+              // )
             ],
           ).withBackgroundImage(),
         ));

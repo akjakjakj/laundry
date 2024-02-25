@@ -45,8 +45,10 @@ class HomeScreenServiceContainer extends StatelessWidget {
           10.verticalSpace,
           Text(
             title ?? '',
-            style: FontPalette.poppinsRegular
-                .copyWith(fontSize: 11.sp, color: Colors.black),
+            style: FontPalette.poppinsRegular.copyWith(
+                fontSize: 11.sp,
+                color: Colors.black,
+                fontWeight: FontWeight.w500),
           )
         ],
       ),

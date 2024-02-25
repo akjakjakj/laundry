@@ -83,11 +83,13 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           color: ColorPalette.primaryColor,
           size: 40.h,
         ),
-        onPressed: () => Navigator.pushNamed(
-                context, RouteGenerator.routeAddAddressScreen,
-                arguments: AddAddressArguments(
-                    manageAddressProvider: manageAddressProvider))
-            .then((value) => manageAddressProvider.clearAddressControllers()),
+        onPressed: () =>
+            Navigator.pushNamed(context, RouteGenerator.routeLocationScreen),
+        // onPressed: () => Navigator.pushNamed(
+        //         context, RouteGenerator.routeAddAddressScreen,
+        //         arguments: AddAddressArguments(
+        //             manageAddressProvider: manageAddressProvider))
+        // .then((value) => manageAddressProvider.clearAddressControllers()),
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),

@@ -5,6 +5,7 @@ import 'package:laundry/services/http_req.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/cart/model/cart_model.dart';
 import 'package:laundry/views/cart/model/place_order_request.dart';
+import 'package:laundry/views/cart/model/time_slots_model.dart';
 
 class CartRepo {
   HttpReq httpReq = sl.get<HttpReq>();
@@ -66,5 +67,18 @@ class CartRepo {
         .onError((error, stackTrace) {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
     });
+  }
+
+  Future<Either<ApiResponse, dynamic>> getTimeSlots() async {
+    return httpReq
+        .postRequest('/api/customer/time_slots')
+        .thenRight((right) {
+          final timeSlots = TimeSlotResponse.fromJson(right);
+          return Right(timeSlots);
+        })
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
   }
 }

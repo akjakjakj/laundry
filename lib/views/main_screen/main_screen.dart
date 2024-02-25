@@ -97,7 +97,7 @@ class _MainScreenState extends State<MainScreen> {
               index: 2,
               animationCurve: Curves.easeInOutSine,
               height: 75,
-              color: ColorPalette.primaryColor,
+              color: Color(0XFFa7b8c5),
               backgroundColor: Colors.white,
               items: <Widget>[
                 Center(
@@ -110,32 +110,35 @@ class _MainScreenState extends State<MainScreen> {
                                 height: 30,
                                 width: 30,
                                 fit: BoxFit.fill,
-                                color: Colors.white)))),
+                                color: ColorPalette.materialPrimary)))),
                 Center(
                     child: Assets.icons.whatsapp.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
-                        color: Colors.white)),
+                        color: ColorPalette.materialPrimary)),
                 Center(
                     child: Center(
                         child: SizedBox(
                             height: 30,
                             width: 30,
                             child: Assets.icons.home.image(
-                                height: 20, width: 20, fit: BoxFit.fill)))),
+                                height: 20,
+                                width: 20,
+                                fit: BoxFit.fill,
+                                color: ColorPalette.materialPrimary)))),
                 Center(
                     child: Assets.icons.male.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
-                        color: Colors.white)),
+                        color: ColorPalette.materialPrimary)),
                 Center(
                     child: Assets.icons.settings.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
-                        color: Colors.white)),
+                        color: ColorPalette.materialPrimary)),
               ],
               onTap: (index) {
                 onBottomNavTap(index);

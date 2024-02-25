@@ -65,8 +65,10 @@ class AddressTile extends StatelessWidget {
               2.verticalSpace,
               Text(
                 addressList[index].address ?? '',
-                style: FontPalette.poppinsRegular
-                    .copyWith(color: HexColor('#404041'), fontSize: 15.sp),
+                style: FontPalette.poppinsRegular.copyWith(
+                    color: HexColor('#404041'),
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500),
               ),
               2.verticalSpace,
               Row(
@@ -76,7 +78,9 @@ class AddressTile extends StatelessWidget {
                     child: Text(
                       addressList[index].city ?? '',
                       style: FontPalette.poppinsRegular.copyWith(
-                          color: HexColor('#404041'), fontSize: 15.sp),
+                          color: HexColor('#404041'),
+                          fontSize: 15.sp,
+                          fontWeight: FontWeight.w500),
                       maxLines: 10,
                       overflow: TextOverflow.ellipsis,
                     ),

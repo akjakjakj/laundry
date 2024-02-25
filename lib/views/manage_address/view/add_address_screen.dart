@@ -4,6 +4,7 @@ import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
@@ -83,28 +84,35 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               CustomTextField(
                 controller:
                     widget.manageAddressProvider.addressEditingController,
-                labelText: 'Address',
-                hintText: 'Enter Your Address',
+                labelText: 'Building Number',
+                hintText: 'Enter Your Building Number',
                 // validator: (value) =>
                 //     validator.validateEmail(context, value),
               ),
               40.verticalSpace,
               CustomTextField(
                 controller: widget.manageAddressProvider.addressCityController,
-                labelText: 'City',
-                hintText: 'Enter Your city',
+                labelText: 'Street Name',
+                hintText: 'Enter Your Street Name',
                 // validator: (value) =>
                 //     validator.validateEmail(context, value),
               ),
               40.verticalSpace,
               CustomTextField(
                 controller: widget.manageAddressProvider.addressStateController,
-                labelText: 'State',
-                hintText: 'Enter Your state',
+                labelText: 'City',
+                hintText: 'Enter Your City',
                 // validator: (value) =>
                 //     validator.validateEmail(context, value),
               ),
               40.verticalSpace,
+              CustomTextField(
+                // controller: widget.manageAddressProvider.addressStateController,
+                labelText: 'Emirate',
+                hintText: 'Enter Your Emirate',
+                // validator: (value) =>
+                //     validator.validateEmail(context, value),
+              ),
               Expanded(
                   child: Align(
                       alignment: Alignment.bottomCenter,
@@ -113,7 +121,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         child: Selector<ManageAddressProvider, LoaderState>(
                           selector: (context, provider) => provider.loaderState,
                           builder: (context, value, child) => CustomButton(
-                            title: 'Add Address',
+                            title: 'Confirm Address',
                             isLoading: value == LoaderState.loading,
                             onTap: () {
                               FocusScope.of(context).unfocus();
@@ -135,8 +143,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 widget.manageAddressProvider.addAddress(
                                   onSuccess: () => widget.manageAddressProvider
                                       .getAddress(
-                                          onSuccess: () =>
-                                              Navigator.pop(context)),
+                                          onSuccess: () => Navigator.popUntil(
+                                              context,
+                                              (route) =>
+                                                  route.settings.name ==
+                                                  RouteGenerator
+                                                      .routeAddressScreen)),
                                 );
                               }
                             },

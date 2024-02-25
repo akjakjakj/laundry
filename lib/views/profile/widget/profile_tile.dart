@@ -26,8 +26,10 @@ class ProfileTile extends StatelessWidget {
         ),
         title: Text(
           title ?? "",
-          style: FontPalette.poppinsRegular
-              .copyWith(color: const Color(0XFF1A1A1A), fontSize: 14.sp),
+          style: FontPalette.poppinsRegular.copyWith(
+              color: const Color(0XFF1A1A1A),
+              fontSize: 14.sp,
+              fontWeight: FontWeight.w500),
         ),
         trailing: const Icon(Icons.arrow_forward_ios));
   }

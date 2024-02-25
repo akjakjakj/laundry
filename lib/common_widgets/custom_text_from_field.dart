@@ -96,8 +96,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: widget.validator,
       hintText: widget.hintText,
       hintStyle: widget.hintStyle,
-      labelStyle:
-          FontPalette.poppinsBold.copyWith(color: ColorPalette.secondaryColor),
+      labelStyle: FontPalette.poppinsBold
+          .copyWith(color: ColorPalette.secondaryColor, fontSize: 15.sp),
       expandedLabelStyle:
           FontPalette.poppinsBold.copyWith(color: ColorPalette.secondaryColor),
       labelText: widget.labelText,

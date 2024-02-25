@@ -15,6 +15,7 @@ import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/cart/model/cart_model.dart';
 import 'package:laundry/views/cart/model/place_order_request.dart';
+import 'package:laundry/views/cart/model/time_slots_model.dart';
 import 'package:laundry/views/cart/repo/cart_repo.dart';
 
 class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
@@ -25,9 +26,12 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
 
   CartModel? cartNormalResponse;
   CartModel? cartExpressResponse;
+  TimeSlotResponse? timeSlotResponse;
 
   Map<String, dynamic>? defaultAddress;
   List<List<int>> imageFilesList = [];
+  List<TimeSlots> pickUpTimeSlotsList = [];
+  List<TimeSlots> deliveryTimeSlotList = [];
 
   TextEditingController pickDateController = TextEditingController();
   TextEditingController deliveryDateController = TextEditingController();
@@ -42,6 +46,11 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
 
   String pickUpTimeForApiCall = '';
   String deliveryTimeForApiCall = '';
+
+  int pickUpTimeSlotIndex = 0;
+  int deliveryTimeSlotIndex = 0;
+  int pickUpTimeSlotId = 0;
+  int deliveryTimeSlotId = 0;
 
   Future<void> getNormalService(
       {bool enableLoader = true, bool enableBtnLoader = false}) async {
@@ -210,6 +219,57 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  Future<void> getTimeSlots(
+      {Function()? onSuccess, Function()? onFailure}) async {
+    updateLoadState(LoaderState.loading);
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      try {
+        resp = cartRepo.getTimeSlots().thenRight((right) {
+          updateTimeSlotList(right);
+          if (onSuccess != null) onSuccess();
+          updateLoadState(LoaderState.loaded);
+          return Right(right);
+        }).thenLeft((left) {
+          updateLoadState(LoaderState.error);
+          if (onFailure != null) onFailure();
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        }).onError((error, stackTrace) {
+          updateLoadState(LoaderState.error);
+          updateBtnLoaderState(false);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  void updateTimeSlotList(TimeSlotResponse timeSlotResponse) {
+    pickUpTimeSlotsList = timeSlotResponse.timeSlots ?? [];
+    deliveryTimeSlotList = timeSlotResponse.timeSlots ?? [];
+    notifyListeners();
+  }
+
+  void updatePickUpTimeSlotIndex(int index) {
+    pickUpTimeSlotIndex = index;
+    pickUpTimeSlotId = pickUpTimeSlotsList[index].id ?? 0;
+    notifyListeners();
+  }
+
+  void updateDeliveryTimeSlotIndex(int index) {
+    deliveryTimeSlotIndex = index;
+    deliveryTimeSlotId = deliveryTimeSlotList[index].id ?? 0;
+    notifyListeners();
+  }
+
   void selectPickTime(BuildContext context) async {
     final TimeOfDay? newTime = await showTimePicker(
       context: context,
@@ -246,9 +306,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void updateIsCatFormValidated() {
-    if (pickUpTimeController.text.trim().isNotEmpty &&
-        pickDateController.text.trim().isNotEmpty &&
-        deliveryTimeController.text.trim().isNotEmpty &&
+    if (pickDateController.text.trim().isNotEmpty &&
         deliveryDateController.text.trim().isNotEmpty) {
       isCartFormValidated = true;
     } else {
@@ -280,6 +338,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
         ];
       }
     }
+    updateIsCatFormValidated();
     notifyListeners();
   }
 
@@ -292,6 +351,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
         File(pickedFile.path).readAsBytesSync()
       ];
     }
+    updateIsCatFormValidated();
     notifyListeners();
   }
 

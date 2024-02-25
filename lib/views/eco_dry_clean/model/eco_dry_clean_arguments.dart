@@ -9,3 +9,10 @@ class EcoDryCleanArguments {
   EcoDryCleanArguments(
       {this.categoryId, this.title, this.serviceId, this.ecoDryProvider});
 }
+
+class PriceListScreenArguments {
+  int? serviceId;
+  EcoDryProvider? ecoDryProvider;
+
+  PriceListScreenArguments({this.serviceId, this.ecoDryProvider});
+}

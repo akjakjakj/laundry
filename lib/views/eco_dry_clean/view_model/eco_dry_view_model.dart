@@ -1,5 +1,9 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
@@ -9,6 +13,7 @@ import 'package:laundry/views/eco_dry_clean/model/add_to_cart_model.dart';
 import 'package:laundry/views/eco_dry_clean/model/products_response_model.dart';
 import 'package:laundry/views/eco_dry_clean/repo/eco_dry_clean_repo.dart';
 import 'package:laundry/views/main_screen/home_screen/model/categories_model.dart';
+import 'package:path_provider/path_provider.dart';
 
 class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
   Helpers helpers = sl.get<Helpers>();
@@ -22,9 +27,12 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
 
   ProductsResponseModel? productsResponseModel;
   CategoriesResponseModel? categoriesResponseModel;
+  PriceListResponse? priceListResponse;
 
   List<Products> productsList = [];
   List<Categories> categoriesList = [];
+
+  File? file;
 
   Future<void> getCategories() async {
     final network = await helpers.isInternetAvailable();
@@ -150,6 +158,64 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
       helpers
           .errorToast('Network Error... Please check your internet connection');
     }
+  }
+
+  Future<void> getPriceList(int serviceId,
+      {Function()? onSuccess, Function()? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      updateLoadState(LoaderState.loading);
+      try {
+        resp = ecoDryCleanRepo.getPriceList(serviceId).thenRight((right) {
+          priceListResponse = PriceListResponse.fromJson(right);
+          updateLoadState(LoaderState.loaded);
+          return Right(right);
+        }).thenLeft((left) {
+          updateErrorMessage(left.message ?? '');
+          if (onFailure != null) onFailure();
+          updateLoadState(LoaderState.loaded);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        }).onError((error, stackTrace) {
+          updateLoadState(LoaderState.error);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<File> createFileOfPdfUrl(String url) async {
+    updateLoadState(LoaderState.loading);
+    Completer<File> completer = Completer();
+    print("Start download file from internet!");
+    try {
+      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
+      // final url = "https://pdfkit.org/docs/guide.pdf";
+      final filename = url.substring(url.lastIndexOf("/") + 1);
+      var request = await HttpClient().getUrl(Uri.parse(url));
+      var response = await request.close();
+      var bytes = await consolidateHttpClientResponseBytes(response);
+      var dir = await getApplicationDocumentsDirectory();
+      print("Download files");
+      print("${dir.path}/$filename");
+      file = File("${dir.path}/$filename");
+
+      await file?.writeAsBytes(bytes, flush: true);
+      completer.complete(file);
+      updateLoadState(LoaderState.loaded);
+    } catch (e) {
+      updateLoadState(LoaderState.loaded);
+      throw Exception('Error parsing asset file!');
+    }
+    notifyListeners();
+    return completer.future;
   }
 
   void updateCategoryId(int value) {

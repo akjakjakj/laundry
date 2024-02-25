@@ -39,14 +39,18 @@ class PastOrdersTile extends StatelessWidget {
                 children: [
                   Text(
                     'Order ID : #${ordersList[index].id}',
-                    style: FontPalette.poppinsRegular
-                        .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
+                    style: FontPalette.poppinsRegular.copyWith(
+                        fontSize: 11.sp,
+                        color: HexColor('#000000'),
+                        fontWeight: FontWeight.w500),
                   ),
                   const Spacer(),
                   Text(
                     ordersList[index].date ?? '',
                     style: FontPalette.poppinsRegular.copyWith(
-                        fontSize: 11.sp, color: ColorPalette.greenColor),
+                        fontSize: 11.sp,
+                        color: ColorPalette.greenColor,
+                        fontWeight: FontWeight.w500),
                   )
                 ],
               ),
@@ -59,15 +63,19 @@ class PastOrdersTile extends StatelessWidget {
                       child: Text(
                         ordersList[index].productsName?.join(', ') ?? '',
                         style: FontPalette.poppinsRegular.copyWith(
-                            fontSize: 11.sp, color: HexColor('#000000')),
+                            fontSize: 11.sp,
+                            color: HexColor('#000000'),
+                            fontWeight: FontWeight.w500),
                       ),
                     ),
                   ),
                   15.horizontalSpace,
                   Text(
                     'Items',
-                    style: FontPalette.poppinsRegular
-                        .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
+                    style: FontPalette.poppinsRegular.copyWith(
+                        fontSize: 11.sp,
+                        color: HexColor('#000000'),
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
@@ -76,14 +84,18 @@ class PastOrdersTile extends StatelessWidget {
                 children: [
                   Text(
                     'Service for men',
-                    style: FontPalette.poppinsRegular
-                        .copyWith(fontSize: 8.sp, color: HexColor('#000000')),
+                    style: FontPalette.poppinsRegular.copyWith(
+                        fontSize: 8.sp,
+                        color: HexColor('#000000'),
+                        fontWeight: FontWeight.w500),
                   ),
                   const Spacer(),
                   Text(
                     ordersList[index].quantity.toString(),
-                    style: FontPalette.poppinsRegular
-                        .copyWith(fontSize: 11.sp, color: HexColor('#000000')),
+                    style: FontPalette.poppinsRegular.copyWith(
+                        fontSize: 11.sp,
+                        color: HexColor('#000000'),
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),

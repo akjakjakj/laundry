@@ -4,9 +4,12 @@ import 'package:laundry/views/authentication/view/forgot_password_reset_password
 import 'package:laundry/views/authentication/view/forgot_password_screen.dart';
 import 'package:laundry/views/authentication/view/login_screen.dart';
 import 'package:laundry/views/authentication/view/registration_screen.dart';
+import 'package:laundry/views/cart/model/normal_service_arguments.dart';
 import 'package:laundry/views/cart/view/cart.dart';
+import 'package:laundry/views/cart/view/widgets/normal_service.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
+import 'package:laundry/views/eco_dry_clean/view/price_pdf_view.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
@@ -16,6 +19,7 @@ import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.da
 import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
 import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 import 'package:laundry/views/manage_address/view/add_address_screen.dart';
+import 'package:laundry/views/manage_address/view/location_screen.dart';
 import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
 import 'package:laundry/views/privacy_policy/privacy_policy.dart';
 import 'package:laundry/views/profile/profile.dart';
@@ -53,6 +57,9 @@ class RouteGenerator {
   static const String routeTermsOfuse = 'routeTermsOfuse';
   static const String routePrivacyPolicy = 'routePrivacyPolicy';
   static const String routeOrderDetails = 'routeOrderDetails';
+  static const String routePricePdfView = 'routePricePdfScreen';
+  static const String routeNormalServiceScreen = 'routeNormalServiceScreen';
+  static const String routeLocationScreen = 'routeLocationScreen';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -128,6 +135,22 @@ class RouteGenerator {
                   routeArgs.pastOrdersProvider ?? PastOrdersProvider(),
               orderId: routeArgs.orderId,
             ));
+      case routePricePdfView:
+        PriceListScreenArguments routeArgs = args as PriceListScreenArguments;
+        return _buildRoute(
+            routePricePdfView,
+            PricePdfView(
+                ecoDryProvider: routeArgs.ecoDryProvider,
+                index: routeArgs.serviceId));
+      case routeNormalServiceScreen:
+        NormalServiceArguments routeArgs = args as NormalServiceArguments;
+        return _buildRoute(
+            routeNormalServiceScreen,
+            NormalService(
+              index: routeArgs.index,
+            ));
+      case routeLocationScreen:
+        return _buildRoute(routeLocationScreen, const LocationScreen());
       default:
         return _buildRoute(routeInitial, const SplashScreen());
     }

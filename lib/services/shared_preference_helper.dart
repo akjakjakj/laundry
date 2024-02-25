@@ -58,37 +58,6 @@ class SharedPreferencesHelper {
     return prefs.getBool(loginStatus) ?? false;
   }
 
-  Future<void> saveWishListId(int id) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setInt(wishListId, id);
-  }
-
-  Future<int?> getWishListId() async {
-    int? val;
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(wishListId)) {
-      val = prefs.getInt(wishListId)!;
-    }
-    return val;
-  }
-
-  Future<void> removeWishListId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (prefs.containsKey(wishListId)) {
-      prefs.remove(wishListId);
-    }
-  }
-
-  Future<void> saveCartId(String? cartId) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString(userCartId, cartId ?? '');
-  }
-
-  Future<String> getCartId() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userCartId) ?? '';
-  }
-
   Future<void> setDefaultAddress(Addresses defaultAddressModel) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(

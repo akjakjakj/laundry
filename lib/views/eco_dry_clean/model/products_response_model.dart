@@ -46,3 +46,34 @@ class Products {
     rate = json['rate'];
   }
 }
+
+class PriceListResponse {
+  bool? status;
+  List<PriceList>? priceList;
+  String? message;
+
+  PriceListResponse({this.status, this.priceList, this.message});
+
+  PriceListResponse.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    if (json['price_list'] != null) {
+      priceList = <PriceList>[];
+      json['price_list'].forEach((v) {
+        priceList!.add(PriceList.fromJson(v));
+      });
+    }
+    message = json['message'];
+  }
+}
+
+class PriceList {
+  String? express;
+  String? normal;
+
+  PriceList({this.express, this.normal});
+
+  PriceList.fromJson(Map<String, dynamic> json) {
+    express = json['express'];
+    normal = json['normal'];
+  }
+}

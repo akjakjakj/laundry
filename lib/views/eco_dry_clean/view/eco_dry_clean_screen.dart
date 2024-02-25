@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_fade_in_image.dart';
+import 'package:laundry/common_widgets/custom_button.dart';
+import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
@@ -34,7 +36,8 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
     ecoDryProvider = EcoDryProvider();
     ecoDryProvider
       ..updateServiceId(widget.serviceId ?? 0)
-      ..getCategories();
+      ..getPriceList(widget.serviceId ?? 1);
+    // ..getCategories();
     super.initState();
   }
 
@@ -91,8 +94,39 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
               builder: (context, provider, child) {
                 switch (provider.loaderState) {
                   case LoaderState.loading:
-                    return const EcoDryCategoryShimmer();
+                    return const CustomLinearProgress();
                   case LoaderState.loaded:
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.w),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Get Price List',
+                            style: FontPalette.poppinsBold
+                                .copyWith(fontSize: 16.sp),
+                          ),
+                          20.verticalSpace,
+                          CustomButton(
+                            title: 'Normal Service',
+                            onTap: () => Navigator.pushNamed(
+                                context, RouteGenerator.routePricePdfView,
+                                arguments: PriceListScreenArguments(
+                                    serviceId: 0,
+                                    ecoDryProvider: ecoDryProvider)),
+                          ),
+                          20.verticalSpace,
+                          CustomButton(
+                            title: 'Express Service',
+                            onTap: () => Navigator.pushNamed(
+                                context, RouteGenerator.routePricePdfView,
+                                arguments: PriceListScreenArguments(
+                                    serviceId: 1,
+                                    ecoDryProvider: ecoDryProvider)),
+                          ),
+                        ],
+                      ),
+                    );
                     return GridView.builder(
                       itemCount: ecoDryProvider.categoriesList.length,
                       padding: EdgeInsets.symmetric(
@@ -104,13 +138,16 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                           mainAxisSpacing: 15.h),
                       itemBuilder: (context, index) {
                         return InkWell(
-                          onTap: () => Navigator.pushNamed(context,
-                              RouteGenerator.routeEcoDryCleanSelectionScreen,
-                              arguments: EcoDryCleanArguments(
-                                  categoryId:
-                                      ecoDryProvider.categoriesList[index].id,
-                                  title: widget.title,
-                                  ecoDryProvider: ecoDryProvider)).then((value) => ecoDryProvider.getCategories()),
+                          onTap: () => Navigator.pushNamed(
+                                  context,
+                                  RouteGenerator
+                                      .routeEcoDryCleanSelectionScreen,
+                                  arguments: EcoDryCleanArguments(
+                                      categoryId: ecoDryProvider
+                                          .categoriesList[index].id,
+                                      title: widget.title,
+                                      ecoDryProvider: ecoDryProvider))
+                              .then((value) => ecoDryProvider.getCategories()),
                           child: Container(
                             width: context.sw(size: .400.w),
                             alignment: Alignment.center,

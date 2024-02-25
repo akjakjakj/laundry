@@ -2,6 +2,7 @@ import 'package:get_it/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/http_req.dart';
 import 'package:laundry/services/notification_services.dart';
+import 'package:laundry/services/payment_service.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/validator.dart';
 import 'package:laundry/views/authentication/repo/forgot_password_repo.dart';
@@ -31,4 +32,5 @@ void setUpLocator() {
   sl.registerLazySingleton(() => ManageAddressRepo());
   sl.registerLazySingleton(() => ProfileRepo());
   sl.registerLazySingleton(() => CartRepo());
+  sl.registerLazySingleton(() => PaymentService());
 }
