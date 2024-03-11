@@ -21,7 +21,7 @@ class AddressSelectionWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Add Address',
+              'Choose Address',
               style: FontPalette.poppinsBold.copyWith(fontSize: 18.sp),
             ),
             InkWell(

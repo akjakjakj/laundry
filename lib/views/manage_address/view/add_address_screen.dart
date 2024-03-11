@@ -82,36 +82,30 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
             children: [
               40.verticalSpace,
               CustomTextField(
-                controller:
-                    widget.manageAddressProvider.addressEditingController,
+                controller: widget
+                    .manageAddressProvider.buildingNumberEditingController,
                 labelText: 'Building Number',
                 hintText: 'Enter Your Building Number',
-                // validator: (value) =>
-                //     validator.validateEmail(context, value),
+              ),
+              40.verticalSpace,
+              CustomTextField(
+                controller:
+                    widget.manageAddressProvider.addressStreetController,
+                labelText: 'Street Name',
+                hintText: 'Enter Your Street Name',
               ),
               40.verticalSpace,
               CustomTextField(
                 controller: widget.manageAddressProvider.addressCityController,
-                labelText: 'Street Name',
-                hintText: 'Enter Your Street Name',
-                // validator: (value) =>
-                //     validator.validateEmail(context, value),
-              ),
-              40.verticalSpace,
-              CustomTextField(
-                controller: widget.manageAddressProvider.addressStateController,
                 labelText: 'City',
                 hintText: 'Enter Your City',
-                // validator: (value) =>
-                //     validator.validateEmail(context, value),
               ),
               40.verticalSpace,
               CustomTextField(
-                // controller: widget.manageAddressProvider.addressStateController,
+                controller:
+                    widget.manageAddressProvider.addressEmirateController,
                 labelText: 'Emirate',
                 hintText: 'Enter Your Emirate',
-                // validator: (value) =>
-                //     validator.validateEmail(context, value),
               ),
               Expanded(
                   child: Align(
@@ -126,17 +120,21 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             onTap: () {
                               FocusScope.of(context).unfocus();
                               if (widget.manageAddressProvider
-                                      .addressEditingController.text
-                                      .trim()
-                                      .isEmpty &&
-                                  widget.manageAddressProvider
-                                      .addressStateController.text
+                                      .buildingNumberEditingController.text
                                       .trim()
                                       .isEmpty &&
                                   widget.manageAddressProvider
                                       .addressCityController.text
                                       .trim()
-                                      .isEmpty) {
+                                      .isEmpty &&
+                                  widget.manageAddressProvider
+                                      .addressStreetController.text
+                                      .trim()
+                                      .isEmpty &&
+                                  widget.manageAddressProvider
+                                      .addressEmirateController.text
+                                      .trim()
+                                      .isNotEmpty) {
                                 helpers.errorToast(
                                     'Please provide any of above values..');
                               } else {

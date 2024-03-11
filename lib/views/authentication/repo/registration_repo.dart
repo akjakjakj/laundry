@@ -16,7 +16,8 @@ class RegistrationRepo {
       'email': registrationRequestModel.email,
       'password': registrationRequestModel.password,
       'device_token': registrationRequestModel.deviceToken,
-      'password_confirmation': registrationRequestModel.confirmPassword
+      'password_confirmation': registrationRequestModel.confirmPassword,
+      'mobile_number': registrationRequestModel.mobileNumber
     }).thenRight((right) {
       final userModel = UserData.fromJson(right);
       return Right(userModel);

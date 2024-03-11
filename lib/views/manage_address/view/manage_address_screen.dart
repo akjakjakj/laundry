@@ -101,13 +101,10 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                 case LoaderState.loading:
                   return const CustomLinearProgress();
                 case LoaderState.loaded:
-                  return Padding(
-                    padding: EdgeInsets.only(top: 40.h),
-                    child: AddressTile(
-                      addressList: provider.addressesList,
-                      manageAddressProvider: provider,
-                      isFromCart: widget.isFromCart,
-                    ),
+                  return AddressTile(
+                    addressList: provider.addressesList,
+                    manageAddressProvider: provider,
+                    isFromCart: widget.isFromCart,
                   );
                 case LoaderState.noProducts:
                   return Center(

@@ -9,6 +9,7 @@ import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
+import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/utils/validator.dart';
 import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
@@ -121,6 +122,30 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                       ),
                       35.verticalSpace,
                       CustomTextField(
+                          controller:
+                              authProvider.registrationMobileNumberController,
+                          focusNode: authProvider.registerMobileNumberFocusNode,
+                          labelText: 'Mobile Number',
+                          hintText: 'Enter mobile number with country code',
+                          maxLength: 12,
+                          textInputType: TextInputType.number,
+                          // prefix: Text('+971',
+                          //     style: FontPalette.poppinsRegular.copyWith(
+                          //       color: ColorPalette.hintColor,
+                          //     )),
+                          // prefix: Padding(
+                          //   padding: const EdgeInsets.only(right: 8.0),
+                          //   child: Text('+971',
+                          //       style: FontPalette.poppinsRegular.copyWith(
+                          //         color: ColorPalette.hintColor,
+                          //       )),
+                          // ),
+                          validator: (value) => validator.validateMobile(
+                              context, value, maxLength: 12),
+                          textInputFormatter: validator
+                              .inputFormatter(InputFormatType.phoneNumber)),
+                      35.verticalSpace,
+                      CustomTextField(
                         controller: authProvider.registrationPasswordController,
                         labelText: 'Password',
                         hintText: 'Enter Your Password',
@@ -190,7 +215,8 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                                   style: FontPalette.poppinsBold
                                       .copyWith(color: ColorPalette.greenColor))
                             ])),
-                      )
+                      ),
+                      30.verticalSpace
                     ],
                   ),
                 ),

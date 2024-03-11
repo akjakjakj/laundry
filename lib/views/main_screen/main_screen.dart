@@ -4,11 +4,13 @@ import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/main_screen/active_orders/view/active_orders_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_shimmer.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
 import 'package:laundry/views/main_screen/whatsapp_share/whatsapp.dart';
+import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
 import 'package:laundry/views/profile/profile.dart';
 import 'package:provider/provider.dart';
 
@@ -31,6 +33,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     homeProvider = context.read<HomeProvider>();
     homeProvider.getServices();
+    context.read<ManageAddressProvider>().getLocation();
     selectedIndex = ValueNotifier(2);
     pageController = PageController(initialPage: 2, keepPage: true);
     homeScrollController = ScrollController();
@@ -59,6 +62,7 @@ class _MainScreenState extends State<MainScreen> {
                         // SizedBox(),
                         // ManageAddressScreen(),
                         HomeScreen(),
+                        ActiveOrdersScreen(),
                         Profile(),
                         // SizedBox()
                         // ManageAddressScreen(),
@@ -97,7 +101,7 @@ class _MainScreenState extends State<MainScreen> {
               index: 2,
               animationCurve: Curves.easeInOutSine,
               height: 75,
-              color: Color(0XFFa7b8c5),
+              color: ColorPalette.primaryColor,
               backgroundColor: Colors.white,
               items: <Widget>[
                 Center(
@@ -110,35 +114,35 @@ class _MainScreenState extends State<MainScreen> {
                                 height: 30,
                                 width: 30,
                                 fit: BoxFit.fill,
-                                color: ColorPalette.materialPrimary)))),
+                                color: Colors.white)))),
                 Center(
                     child: Assets.icons.whatsapp.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
-                        color: ColorPalette.materialPrimary)),
+                        color: Colors.white)),
                 Center(
                     child: Center(
                         child: SizedBox(
                             height: 30,
                             width: 30,
                             child: Assets.icons.home.image(
-                                height: 20,
-                                width: 20,
-                                fit: BoxFit.fill,
-                                color: ColorPalette.materialPrimary)))),
+                              height: 20,
+                              width: 20,
+                              fit: BoxFit.fill,
+                            )))),
                 Center(
-                    child: Assets.icons.male.image(
+                    child: Assets.icons.activeOrders.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
-                        color: ColorPalette.materialPrimary)),
+                        color: Colors.white)),
                 Center(
                     child: Assets.icons.settings.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
-                        color: ColorPalette.materialPrimary)),
+                        color: Colors.white)),
               ],
               onTap: (index) {
                 onBottomNavTap(index);

@@ -236,6 +236,8 @@ class CustomForm extends FormField<String> {
                           border: state.hasError ? border : enabledBorder,
                           prefix: prefix,
                           suffixIcon: suffixIcon,
+                          prefixIconConstraints: const BoxConstraints(
+                              minHeight: 20, minWidth: 40, maxHeight: 20),
                           counterText: '',
                           focusedBorder:
                               state.hasError ? border : focusedBorder,

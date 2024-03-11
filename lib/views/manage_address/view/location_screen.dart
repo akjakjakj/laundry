@@ -25,8 +25,8 @@ class LocationScreen extends StatefulWidget {
 class _LocationScreenState extends State<LocationScreen> {
   @override
   void initState() {
-    CommonFunctions.afterInit(
-        () => context.read<ManageAddressProvider>().getLocation());
+    CommonFunctions.afterInit(() =>
+        context.read<ManageAddressProvider>().getLocationFromLocalStorage());
     super.initState();
   }
 
@@ -99,7 +99,8 @@ class _LocationScreenState extends State<LocationScreen> {
                           zoom: 12.0, // Initial zoom level
                         ),
                         markers: manageAddressProvider.markers,
-                        // onTap: manageAddressProvider.handleTap,
+                        onTap: (argument) =>
+                            manageAddressProvider.handleTap(argument),
                       ),
                       Positioned(
                         left: 12.w,
@@ -123,8 +124,9 @@ class _LocationScreenState extends State<LocationScreen> {
                             child: Column(
                               children: [
                                 Text(
-                                  '',
-                                  // manageAddressProvider.street ?? '',
+                                  manageAddressProvider
+                                      .addressStreetController.text
+                                      .trim(),
                                   style: const TextStyle(
                                     color: Colors.black,
                                     fontWeight: FontWeight.bold,
@@ -133,36 +135,33 @@ class _LocationScreenState extends State<LocationScreen> {
                                   overflow: TextOverflow.ellipsis,
                                 ),
                                 5.verticalSpace,
-                                manageAddressProvider.isButtonLoading
-                                    ? const ThreeBounce()
-                                    : InkWell(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                                  context,
-                                                  RouteGenerator
-                                                      .routeAddAddressScreen,
-                                                  arguments: AddAddressArguments(
-                                                      manageAddressProvider:
-                                                          manageAddressProvider))
-                                              .then((value) =>
-                                                  manageAddressProvider
-                                                      .clearAddressControllers());
-                                        },
-                                        child: Container(
-                                          alignment: Alignment.center,
-                                          height: 48.0,
-                                          decoration: BoxDecoration(
-                                              color: ColorPalette.primaryColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(10)),
-                                          child: Text('Continue',
-                                              style: FontPalette.poppinsBold
-                                                  .copyWith(
-                                                fontSize: 15.sp,
-                                                color: Colors.white,
-                                              )),
-                                        ),
-                                      ),
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.pushNamed(context,
+                                        RouteGenerator.routeAddAddressScreen,
+                                        arguments: AddAddressArguments(
+                                            manageAddressProvider:
+                                                manageAddressProvider));
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.center,
+                                    height: 48.0,
+                                    decoration: BoxDecoration(
+                                        color: ColorPalette.primaryColor,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: manageAddressProvider.isButtonLoading
+                                        ? ThreeBounce(
+                                            size: 30.r,
+                                          )
+                                        : Text('Continue',
+                                            style: FontPalette.poppinsBold
+                                                .copyWith(
+                                              fontSize: 15.sp,
+                                              color: Colors.white,
+                                            )),
+                                  ),
+                                ),
                               ],
                             )),
                       )

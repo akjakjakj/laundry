@@ -44,7 +44,7 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 60.verticalSpace,
                 Padding(
-                  padding: EdgeInsets.only(left: 28.w),
+                  padding: EdgeInsets.only(left: 28.w, top: 40.0),
                   child: Assets.images.loginLogo
                       .image(height: 105.h, fit: BoxFit.fill),
                 ),
@@ -53,19 +53,19 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        'LOGIN',
-                        style: FontPalette.poppinsBold.copyWith(
-                            fontSize: 30.sp,
-                            color: ColorPalette.secondaryColor),
-                      ),
-                      Text(
-                        'Welcome Back',
-                        style: FontPalette.poppinsBold.copyWith(
-                            fontSize: 38.sp,
-                            color: ColorPalette.secondaryColor),
-                      ),
-                      76.verticalSpace,
+                      // Text(
+                      //   'LOGIN',
+                      //   style: FontPalette.poppinsBold.copyWith(
+                      //       fontSize: 30.sp,
+                      //       color: ColorPalette.secondaryColor),
+                      // ),
+                      // Text(
+                      //   'Welcome Back',
+                      //   style: FontPalette.poppinsBold.copyWith(
+                      //       fontSize: 38.sp,
+                      //       color: ColorPalette.secondaryColor),
+                      // ),
+                      30.verticalSpace,
                       CustomTextField(
                         controller: authProvider.loginEmailController,
                         labelText: 'Email',
@@ -93,6 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onSuccess: () {
                                 authProvider.updateErrorMessage(null);
                                 authProvider.clearRegistrationControllers();
+                                authProvider.clearLoginControllers();
                                 Navigator.pushNamed(
                                     context, RouteGenerator.routeMainScreen);
                               },

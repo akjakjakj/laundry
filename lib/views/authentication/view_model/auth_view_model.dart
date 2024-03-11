@@ -27,6 +27,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
   TextEditingController registrationEmailController = TextEditingController();
+  TextEditingController registrationMobileNumberController =
+      TextEditingController();
   TextEditingController registrationNameController = TextEditingController();
   TextEditingController registrationPasswordController =
       TextEditingController();
@@ -37,6 +39,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
   TextEditingController resetPasswordController = TextEditingController();
   TextEditingController resetPasswordConfirmationController =
       TextEditingController();
+
+  FocusNode registerMobileNumberFocusNode = FocusNode();
 
   Future<void> login({
     Function()? onSuccess,
@@ -103,7 +107,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                 confirmPassword:
                     registrationConfirmPasswordController.text.trim(),
                 name: registrationNameController.text.trim(),
-                deviceToken: deviceToken);
+                deviceToken: deviceToken,
+                mobileNumber: registrationMobileNumberController.text.trim());
         resp = registrationRepo
             .register(registrationRequestModel)
             .thenRight((right) {
@@ -267,6 +272,13 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
     registrationNameController.clear();
     registrationEmailController.clear();
     registrationNameController.clear();
+    registrationMobileNumberController.clear();
+    notifyListeners();
+  }
+
+  void clearLoginControllers() {
+    loginEmailController.clear();
+    loginPasswordController.clear();
     notifyListeners();
   }
 

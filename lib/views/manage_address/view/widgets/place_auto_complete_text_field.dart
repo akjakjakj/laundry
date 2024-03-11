@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_places_flutter/google_places_flutter.dart';
 import 'package:google_places_flutter/model/prediction.dart';
@@ -34,7 +35,7 @@ class PlaceAutoCompleteTextField extends StatelessWidget {
         debounceTime: 400,
         isLatLngRequired: false,
         itemClick: (Prediction prediction) {
-          FocusScope.of(context).unfocus();
+          SystemChannels.textInput.invokeMethod('TextInput.hide');
           manageAddressProvider.getPlaceDetails(prediction.placeId ?? '');
         },
         seperatedBuilder: const Divider(),

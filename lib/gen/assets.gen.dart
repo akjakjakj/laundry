@@ -94,6 +94,10 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/active_orders.png
+  AssetGenImage get activeOrders =>
+      const AssetGenImage('assets/icons/active_orders.png');
+
   /// File path: assets/icons/bag.png
   AssetGenImage get bag => const AssetGenImage('assets/icons/bag.png');
 
@@ -145,6 +149,7 @@ class $AssetsIconsGen {
 
   /// List of all assets
   List<AssetGenImage> get values => [
+        activeOrders,
         bag,
         cart,
         ecoDryClean,

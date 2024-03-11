@@ -6,6 +6,7 @@ class PlaceOrderRequest {
   String? deliveryAt;
   String? comments;
   List<dynamic>? image;
+  int? timeSlot;
 
   PlaceOrderRequest(
       {this.serviceId,
@@ -14,7 +15,8 @@ class PlaceOrderRequest {
       this.pickupAt,
       this.deliveryAt,
       this.comments,
-      this.image});
+      this.image,
+      this.timeSlot});
 
   PlaceOrderRequest.fromJson(Map<String, dynamic> json) {
     serviceId = json['service_id'];
@@ -35,6 +37,7 @@ class PlaceOrderRequest {
     data['delivery_at'] = deliveryAt;
     data['comments'] = comments;
     data['image'] = image;
+    data['time_slot_id'] = timeSlot;
     return data;
   }
 }

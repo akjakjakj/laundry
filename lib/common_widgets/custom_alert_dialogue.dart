@@ -47,8 +47,7 @@ class CustomAlertDialog extends StatelessWidget {
       actionsPadding: EdgeInsets.zero,
       contentPadding: EdgeInsets.zero,
       backgroundColor: Colors.white,
-      shape:  RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20.r)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
       elevation: 0,
       content: SizedBox(
         width: width ?? context.sw(),
@@ -70,8 +69,10 @@ class CustomAlertDialog extends StatelessWidget {
                   child: Text(
                     message ?? '',
                     textAlign: TextAlign.center,
-                    style: FontPalette.poppinsRegular
-                        .copyWith(color: Colors.black, fontSize: 18.sp),
+                    style: FontPalette.poppinsRegular.copyWith(
+                        color: Colors.black,
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w500),
                   ),
                 ),
                 30.43.verticalSpace,
@@ -82,6 +83,8 @@ class CustomAlertDialog extends StatelessWidget {
                     isLoading: isLoading ?? false,
                     onTap: onActionButtonPressed,
                     title: actionButtonText,
+                    textStyle: FontPalette.poppinsRegular
+                        .copyWith(color: Colors.white, fontSize: 17.sp),
                   ),
                 ),
                 10.verticalSpace,
@@ -93,6 +96,8 @@ class CustomAlertDialog extends StatelessWidget {
                     color: HexColor('#F11A1A'),
                     onTap: onCancelButtonPressed,
                     title: cancelButtonText,
+                    textStyle: FontPalette.poppinsRegular
+                        .copyWith(color: Colors.white, fontSize: 17.sp),
                   ),
                 ),
               ],

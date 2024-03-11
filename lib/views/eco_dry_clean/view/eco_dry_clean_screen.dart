@@ -81,7 +81,7 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
             ),
           ),
           title: Text(
-            widget.title ?? '',
+            'Get Price List',
             style: FontPalette.poppinsBold
                 .copyWith(color: Colors.black, fontSize: 17.sp),
           ),
@@ -99,13 +99,8 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: 12.w),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
-                            'Get Price List',
-                            style: FontPalette.poppinsBold
-                                .copyWith(fontSize: 16.sp),
-                          ),
                           20.verticalSpace,
                           CustomButton(
                             title: 'Normal Service',
@@ -126,55 +121,6 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                           ),
                         ],
                       ),
-                    );
-                    return GridView.builder(
-                      itemCount: ecoDryProvider.categoriesList.length,
-                      padding: EdgeInsets.symmetric(
-                          horizontal: 37.w, vertical: 15.h),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisExtent: context.sw(size: .300.w),
-                          crossAxisSpacing: 16.w,
-                          mainAxisSpacing: 15.h),
-                      itemBuilder: (context, index) {
-                        return InkWell(
-                          onTap: () => Navigator.pushNamed(
-                                  context,
-                                  RouteGenerator
-                                      .routeEcoDryCleanSelectionScreen,
-                                  arguments: EcoDryCleanArguments(
-                                      categoryId: ecoDryProvider
-                                          .categoriesList[index].id,
-                                      title: widget.title,
-                                      ecoDryProvider: ecoDryProvider))
-                              .then((value) => ecoDryProvider.getCategories()),
-                          child: Container(
-                            width: context.sw(size: .400.w),
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                                color: const Color(0XFFA7B7C4),
-                                borderRadius: BorderRadius.circular(15.r)),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                CommonFadeInImage(
-                                    image: ecoDryProvider
-                                            .categoriesList[index].icon ??
-                                        '',
-                                    height: 55.h,
-                                    width: 55.w),
-                                Text(
-                                  ecoDryProvider.categoriesList[index].name ??
-                                      '',
-                                  style: FontPalette.poppinsBold.copyWith(
-                                      fontSize: 17.sp,
-                                      color: ColorPalette.greenColor),
-                                )
-                              ],
-                            ),
-                          ),
-                        ).removeSplash();
-                      },
                     );
                   case LoaderState.noProducts:
                     return Center(

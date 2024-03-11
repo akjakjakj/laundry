@@ -29,6 +29,7 @@ class AddressTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
       itemCount: addressList.length,
+      padding: const EdgeInsets.only(top: 40.0, bottom: 25.0),
       itemBuilder: (context, index) => Container(
         padding: EdgeInsets.only(left: 12.w, bottom: 15.h, top: 15.h),
         decoration: BoxDecoration(
@@ -48,9 +49,11 @@ class AddressTile extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    addressList[index].name ?? '',
-                    style: FontPalette.poppinsRegular
-                        .copyWith(color: HexColor('#404041'), fontSize: 15.sp),
+                    addressList[index].address ?? '',
+                    style: FontPalette.poppinsRegular.copyWith(
+                        color: HexColor('#404041'),
+                        fontSize: 15.sp,
+                        fontWeight: FontWeight.w500),
                   ),
                   const Spacer(),
                   if (addressList[index].isDefault == 1)
@@ -64,7 +67,7 @@ class AddressTile extends StatelessWidget {
               ),
               2.verticalSpace,
               Text(
-                addressList[index].address ?? '',
+                addressList[index].city ?? '',
                 style: FontPalette.poppinsRegular.copyWith(
                     color: HexColor('#404041'),
                     fontSize: 15.sp,
@@ -76,7 +79,7 @@ class AddressTile extends StatelessWidget {
                   SizedBox(
                     width: 145.w,
                     child: Text(
-                      addressList[index].city ?? '',
+                      addressList[index].country ?? '',
                       style: FontPalette.poppinsRegular.copyWith(
                           color: HexColor('#404041'),
                           fontSize: 15.sp,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundry/views/manage_address/model/manage_address_response_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -16,6 +17,9 @@ class SharedPreferencesHelper {
   final String loginStatus = "login_status";
   final String authCustomerDetails = "auth_customer_details";
   final String defaultAddress = "default_address";
+  final String currentLocation = "current_location";
+  final String _latitudeKey = 'latitude';
+  final String _longitudeKey = 'longitude';
 
   Future<String> getAuthToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -75,4 +79,21 @@ class SharedPreferencesHelper {
       return {};
     }
   }
-}
+
+  Future<void> setCurrentLocation(LatLng latLng) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setDouble(_latitudeKey, latLng.latitude);
+    await prefs.setDouble(_longitudeKey, latLng.longitude);
+  }
+
+  Future<LatLng?> getCurrentLocation() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final latitude = prefs.getDouble(_latitudeKey);
+    final longitude = prefs.getDouble(_longitudeKey);
+    if (latitude != null && longitude != null) {
+      return LatLng(latitude, longitude);
+    }
+    return null;
+  }
+  }
+

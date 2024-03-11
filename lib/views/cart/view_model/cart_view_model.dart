@@ -306,8 +306,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void updateIsCatFormValidated() {
-    if (pickDateController.text.trim().isNotEmpty &&
-        deliveryDateController.text.trim().isNotEmpty) {
+    if (pickDateController.text.trim().isNotEmpty) {
       isCartFormValidated = true;
     } else {
       isCartFormValidated = false;

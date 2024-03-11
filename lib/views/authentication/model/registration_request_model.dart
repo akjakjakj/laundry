@@ -4,11 +4,13 @@ class RegistrationRequestModel {
   String? password;
   String? confirmPassword;
   String? deviceToken;
+  String? mobileNumber;
 
   RegistrationRequestModel(
       {this.name,
       this.deviceToken,
       this.password,
       this.email,
-      this.confirmPassword});
+      this.confirmPassword,
+      this.mobileNumber});
 }

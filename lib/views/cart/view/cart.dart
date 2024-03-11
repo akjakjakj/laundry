@@ -77,8 +77,8 @@ class _CartState extends State<Cart> with TickerProviderStateMixin {
                   TabBar(
                     controller: tabController,
                     indicator: UnderlineTabIndicator(
-                        borderSide: BorderSide(
-                            width: 3.w, color: Colors.transparent),
+                        borderSide:
+                            BorderSide(width: 3.w, color: Colors.transparent),
                         insets: EdgeInsets.symmetric(
                             horizontal: 50.w, vertical: -10.h)),
                     unselectedLabelColor: Colors.black,

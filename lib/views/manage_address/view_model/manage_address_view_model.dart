@@ -2,11 +2,14 @@ import 'dart:convert';
 
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:geocoding/geocoding.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/provider_helper_class.dart';
+import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/manage_address/model/add_address_request_model.dart';
 import 'package:laundry/views/manage_address/model/manage_address_response_model.dart';
@@ -17,6 +20,8 @@ import 'package:http/http.dart' as http;
 
 class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   Helpers helpers = sl.get<Helpers>();
+  SharedPreferencesHelper sharedPreferencesHelper =
+      sl.get<SharedPreferencesHelper>();
   ManageAddressRepo manageAddressRepo = sl.get<ManageAddressRepo>();
 
   ManageAddressResponse? manageAddressResponse;
@@ -26,13 +31,16 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   String? errorMessage;
   final String apiKey = 'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI';
   String? name;
+  String? postalCode;
 
-  TextEditingController addressEditingController = TextEditingController();
+  TextEditingController buildingNumberEditingController =
+      TextEditingController();
+  TextEditingController addressStreetController = TextEditingController();
   TextEditingController addressCityController = TextEditingController();
-  TextEditingController addressStateController = TextEditingController();
+  TextEditingController addressEmirateController = TextEditingController();
   TextEditingController textEditingController = TextEditingController();
 
-  LocationData? locationData;
+  Position? locationData;
   LatLng? currentPosition;
   LatLng? tappedLocation;
 
@@ -100,12 +108,12 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     if (network) {
       updateLoadState(LoaderState.loading);
       AddAddressRequestModel addAddressRequestModel = AddAddressRequestModel(
-          address: addressEditingController.text.trim(),
-          city: addressCityController.text.trim(),
-          country: addressEditingController.text.trim(),
-          postalCode: 0,
-          latitude: locationData?.latitude,
-          longitude: locationData?.longitude);
+          address: buildingNumberEditingController.text.trim(),
+          city: addressStreetController.text.trim(),
+          country: addressEmirateController.text.trim(),
+          postalCode: double.tryParse(postalCode ?? '0'),
+          latitude: currentPosition?.latitude,
+          longitude: currentPosition?.longitude);
       resp = manageAddressRepo
           .addAddress(addAddressRequestModel)
           .thenRight((right) {
@@ -168,49 +176,22 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
       Map data = json.decode(response.body)['result'];
       double lat = data['geometry']['location']['lat'];
       double lng = data['geometry']['location']['lng'];
-      markers.clear();
-      markers.add(
-        Marker(
-          markerId: MarkerId(placeId),
-          position: LatLng(lat, lng),
-          infoWindow: InfoWindow(
-            title: name,
-            snippet: name,
-          ),
-        ),
-      );
-      await mapController
-          ?.animateCamera(CameraUpdate.newLatLng(LatLng(lat, lng)));
-      await updateCurrentPosition(LatLng(lat, lng),
-          isUpdateButtonLoading: false);
+      getLocationFromLatLng(LatLng(lat, lng));
+      updateCurrentPosition(LatLng(lat, lng), isUpdateButtonLoading: false);
+      await updateCameraPositionAndMarker(LatLng(lat, lng));
+
       mapDetailsList.clear();
     }
     notifyListeners();
   }
 
-  // void handleTap(LatLng tappedPoint) {
-  //   tappedLocation = tappedPoint;
-  //   updateCurrentPosition(tappedPoint);
-  //   markers.clear(); // Clear existing markers
-  //   markers.add(
-  //     Marker(
-  //       markerId: MarkerId(tappedPoint.toString()),
-  //       position: tappedPoint,
-  //       infoWindow: InfoWindow(
-  //         title: 'Marker',
-  //         snippet:
-  //         'Lat: ${tappedPoint.latitude}, Lng: ${tappedPoint.longitude}',
-  //       ),
-  //     ),
-  //   );
-  //   // Get location details from the tapped coordinates using reverse geocoding
-  //   getLocationFromLatLng(tappedPoint);
-  //   // Center the map on the tapped location
-  //   mapController?.animateCamera(
-  //     CameraUpdate.newLatLng(tappedPoint),
-  //   );
-  //   notifyListeners();
-  // }
+  void handleTap(LatLng tappedPoint) async {
+    updateIsButtonLoading(true);
+    updateCurrentPosition(tappedPoint);
+    await getLocationFromLatLng(tappedPoint);
+    await updateCameraPositionAndMarker(tappedPoint);
+    notifyListeners();
+  }
 
   updateCurrentPosition(LatLng position,
       {bool? isUpdateButtonLoading, Function? onSuccess}) async {
@@ -221,25 +202,52 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   Future<void> getLocation() async {
+    locationData = await Geolocator.getCurrentPosition();
+    sharedPreferencesHelper.setCurrentLocation(LatLng(
+        locationData?.latitude ?? 23.4241, locationData?.longitude ?? 53.8478));
+    notifyListeners();
+  }
+
+  Future<void> getLocationFromLocalStorage() async {
     updateBtnLoaderState(true);
-    Location location = Location();
-    locationData = await location.getLocation();
+    LatLng? latLng = await sharedPreferencesHelper.getCurrentLocation();
+    updateCurrentPosition(latLng ?? const LatLng(23.4241, 53.8478));
+    await updateCameraPositionAndMarker(
+        latLng ?? const LatLng(23.4241, 53.8478));
+    updateBtnLoaderState(false);
+    notifyListeners();
+  }
+
+  Future<void> updateCameraPositionAndMarker(LatLng latLng) async {
     markers.clear();
     markers.add(
       Marker(
         markerId: const MarkerId('1'),
-        position: LatLng(locationData?.latitude ?? 23.4241,
-            locationData?.longitude ?? 53.8478),
+        position: LatLng(latLng.latitude, latLng.longitude),
         infoWindow: InfoWindow(
           title: name,
           snippet: name,
         ),
       ),
     );
-    await mapController?.animateCamera(CameraUpdate.newLatLng(LatLng(
-        locationData?.latitude ?? 23.4241,
-        locationData?.longitude ?? 53.8478)));
-    updateBtnLoaderState(false);
+    try {
+      await mapController?.animateCamera(
+          CameraUpdate.newLatLng(LatLng(latLng.latitude, latLng.longitude)));
+    } catch (e) {
+      updateBtnLoaderState(false);
+    }
+  }
+
+  Future<void> getLocationFromLatLng(LatLng position) async {
+    List<Placemark> placeMarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark place = placeMarks[0];
+    addressStreetController.text = (place.subLocality ?? '').isNotEmpty
+        ? place.subLocality ?? ''
+        : place.locality ?? '';
+    addressCityController.text = place.locality ?? '';
+    addressEmirateController.text = place.country ?? '';
+    postalCode = place.postalCode ?? '';
     notifyListeners();
   }
 
@@ -258,9 +266,9 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void clearAddressControllers() {
+    addressStreetController.clear();
+    buildingNumberEditingController.clear();
     addressCityController.clear();
-    addressEditingController.clear();
-    addressStateController.clear();
     notifyListeners();
   }
 
@@ -273,7 +281,6 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   void updateBtnLoaderState(bool val) {
     btnLoaderState = val;
     notifyListeners();
-    super.updateBtnLoaderState(val);
   }
 
   @override
