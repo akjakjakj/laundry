@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
@@ -21,7 +22,8 @@ class CustomAlertDialog extends StatelessWidget {
       this.onActionButtonPressed,
       this.onCancelButtonPressed,
       this.cancelIsLoading = false,
-      this.isLoading});
+      this.isLoading,
+      this.showCancel = false});
 
   final double? width;
   final double? height;
@@ -36,6 +38,7 @@ class CustomAlertDialog extends StatelessWidget {
   final VoidCallback? onCancelButtonPressed;
   final bool? isLoading;
   final bool cancelIsLoading;
+  final bool showCancel;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +60,14 @@ class CustomAlertDialog extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                40.57.verticalSpace,
+                if ((title ?? '').isNotEmpty) 40.57.verticalSpace,
+                // IconButton(
+                //     onPressed: () {},
+                //     icon: Icon(
+                //       Icons.close,
+                //       size: 20.r,
+                //     ),
+                //     padding: EdgeInsets.zero),
                 Text(
                   title ?? '',
                   style: FontPalette.poppinsBold
@@ -100,6 +110,18 @@ class CustomAlertDialog extends StatelessWidget {
                         .copyWith(color: Colors.white, fontSize: 17.sp),
                   ),
                 ),
+                if (showCancel) 10.verticalSpace,
+                if (showCancel)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 49.w),
+                    child: RichText(
+                        text: TextSpan(
+                            text: 'Cancel',
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () => Navigator.pop(context),
+                            style: FontPalette.poppinsBold
+                                .copyWith(color: ColorPalette.greenColor))),
+                  ),
               ],
             ),
           ],

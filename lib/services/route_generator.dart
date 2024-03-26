@@ -11,6 +11,9 @@ import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_sc
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/price_pdf_view.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
+import 'package:laundry/views/main_screen/active_orders/view/active_orders_details_screen.dart';
+import 'package:laundry/views/main_screen/active_orders/view/active_orders_screen.dart';
+import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
@@ -60,6 +63,7 @@ class RouteGenerator {
   static const String routePricePdfView = 'routePricePdfScreen';
   static const String routeNormalServiceScreen = 'routeNormalServiceScreen';
   static const String routeLocationScreen = 'routeLocationScreen';
+  static const String routeActiveOrderDetails = 'activeOrderDetails';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -133,6 +137,16 @@ class RouteGenerator {
             OrderDetailsScreen(
               pastOrdersProvider:
                   routeArgs.pastOrdersProvider ?? PastOrdersProvider(),
+              orderId: routeArgs.orderId,
+            ));
+      case routeActiveOrderDetails:
+        ActiveOrderDetailsArguments routeArgs =
+            args as ActiveOrderDetailsArguments;
+        return _buildRoute(
+            routeActiveOrderDetails,
+            ActiveOrdersDetailsScreen(
+              activeOrdersProvider:
+                  routeArgs.activeOrdersProvider ?? ActiveOrdersProvider(),
               orderId: routeArgs.orderId,
             ));
       case routePricePdfView:

@@ -94,8 +94,11 @@ class _LoginScreenState extends State<LoginScreen> {
                                 authProvider.updateErrorMessage(null);
                                 authProvider.clearRegistrationControllers();
                                 authProvider.clearLoginControllers();
-                                Navigator.pushNamed(
-                                    context, RouteGenerator.routeMainScreen);
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  RouteGenerator.routeMainScreen,
+                                  (route) => false,
+                                );
                               },
                               onFailure: () => helpers
                                   .errorToast(authProvider.errorMessage ?? ''),

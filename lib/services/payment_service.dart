@@ -27,8 +27,8 @@ class PaymentService {
   PaymentSdkConfigurationDetails generateConfig() {
     var configuration = PaymentSdkConfigurationDetails(
         profileId: "profile id",
-        serverKey: "SLJND2JGR2-JDHBDLZRWM-LHKMDWBZLR",
-        clientKey: "C2KMBB-727N6D-H2DB9R-BBBB2H",
+        serverKey: "SRJND2JGDK-JDHBDLZRNW-2BG2W2DHNW",
+        clientKey: "CHKMBB-727P6D-H2DB9R-67MBP9",
         cartId: "cart id",
         cartDescription: "cart desc",
         merchantName: "merchant name",

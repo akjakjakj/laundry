@@ -226,6 +226,7 @@ class _ProfileState extends State<Profile> {
                   onTap: () => CommonFunctions.showDialogPopUp(
                       context,
                       CustomAlertDialog(
+                        height: 270.h,
                         title: 'Logout',
                         message: 'Are you sure, you want to logout?',
                         actionButtonText: 'Yes',

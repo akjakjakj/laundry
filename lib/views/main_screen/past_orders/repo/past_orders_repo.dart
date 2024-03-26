@@ -22,6 +22,19 @@ class PastOrdersRepo {
         });
   }
 
+  Future<Either<ApiResponse, dynamic>> getActiveOrders() async {
+    return httpReq
+        .getRequest('/api/customer/active-orders')
+        .thenRight((right) {
+          final pastOrdersResponse = PastOrdersResponse.fromJson(right);
+          return Right(pastOrdersResponse);
+        })
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
+
   Future<Either<ApiResponse, dynamic>> getOrderDetails(int orderId) async {
     return httpReq
         .postRequest('/api/customer/orders/details',

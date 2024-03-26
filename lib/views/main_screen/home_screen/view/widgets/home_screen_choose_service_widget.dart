@@ -31,6 +31,7 @@ class ChooseServiceWidget extends StatelessWidget {
                         message: 'Choose your service',
                         actionButtonText: 'Normal Service',
                         cancelButtonText: 'Express Service',
+                        height: 220.h,
                         isLoading: false,
                         onCancelButtonPressed: () => Navigator.pushNamed(
                             context, RouteGenerator.routeNormalServiceScreen,
