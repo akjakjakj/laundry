@@ -109,7 +109,7 @@ class _NormalServiceState extends State<NormalService> {
                             children: [
                               10.verticalSpace,
                               AddressSelectionWidget(
-                                address: cartProvider.defaultAddress?['id']
+                                address: cartProvider.defaultAddress?['city']
                                     .toString(),
                                 cartViewProvider: cartProvider,
                               ),
@@ -332,26 +332,24 @@ class _NormalServiceState extends State<NormalService> {
                               .copyWith(fontSize: 15.sp, color: Colors.white),
                           isEnabled: provider.isCartFormValidated,
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             String deliveryAt =
                                 '${cartProvider.deliveryDateController.text.trim()} ${cartProvider.deliveryTimeForApiCall}';
                             String pickUpAt =
                                 '${cartProvider.pickDateController.text.trim()} ${cartProvider.pickUpTimeForApiCall}';
 
-                            cartProvider.createOrder(
-                                PlaceOrderRequest(
-                                    image: cartProvider.imageFilesList,
-                                    serviceId: widget.index == 0 ? 1 : 2,
-                                    serviceType: widget.index == 0
-                                        ? 'normal'
-                                        : 'express',
-                                    addressId:
-                                        cartProvider.defaultAddress?['id'],
-                                    comments: cartProvider
-                                        .commentsController.text
-                                        .trim(),
-                                    deliveryAt: deliveryAt,
-                                    pickupAt: pickUpAt,
-                                    timeSlot: cartProvider.pickUpTimeSlotId),
+                            cartProvider.createOrderRequest({
+                              'service_id': widget.index == 0 ? '1' : '2',
+                              'service_type':
+                                  widget.index == 0 ? 'normal' : 'express',
+                              'address_id':
+                                  cartProvider.defaultAddress?['id'].toString(),
+                              'comments':
+                                  cartProvider.commentsController.text.trim(),
+                              'pickup_at': pickUpAt.trim(),
+                              'time_slot_id':
+                                  cartProvider.pickUpTimeSlotId.toString()
+                            },
                                 onSuccess: () {
                                   helpers.successToast(
                                       'Order Placed Successfully...!');
@@ -359,6 +357,7 @@ class _NormalServiceState extends State<NormalService> {
                                       context,
                                       RouteGenerator.routeMainScreen,
                                       (route) => false);
+                                  cartProvider.clearValues();
                                 },
                                 onFailure: () => helpers.errorToast(
                                     'OOps...! Something went wrong...!'));

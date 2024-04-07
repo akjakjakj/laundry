@@ -65,6 +65,7 @@ dependencies:
   google_places_flutter: ^2.0.8
   geolocator: ^11.0.0
   geocoding: ^2.2.0
+  video_player: ^2.7.2
     
 
 

@@ -69,6 +69,13 @@ class CartRepo {
     });
   }
 
+  Future createOrderRequest(Map<String, dynamic> placeOrderRequest,
+      {Map<String, List<dynamic>>? files}) async {
+    var response = httpReq.postRequestWithFiles('/api/customer/orders/create',
+        param: placeOrderRequest, files: files);
+    return response;
+  }
+
   Future<Either<ApiResponse, dynamic>> getTimeSlots() async {
     return httpReq
         .postRequest('/api/customer/time_slots')

@@ -1,8 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry/common/extensions.dart';
@@ -30,6 +32,8 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
 
   Map<String, dynamic>? defaultAddress;
   List<List<int>> imageFilesList = [];
+  List<File> imageList = [];
+  List<String> stringImageFileList = [];
   List<TimeSlots> pickUpTimeSlotsList = [];
   List<TimeSlots> deliveryTimeSlotList = [];
 
@@ -49,7 +53,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
 
   int pickUpTimeSlotIndex = 0;
   int deliveryTimeSlotIndex = 0;
-  int pickUpTimeSlotId = 0;
+  int pickUpTimeSlotId = 1;
   int deliveryTimeSlotId = 0;
 
   Future<void> getNormalService(
@@ -199,7 +203,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
           }
           return Right(right);
         }).thenLeft((left) {
-          updateLoadState(LoaderState.error);
+          updateBtnLoaderState(false);
           if (onFailure != null) onFailure();
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         }).onError((error, stackTrace) {
@@ -207,6 +211,34 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
           updateBtnLoaderState(false);
           return Left(ApiResponse(exceptions: ApiExceptions.error));
         });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> createOrderRequest(placeOrderRequest,
+      {Function? onSuccess, Function? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+
+    updateBtnLoaderState(true);
+    if (network) {
+      try {
+        var resp = await cartRepo
+            .createOrderRequest(placeOrderRequest, files: {'image': imageList});
+        if (resp['status']) {
+          if (onSuccess != null) onSuccess();
+        } else {
+          if (onFailure != null) onFailure();
+        }
+        print('response view model $resp');
+        updateBtnLoaderState(false);
       } catch (e) {
         updateBtnLoaderState(false);
         //'Login $e'.log(name: 'LoginProvider');
@@ -306,7 +338,10 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void updateIsCatFormValidated() {
-    if (pickDateController.text.trim().isNotEmpty) {
+    if (pickDateController.text.trim().isNotEmpty &&
+        defaultAddress != null &&
+        commentsController.text.trim().isNotEmpty &&
+        imageFilesList.notEmpty) {
       isCartFormValidated = true;
     } else {
       isCartFormValidated = false;
@@ -335,8 +370,10 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
           ...imageFilesList,
           File(pickedFile[i].path).readAsBytesSync()
         ];
+        imageList = [...imageList, File(pickedFile[i].path)];
       }
     }
+    convertImageFileToBase64(imageFilesList);
     updateIsCatFormValidated();
     notifyListeners();
   }
@@ -349,7 +386,9 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
         ...imageFilesList,
         File(pickedFile.path).readAsBytesSync()
       ];
+      imageList = [...imageList, File(pickedFile.path)];
     }
+    convertImageFileToBase64(imageFilesList);
     updateIsCatFormValidated();
     notifyListeners();
   }
@@ -364,11 +403,32 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
     notifyListeners();
   }
 
+  void convertImageFileToBase64(List<List<int>> imageFilesList) {
+    for (int i = 0; i < imageFilesList.length; i++) {
+      Uint8List bytes = Uint8List.fromList(imageFilesList[i]);
+      String base64Image = base64Encode(bytes);
+      stringImageFileList.add(base64Image);
+    }
+    notifyListeners();
+  }
+
   void clearDateAndTime() {
     pickDateController.text = "";
     deliveryDateController.text = "";
     pickUpTimeController.text = "";
     deliveryTimeController.text = "";
+    notifyListeners();
+  }
+
+  void clearValues() {
+    commentsController.clear();
+    pickDateController.text = "";
+    deliveryDateController.text = "";
+    pickUpTimeController.text = "";
+    deliveryTimeController.text = "";
+    pickUpTimeSlotId = 0;
+    imageList.clear();
+    imageFilesList.clear();
     notifyListeners();
   }
 

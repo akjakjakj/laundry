@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:either_dart/either.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
@@ -62,6 +63,61 @@ class HttpReq {
         },
       ).timeout(const Duration(seconds: 60));
       return _returnResponse(response, endPoint);
+    } catch (e) {
+      return Left(ApiResponse(exceptions: ApiExceptions.error));
+    }
+  }
+
+  Future postRequestWithFiles(String endPoint,
+      {param, Map<String, List<dynamic>>? files}) async {
+    try {
+      String token = await sharedPreferencesHelper.getAuthToken();
+      bool networkStat = await helpers.isInternetAvailable();
+      if (!networkStat) {
+        return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+      }
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('https://ledegraissage.tortillon.in$endPoint'));
+
+      files?.forEach((key, value) async {
+        for (int i = 0; i < value.length; i++) {
+          request.files.add(http.MultipartFile(
+              key, value[i].readAsBytes().asStream(), value[i].lengthSync(),
+              filename: value[i].path.split('/').last));
+        }
+      });
+
+      param.forEach((key, value) {
+        if (value is List) {
+          for (int i = 0; i < value.length; i++) {
+            request.fields.addAll({'$key[$i]': value[i]});
+          }
+        } else {
+          request.fields[key] = value;
+        }
+      });
+      // Add headers to the request
+      request.headers.addAll({
+        HttpHeaders.acceptHeader: _appJson,
+        HttpHeaders.contentTypeHeader: _appJson,
+        'Authorization': 'Bearer $token',
+      });
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        final List<int> bytes =
+            await response.stream.expand((chunk) => chunk).toList();
+        final responseBody = utf8.decode(bytes);
+        final jsonData = jsonDecode(responseBody);
+        debugPrint('Response Body: $responseBody');
+        return jsonData;
+      } else {
+        final List<int> bytes =
+            await response.stream.expand((chunk) => chunk).toList();
+        final responseBody = utf8.decode(bytes);
+        final jsonData = jsonDecode(responseBody);
+        debugPrint('Response Body: $responseBody');
+        return jsonData;
+      }
     } catch (e) {
       return Left(ApiResponse(exceptions: ApiExceptions.error));
     }

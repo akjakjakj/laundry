@@ -171,6 +171,10 @@ class $AssetsIconsGen {
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/Splash_Screen.gif
+  AssetGenImage get splashScreen =>
+      const AssetGenImage('assets/images/Splash_Screen.gif');
+
   /// File path: assets/images/bg_image.png
   AssetGenImage get bgImage =>
       const AssetGenImage('assets/images/bg_image.png');
@@ -201,8 +205,17 @@ class $AssetsImagesGen {
   AssetGenImage get shoe => const AssetGenImage('assets/images/shoe.png');
 
   /// List of all assets
-  List<AssetGenImage> get values =>
-      [bgImage, blankImage, electrolux, kidsShoe, loginLogo, logo, price, shoe];
+  List<AssetGenImage> get values => [
+        splashScreen,
+        bgImage,
+        blankImage,
+        electrolux,
+        kidsShoe,
+        loginLogo,
+        logo,
+        price,
+        shoe
+      ];
 }
 
 class Assets {
