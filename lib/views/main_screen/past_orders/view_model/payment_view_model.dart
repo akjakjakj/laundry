@@ -25,7 +25,7 @@ class PaymentProvider extends ChangeNotifier with ProviderHelperClass {
       } else if (event["status"] == "event") {
         // Handle cancel events here.
       }
-    });
+    } );
   }
 
   @override

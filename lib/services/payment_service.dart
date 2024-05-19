@@ -26,9 +26,9 @@ class PaymentService {
       "12345");
   PaymentSdkConfigurationDetails generateConfig() {
     var configuration = PaymentSdkConfigurationDetails(
-        profileId: "profile id",
-        serverKey: "SRJND2JGDK-JDHBDLZRNW-2BG2W2DHNW",
-        clientKey: "CHKMBB-727P6D-H2DB9R-67MBP9",
+        profileId: "93721",
+        serverKey: "SLJND2JGR2-JDHBDLZRWM-LHKMDWBZLR",
+        clientKey: "C2KMBB-727N6D-H2DB9R-BBBB2H",
         cartId: "cart id",
         cartDescription: "cart desc",
         merchantName: "merchant name",
