@@ -101,7 +101,7 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          20.verticalSpace,
+                          40.verticalSpace,
                           CustomButton(
                             title: 'Normal Service',
                             onTap: () => Navigator.pushNamed(

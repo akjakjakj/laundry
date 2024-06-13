@@ -5,6 +5,7 @@ import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_alert_dialogue.dart';
 import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/color_palette.dart';
@@ -238,6 +239,42 @@ class _ProfileState extends State<Profile> {
                           CommonFunctions.afterInit(() =>
                               Navigator.pushNamedAndRemoveUntil(context,
                                   RouteGenerator.routeLogin, (route) => false));
+                        },
+                      )),
+                ),
+                5.verticalSpace,
+                ProfileTile(
+                  childIcon: Padding(
+                    padding: EdgeInsets.all(11.r),
+                    child: Assets.icons.logout.image(),
+                  ),
+                  title: "Delete Account",
+                  onTap: () => CommonFunctions.showDialogPopUp(
+                      context,
+                      CustomAlertDialog(
+                        height: 270.h,
+                        title: 'Delete Account',
+                        message:
+                            'Are you sure, you want to delete your account?',
+                        actionButtonText: 'Yes',
+                        cancelButtonText: 'No',
+                        isLoading: profileDetailProvider.loaderState ==
+                            LoaderState.loading,
+                        onCancelButtonPressed: () => Navigator.pop(context),
+                        onActionButtonPressed: () async {
+                          profileDetailProvider.deleteProfile(
+                            onSuccess: () async {
+                              await sharedPreferencesHelper.removeLoginToken();
+                              CommonFunctions.afterInit(() =>
+                                  Navigator.pushNamedAndRemoveUntil(
+                                      context,
+                                      RouteGenerator.routeLogin,
+                                      (route) => false));
+                            },
+                            onFailure: () => sl
+                                .get<Helpers>()
+                                .errorToast('Oops...! Something went wrong.'),
+                          );
                         },
                       )),
                 ),

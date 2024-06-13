@@ -73,15 +73,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     30.horizontalSpace,
                     InkWell(
-                      onTap: () {
-                        context.read<PaymentProvider>().payWithCard();
-                      },
-                      // onTap: () => Navigator.pushNamed(
-                      //   context,
-                      //   RouteGenerator.routeEcoDryClean,
-                      //   arguments:
-                      //       EcoDryCleanArguments(title: '', serviceId: 1),
-                      // ),
+                      // onTap: () {
+                      //   context.read<PaymentProvider>().payWithCard();
+                      // },
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        RouteGenerator.routeEcoDryClean,
+                        arguments:
+                            EcoDryCleanArguments(title: '', serviceId: 1),
+                      ),
                       child: Column(
                         children: [
                           Container(
