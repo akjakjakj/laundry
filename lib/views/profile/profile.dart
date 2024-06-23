@@ -59,16 +59,16 @@ class _ProfileState extends State<Profile> {
                           height: 50.h,
                         ),
                       ),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, RouteGenerator.routeCart);
-                        },
-                        child: Padding(
-                            padding: EdgeInsets.only(right: 15.w),
-                            child:
-                                Assets.icons.cart.image(height: 30, width: 30)),
-                      ),
+                      // GestureDetector(
+                      //   onTap: () {
+                      //     Navigator.pushNamed(
+                      //         context, RouteGenerator.routeCart);
+                      //   },
+                      //   child: Padding(
+                      //       padding: EdgeInsets.only(right: 15.w),
+                      //       child:
+                      //           Assets.icons.cart.image(height: 30, width: 30)),
+                      // ),
                     ],
                   ),
                 ),
@@ -96,8 +96,9 @@ class _ProfileState extends State<Profile> {
                                   user?.profilePicture == null
                                       ? CircleAvatar(
                                           radius: 80,
-                                          backgroundColor: const Color.fromARGB(
-                                              255, 221, 221, 221),
+                                          backgroundImage: NetworkImage(user
+                                                  ?.profilePicture ??
+                                              'https://eu.ui-avatars.com/api/?name=John+Doe'),
                                           child: Text(
                                             user?.name?[0] ?? "",
                                             style: FontPalette.poppinsRegular

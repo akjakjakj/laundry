@@ -22,11 +22,6 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // _controller = VideoPlayerController.asset(Assets.images.splashScreen.)
-    //   ..initialize().then((_) {
-    //     // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
-    //     setState(() {});
-    //   });
     Future.delayed(
       const Duration(seconds: 4),
       () {
@@ -49,17 +44,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Assets.images.splashScreen.image()
-        // SizedBox(
-        //   height: double.infinity,
-        //   child: Stack(alignment: Alignment.center, children: [
-        //     Assets.images.bgImage.image(),
-        //     Align(alignment: Alignment.center, child: Assets.images.logo.image()),
-        //     Positioned(
-        //         bottom: 100.h,
-        //         child: Assets.images.electrolux.image(height: 60.h)),
-        //   ]),
-        // ),
-        );
+    return Scaffold(body: Assets.images.splashScreen.image());
   }
 }

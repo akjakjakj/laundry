@@ -141,7 +141,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                           //       )),
                           // ),
                           validator: (value) => validator.validateMobile(
-                              context, value, maxLength: 12),
+                              context, value, maxLength: 15),
                           textInputFormatter: validator
                               .inputFormatter(InputFormatType.phoneNumber)),
                       35.verticalSpace,

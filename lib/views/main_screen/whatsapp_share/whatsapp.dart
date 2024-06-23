@@ -39,15 +39,15 @@ class _WhatsappState extends State<Whatsapp> {
                         height: 50.h,
                       ),
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.pushNamed(context, RouteGenerator.routeCart);
-                      },
-                      child: Padding(
-                          padding: EdgeInsets.only(right: 15.w),
-                          child:
-                              Assets.icons.cart.image(height: 30, width: 30)),
-                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     Navigator.pushNamed(context, RouteGenerator.routeCart);
+                    //   },
+                    //   child: Padding(
+                    //       padding: EdgeInsets.only(right: 15.w),
+                    //       child:
+                    //           Assets.icons.cart.image(height: 30, width: 30)),
+                    // ),
                   ],
                 ),
               ),
