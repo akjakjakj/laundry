@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 
 class ManageAddressShimmer extends StatelessWidget {
-  const ManageAddressShimmer({Key? key}) : super(key: key);
+  const ManageAddressShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

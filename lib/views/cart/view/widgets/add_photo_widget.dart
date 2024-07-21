@@ -10,8 +10,7 @@ import 'package:laundry/views/cart/view_model/cart_view_model.dart';
 import 'package:provider/provider.dart';
 
 class AddPhotoWidget extends StatelessWidget {
-  const AddPhotoWidget({Key? key, required this.cartViewProvider})
-      : super(key: key);
+  const AddPhotoWidget({super.key, required this.cartViewProvider});
   final CartViewProvider cartViewProvider;
   @override
   Widget build(BuildContext context) {
@@ -89,8 +88,7 @@ class AddPhotoWidget extends StatelessWidget {
 
 class _ImageView extends StatelessWidget {
   const _ImageView(
-      {Key? key, required this.imagePath, required this.onRemoveTapped})
-      : super(key: key);
+      {required this.imagePath, required this.onRemoveTapped});
   final Uint8List imagePath;
   final Function()? onRemoveTapped;
   @override

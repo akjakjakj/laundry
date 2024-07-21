@@ -10,8 +10,7 @@ import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 
 class ItemSelectionWidget extends StatefulWidget {
   const ItemSelectionWidget(
-      {Key? key, this.productItem, required this.ecoDryProvider})
-      : super(key: key);
+      {super.key, this.productItem, required this.ecoDryProvider});
   final Products? productItem;
   final EcoDryProvider ecoDryProvider;
 
@@ -209,8 +208,8 @@ class _ItemSelectionWidgetState extends State<ItemSelectionWidget> {
 }
 
 class _AddToCartButton extends StatefulWidget {
-  const _AddToCartButton({Key? key, this.ecoDryProvider, this.productItem})
-      : super(key: key);
+  const _AddToCartButton(
+      {required this.ecoDryProvider, required this.productItem});
   final EcoDryProvider? ecoDryProvider;
   final Products? productItem;
 

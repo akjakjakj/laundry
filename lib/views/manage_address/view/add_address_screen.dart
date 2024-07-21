@@ -13,8 +13,7 @@ import 'package:laundry/views/manage_address/view_model/manage_address_view_mode
 import 'package:provider/provider.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key, required this.manageAddressProvider})
-      : super(key: key);
+  const AddAddressScreen({super.key, required this.manageAddressProvider});
   final ManageAddressProvider manageAddressProvider;
 
   @override

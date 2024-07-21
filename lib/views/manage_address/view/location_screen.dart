@@ -1,4 +1,3 @@
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,7 +7,6 @@ import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/common_widgets/three_bounce.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
-import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 import 'package:laundry/views/manage_address/view/widgets/place_auto_complete_text_field.dart';

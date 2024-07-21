@@ -6,8 +6,7 @@ import 'package:laundry/utils/font_palette.dart';
 
 class HomeScreenServiceContainer extends StatelessWidget {
   const HomeScreenServiceContainer(
-      {Key? key, required this.image, this.title, this.onTap})
-      : super(key: key);
+      {super.key, required this.image, this.title, this.onTap});
   final String image;
   final String? title;
   final Function()? onTap;

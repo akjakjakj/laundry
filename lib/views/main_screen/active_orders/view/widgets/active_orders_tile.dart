@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
-import 'package:laundry/views/main_screen/active_orders/view/active_orders_details_screen.dart';
 import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
 import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';

@@ -10,7 +10,7 @@ import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordResetPasswordScreen extends StatefulWidget {
-  const ForgotPasswordResetPasswordScreen({Key? key}) : super(key: key);
+  const ForgotPasswordResetPasswordScreen({super.key});
 
   @override
   _ForgotPasswordResetPasswordScreenState createState() =>
@@ -91,7 +91,7 @@ class _ForgotPasswordResetPasswordScreenState
               enableObscure: true,
               validator: (value) => validator.validatePassword(context, value),
             ),
-            Expanded(
+            const Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: CustomButton(

@@ -12,15 +12,14 @@ class CachedImageView extends StatelessWidget {
   final double? width;
 
   const CachedImageView(
-      {Key? key,
+      {super.key,
       required this.image,
       this.height,
       this.width,
       this.enableLoader = true,
       this.boxFit,
       this.errorColor,
-      this.isCircular = false})
-      : super(key: key);
+      this.isCircular = false});
 
   @override
   Widget build(BuildContext context) {

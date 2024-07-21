@@ -6,11 +6,10 @@ import 'package:laundry/utils/font_palette.dart';
 
 class EcoDrySearchBar extends StatelessWidget {
   const EcoDrySearchBar(
-      {Key? key,
+      {super.key,
       this.textEditingController,
       this.onEditComplete,
-      this.onChanged})
-      : super(key: key);
+      this.onChanged});
   final TextEditingController? textEditingController;
   final Function(String)? onChanged;
   final Function()? onEditComplete;

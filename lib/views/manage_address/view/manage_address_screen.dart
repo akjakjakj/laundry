@@ -6,13 +6,12 @@ import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
-import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 import 'package:laundry/views/manage_address/view/widgets/manage_address_tile.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
 import 'package:provider/provider.dart';
 
 class ManageAddressScreen extends StatefulWidget {
-  const ManageAddressScreen({Key? key, this.isFromCart}) : super(key: key);
+  const ManageAddressScreen({super.key, this.isFromCart});
   final bool? isFromCart;
   @override
   _ManageAddressScreenState createState() => _ManageAddressScreenState();

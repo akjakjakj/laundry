@@ -6,7 +6,7 @@ import 'package:laundry/utils/font_palette.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton(
-      {Key? key,
+      {super.key,
       this.color,
       this.title,
       this.width,
@@ -15,8 +15,7 @@ class CustomButton extends StatelessWidget {
       this.onTap,
       this.textStyle,
       this.isEnabled = true,
-      this.isLoading = false})
-      : super(key: key);
+      this.isLoading = false});
   final String? title;
   final Color? color;
   final double? height;

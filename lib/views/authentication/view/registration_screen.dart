@@ -16,7 +16,7 @@ import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatefulWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+  const RegistrationScreen({super.key});
 
   @override
   _RegistrationScreenState createState() => _RegistrationScreenState();

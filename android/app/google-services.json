@@ -42,6 +42,44 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59711469600:android:c5610770e2e7682a6fa445",
+        "android_client_info": {
+          "package_name": "com.laundry_delivery"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClpeTmJF5dPmeZiLZFPXektRigR-Eup4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59711469600:android:640f0cd51e410ed76fa445",
+        "android_client_info": {
+          "package_name": "com.ledegraissage.laundryapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyClpeTmJF5dPmeZiLZFPXektRigR-Eup4w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"

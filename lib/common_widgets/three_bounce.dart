@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 
 class ThreeBounce extends StatefulWidget {
   const ThreeBounce({
-    Key? key,
+    super.key,
     this.color,
     this.size = 50.0,
     this.itemBuilder,
     this.duration = const Duration(milliseconds: 1400),
     this.controller,
-  }) : super(key: key);
+  });
 
   final Color? color;
   final double size;
@@ -71,8 +71,7 @@ class ThreeBounceState extends State<ThreeBounce>
 }
 
 class DelayTween extends Tween<double> {
-  DelayTween({double? begin, double? end, required this.delay})
-      : super(begin: begin, end: end);
+  DelayTween({super.begin, super.end, required this.delay});
 
   final double delay;
 

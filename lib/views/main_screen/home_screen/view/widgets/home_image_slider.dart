@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
@@ -11,7 +10,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../../../../../common_widgets/common_fade_in_image.dart';
 
 class HomeImageSlider extends StatelessWidget {
-  HomeImageSlider({Key? key}) : super(key: key);
+  HomeImageSlider({super.key});
   final PageController pageController = PageController();
 
   @override

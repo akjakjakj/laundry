@@ -269,7 +269,7 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
 }
 
 class _OrderDetailsTile extends StatelessWidget {
-  const _OrderDetailsTile({Key? key, this.title, this.value}) : super(key: key);
+  const _OrderDetailsTile({this.title, this.value});
   final String? title;
   final String? value;
 

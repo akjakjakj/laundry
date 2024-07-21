@@ -11,7 +11,7 @@ class CommonFadeInImage extends StatelessWidget {
   final double? height;
   final double? width;
   const CommonFadeInImage(
-      {Key? key,
+      {super.key,
       required this.image,
       this.placeHolderImage,
       this.fit,
@@ -19,8 +19,7 @@ class CommonFadeInImage extends StatelessWidget {
       this.imageErrorWidget,
       this.placeholderErrorWidget,
       this.height,
-      this.width})
-      : super(key: key);
+      this.width});
 
   @override
   Widget build(BuildContext context) {

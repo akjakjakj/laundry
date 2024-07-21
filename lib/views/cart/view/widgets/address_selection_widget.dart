@@ -9,8 +9,7 @@ import 'package:laundry/views/manage_address/model/add_address_arguments.dart';
 
 class AddressSelectionWidget extends StatelessWidget {
   const AddressSelectionWidget(
-      {Key? key, this.address, required this.cartViewProvider})
-      : super(key: key);
+      {super.key, this.address, required this.cartViewProvider});
   final String? address;
   final CartViewProvider cartViewProvider;
   @override

@@ -29,7 +29,7 @@ class CustomTextField extends StatefulWidget {
   final Color? borderColor;
 
   const CustomTextField(
-      {Key? key,
+      {super.key,
       this.height,
       this.prefix,
       this.labelText,
@@ -50,8 +50,7 @@ class CustomTextField extends StatefulWidget {
       this.suffix,
       this.textCapitalization,
       this.autofocus,
-      this.borderColor})
-      : super(key: key);
+      this.borderColor});
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -162,9 +161,9 @@ class CustomForm extends FormField<String> {
   final bool? autofocus;
 
   CustomForm({
-    Key? key,
-    FormFieldSetter<String>? onSaved,
-    FormFieldValidator<String>? validator,
+    super.key,
+    super.onSaved,
+    super.validator,
     this.height,
     this.controller,
     this.focusedBorder,
@@ -194,9 +193,6 @@ class CustomForm extends FormField<String> {
     this.textCaps,
     this.autofocus,
   }) : super(
-            key: key,
-            onSaved: onSaved,
-            validator: validator,
             initialValue: initValue,
             autovalidateMode: AutovalidateMode.disabled,
             builder: (FormFieldState<String> state) {

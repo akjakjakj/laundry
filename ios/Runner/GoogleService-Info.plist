@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.laundry</string>
+	<string>com.laundry</string>
 	<key>PROJECT_ID</key>
 	<string>laundry-1389e</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:59711469600:ios:813339380db8764a6fa445</string>
+	<string>1:59711469600:ios:014a87f4037a5eb96fa445</string>
 </dict>
 </plist>

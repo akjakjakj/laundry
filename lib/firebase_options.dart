@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyClpeTmJF5dPmeZiLZFPXektRigR-Eup4w',
-    appId: '1:59711469600:android:bf849b214761a02f6fa445',
+    appId: '1:59711469600:android:640f0cd51e410ed76fa445',
     messagingSenderId: '59711469600',
     projectId: 'laundry-1389e',
     storageBucket: 'laundry-1389e.appspot.com',
@@ -59,10 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBIqAyWU21AiT7BE9sCCbxT48RCP-Kk8HM',
-    appId: '1:59711469600:ios:813339380db8764a6fa445',
+    appId: '1:59711469600:ios:014a87f4037a5eb96fa445',
     messagingSenderId: '59711469600',
     projectId: 'laundry-1389e',
     storageBucket: 'laundry-1389e.appspot.com',
-    iosBundleId: 'com.example.laundry',
+    iosBundleId: 'com.laundry',
   );
+
 }

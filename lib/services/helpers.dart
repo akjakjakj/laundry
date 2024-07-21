@@ -103,10 +103,10 @@ class Helpers {
     double val = 0.0;
     if (valArg == null) return val;
     switch (valArg.runtimeType) {
-      case int:
+      case int _:
         val = valArg.toDouble();
         break;
-      case String:
+      case String _:
         val = double.tryParse(valArg) ?? val;
         break;
 

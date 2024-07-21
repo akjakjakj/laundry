@@ -4,7 +4,7 @@ import 'package:laundry/common/extensions.dart';
 import 'package:laundry/utils/color_palette.dart';
 
 class EcoDryCLeanProductsShimmer extends StatelessWidget {
-  const EcoDryCLeanProductsShimmer({Key? key}) : super(key: key);
+  const EcoDryCLeanProductsShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

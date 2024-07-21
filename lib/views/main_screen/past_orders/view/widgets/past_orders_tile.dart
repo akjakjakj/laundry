@@ -9,8 +9,7 @@ import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_vie
 
 class PastOrdersTile extends StatelessWidget {
   const PastOrdersTile(
-      {Key? key, required this.ordersList, this.pastOrdersProvider})
-      : super(key: key);
+      {super.key, required this.ordersList, this.pastOrdersProvider});
   final List<Orders> ordersList;
   final PastOrdersProvider? pastOrdersProvider;
 

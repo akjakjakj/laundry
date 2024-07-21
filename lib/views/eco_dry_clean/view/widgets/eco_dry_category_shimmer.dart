@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 
 class EcoDryCategoryShimmer extends StatelessWidget {
-  const EcoDryCategoryShimmer({Key? key}) : super(key: key);
+  const EcoDryCategoryShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

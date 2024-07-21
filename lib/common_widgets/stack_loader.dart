@@ -4,10 +4,10 @@ class StackLoader extends StatelessWidget {
   final Widget child;
   final bool inAsyncCall;
   const StackLoader({
-    Key? key,
+    super.key,
     required this.child,
     this.inAsyncCall = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,8 +8,7 @@ import 'package:laundry/views/manage_address/view_model/manage_address_view_mode
 
 class PlaceAutoCompleteTextField extends StatelessWidget {
   const PlaceAutoCompleteTextField(
-      {Key? key, required this.manageAddressProvider})
-      : super(key: key);
+      {super.key, required this.manageAddressProvider});
   final ManageAddressProvider manageAddressProvider;
   @override
   Widget build(BuildContext context) {

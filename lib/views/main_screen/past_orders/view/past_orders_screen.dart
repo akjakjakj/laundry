@@ -10,10 +10,9 @@ import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_vie
 import 'package:provider/provider.dart';
 
 import '../../../../gen/assets.gen.dart';
-import '../../../../services/route_generator.dart';
 
 class PastOrdersScreen extends StatefulWidget {
-  const PastOrdersScreen({Key? key}) : super(key: key);
+  const PastOrdersScreen({super.key});
 
   @override
   _PastOrdersScreenState createState() => _PastOrdersScreenState();

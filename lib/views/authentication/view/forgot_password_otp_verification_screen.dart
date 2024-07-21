@@ -12,7 +12,7 @@ import 'package:pinput/pinput.dart';
 import 'package:provider/provider.dart';
 
 class ForgotPasswordOtpVerificationScreen extends StatefulWidget {
-  const ForgotPasswordOtpVerificationScreen({Key? key}) : super(key: key);
+  const ForgotPasswordOtpVerificationScreen({super.key});
 
   @override
   _ForgotPasswordOtpVerificationScreenState createState() =>

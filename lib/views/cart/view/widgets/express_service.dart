@@ -83,7 +83,7 @@ class _ExpressServiceState extends State<ExpressService> {
             case LoaderState.loaded:
               return Expanded(
                 child: SingleChildScrollView(
-                  child: Container(
+                  child: SizedBox(
                     height: MediaQuery.of(context).size.height * 0.825,
                     // height: MediaQuery.of(context).size.height * 0.83,
                     width: MediaQuery.of(context).size.width,
@@ -91,7 +91,7 @@ class _ExpressServiceState extends State<ExpressService> {
                       alignment: Alignment.bottomCenter,
                       children: [
                         SingleChildScrollView(
-                          child: Container(
+                          child: SizedBox(
                             // height: 500,
                             height: MediaQuery.of(context).size.height,
                             width: double.maxFinite,

@@ -1,4 +1,3 @@
-import 'dart:collection';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -14,11 +13,10 @@ import 'package:laundry/views/manage_address/view_model/manage_address_view_mode
 
 class AddressTile extends StatelessWidget {
   AddressTile(
-      {Key? key,
+      {super.key,
       required this.addressList,
       this.manageAddressProvider,
-      this.isFromCart})
-      : super(key: key);
+      this.isFromCart});
   final List<Addresses> addressList;
   final ManageAddressProvider? manageAddressProvider;
   final bool? isFromCart;

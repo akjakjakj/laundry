@@ -10,8 +10,7 @@ import 'package:provider/provider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   const OrderDetailsScreen(
-      {Key? key, required this.pastOrdersProvider, this.orderId})
-      : super(key: key);
+      {super.key, required this.pastOrdersProvider, this.orderId});
   final PastOrdersProvider pastOrdersProvider;
   final int? orderId;
 
@@ -269,7 +268,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
 }
 
 class _OrderDetailsTile extends StatelessWidget {
-  const _OrderDetailsTile({Key? key, this.title, this.value}) : super(key: key);
+  const _OrderDetailsTile({this.title, this.value});
   final String? title;
   final String? value;
 

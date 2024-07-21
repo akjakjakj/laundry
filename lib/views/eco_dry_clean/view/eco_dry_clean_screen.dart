@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
-import 'package:laundry/common_widgets/common_fade_in_image.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/services/route_generator.dart';
-import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
-import 'package:laundry/views/eco_dry_clean/view/widgets/eco_dry_category_shimmer.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:provider/provider.dart';
 
 class EcoDryCleanScreen extends StatefulWidget {
-  const EcoDryCleanScreen({Key? key, this.title, this.serviceId})
-      : super(key: key);
+  const EcoDryCleanScreen({super.key, this.title, this.serviceId});
   final String? title;
   final int? serviceId;
 

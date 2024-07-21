@@ -6,16 +6,14 @@ import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_image_slider.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_choose_service_widget.dart';
-import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_service_container.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
-import 'package:laundry/views/main_screen/past_orders/view_model/payment_view_model.dart';
 import 'package:provider/provider.dart';
 
 import '../../../../gen/assets.gen.dart';
 import '../../../../services/route_generator.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();

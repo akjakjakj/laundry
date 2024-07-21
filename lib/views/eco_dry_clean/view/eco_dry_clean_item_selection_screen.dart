@@ -14,12 +14,11 @@ import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:provider/provider.dart';
 
 class EcoDryScreenItemSelectionScreen extends StatefulWidget {
-  EcoDryScreenItemSelectionScreen(
-      {Key? key,
+  const EcoDryScreenItemSelectionScreen(
+      {super.key,
       required this.categoryId,
       this.title,
-      required this.ecoDryProvider})
-      : super(key: key);
+      required this.ecoDryProvider});
   final int categoryId;
   final String? title;
   final EcoDryProvider ecoDryProvider;

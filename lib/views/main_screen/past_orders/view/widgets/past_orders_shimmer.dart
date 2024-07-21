@@ -4,7 +4,7 @@ import 'package:laundry/common/extensions.dart';
 import 'package:laundry/utils/color_palette.dart';
 
 class PastOrdersShimmer extends StatelessWidget {
-  const PastOrdersShimmer({Key? key}) : super(key: key);
+  const PastOrdersShimmer({super.key});
 
   @override
   Widget build(BuildContext context) {

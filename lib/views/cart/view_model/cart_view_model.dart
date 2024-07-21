@@ -2,11 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:either_dart/either.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/services/api_reponse.dart';

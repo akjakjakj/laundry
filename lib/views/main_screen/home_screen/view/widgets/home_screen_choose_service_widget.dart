@@ -4,14 +4,12 @@ import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_alert_dialogue.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/views/cart/model/normal_service_arguments.dart';
-import 'package:laundry/views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
 import 'package:laundry/views/main_screen/home_screen/model/services_model.dart';
 
 import 'home_screen_service_container.dart';
 
 class ChooseServiceWidget extends StatelessWidget {
-  const ChooseServiceWidget({Key? key, required this.servicesList})
-      : super(key: key);
+  const ChooseServiceWidget({super.key, required this.servicesList});
   final List<Services> servicesList;
 
   @override

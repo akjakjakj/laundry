@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 import '../../../utils/font_palette.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
-  const ForgotPasswordScreen({Key? key}) : super(key: key);
+  const ForgotPasswordScreen({super.key});
 
   @override
   _ForgotPasswordScreenState createState() => _ForgotPasswordScreenState();

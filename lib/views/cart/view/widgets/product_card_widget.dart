@@ -10,7 +10,7 @@ import 'package:laundry/views/cart/view_model/cart_view_model.dart';
 
 class ProductCardWidget extends StatefulWidget {
   const ProductCardWidget(
-      {Key? key,
+      {super.key,
       this.productImage,
       this.productName,
       this.service,
@@ -18,8 +18,7 @@ class ProductCardWidget extends StatefulWidget {
       this.qty,
       this.cartId,
       required this.cartViewProvider,
-      this.index})
-      : super(key: key);
+      this.index});
   final int? index;
   final String? productImage;
   final String? productName;

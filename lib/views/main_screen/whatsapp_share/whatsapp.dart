@@ -6,7 +6,6 @@ import 'package:laundry/services/helpers.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:whatsapp_share/whatsapp_share.dart';
 
-import '../../../services/route_generator.dart';
 import '../../../utils/font_palette.dart';
 
 class Whatsapp extends StatefulWidget {
