@@ -46,6 +46,16 @@ class Validator {
     return null;
   }
 
+  String? validateEmptyField(
+    BuildContext context,
+    String? value,
+  ) {
+    if (value == null || value.isEmpty) {
+      return "This field can't be empty";
+    }
+    return null;
+  }
+
   // String? validateOtp(BuildContext context, String? value, {String? msg}) {
   //   if (msg.notEmpty) return msg;
   //   if (value == null || value.isEmpty) {

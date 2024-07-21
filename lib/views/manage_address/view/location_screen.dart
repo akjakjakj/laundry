@@ -77,6 +77,11 @@ class _LocationScreenState extends State<LocationScreen> {
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => context.read<ManageAddressProvider>().getLocation(),
+        child: const Icon(Icons.my_location_rounded),
+      ),
+      floatingActionButtonLocation: CustomFabLocation(),
       body: Consumer<ManageAddressProvider>(
         builder: (context, manageAddressProvider, child) =>
             manageAddressProvider.btnLoaderState
@@ -169,5 +174,22 @@ class _LocationScreenState extends State<LocationScreen> {
                   ),
       ),
     );
+  }
+}
+
+class CustomFabLocation extends FloatingActionButtonLocation {
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    // Get the width of the scaffold
+    double x = scaffoldGeometry.scaffoldSize.width -
+        scaffoldGeometry.minInsets.right -
+        scaffoldGeometry.floatingActionButtonSize.width / 2 -
+        48.0;
+    // Get the height of the scaffold and subtract the offset
+    double y = scaffoldGeometry.scaffoldSize.height -
+        scaffoldGeometry.minInsets.bottom -
+        scaffoldGeometry.floatingActionButtonSize.height -
+        150;
+    return Offset(x, y);
   }
 }

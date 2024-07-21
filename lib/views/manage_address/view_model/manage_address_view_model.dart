@@ -15,7 +15,7 @@ import 'package:laundry/views/manage_address/model/add_address_request_model.dar
 import 'package:laundry/views/manage_address/model/manage_address_response_model.dart';
 import 'package:laundry/views/manage_address/model/map_details_model.dart';
 import 'package:laundry/views/manage_address/repo/manage_address_repo.dart';
-import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:http/http.dart' as http;
 
 class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
@@ -124,9 +124,11 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
       }).thenLeft((left) {
         updateErrorMessage(left.message ?? '');
         updateLoadState(LoaderState.loaded);
+        if (onFailure != null) onFailure();
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       }).onError((error, stackTrace) {
         updateLoadState(LoaderState.error);
+        if (onFailure != null) onFailure();
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
     } else {
@@ -202,10 +204,27 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   Future<void> getLocation() async {
-    locationData = await Geolocator.getCurrentPosition();
-    sharedPreferencesHelper.setCurrentLocation(LatLng(
-        locationData?.latitude ?? 23.4241, locationData?.longitude ?? 53.8478));
+    final bool isPermissionGranted = await requestPermission();
+    if (isPermissionGranted) {
+      locationData = await Geolocator.getCurrentPosition();
+      sharedPreferencesHelper.setCurrentLocation(LatLng(
+          locationData?.latitude ?? 23.4241,
+          locationData?.longitude ?? 53.8478));
+      await mapController?.animateCamera(CameraUpdate.newLatLng(LatLng(
+          locationData?.latitude ?? 23.4241,
+          locationData?.longitude ?? 53.8478)));
+    }
+
     notifyListeners();
+  }
+
+  Future<bool> requestPermission() async {
+    var status = await Permission.location.status;
+    if (status.isDenied || status.isRestricted || status.isPermanentlyDenied) {
+      var result = await Permission.location.request();
+      return result.isGranted;
+    }
+    return status.isGranted;
   }
 
   Future<void> getLocationFromLocalStorage() async {
@@ -258,6 +277,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     } else {
       updateLoadState(LoaderState.noData);
     }
+    notifyListeners();
   }
 
   void updateErrorMessage(String msg) {
@@ -275,6 +295,14 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   updateIsButtonLoading(bool value) {
     isButtonLoading = value;
     notifyListeners();
+  }
+
+  void clearValues() {
+    buildingNumberEditingController.clear();
+    addressStreetController.clear();
+    addressCityController.clear();
+    addressEmirateController.clear();
+    textEditingController.clear();
   }
 
   @override

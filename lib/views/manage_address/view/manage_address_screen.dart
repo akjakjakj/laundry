@@ -93,48 +93,44 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(horizontal: 20.w),
-        child: ChangeNotifierProvider.value(
-          value: manageAddressProvider,
-          child: Consumer<ManageAddressProvider>(
-            builder: (context, provider, child) {
-              switch (provider.loaderState) {
-                case LoaderState.loading:
-                  return const CustomLinearProgress();
-                case LoaderState.loaded:
-                  return AddressTile(
-                    addressList: provider.addressesList,
-                    manageAddressProvider: provider,
-                    isFromCart: widget.isFromCart,
-                  );
-                case LoaderState.noProducts:
-                  return Center(
-                    child: Text(
-                      'No address found',
-                      style: FontPalette.poppinsBold,
-                    ),
-                  );
-                case LoaderState.networkErr:
-                  return Center(
-                    child: Text(
-                      'Network Error',
-                      style: FontPalette.poppinsBold,
-                    ),
-                  );
-                case LoaderState.error:
-                  return Center(
-                    child:
-                        Text('Oops...! Error', style: FontPalette.poppinsBold),
-                  );
-                case LoaderState.noData:
-                  return Center(
-                    child: Text(
-                      'No address Found',
-                      style: FontPalette.poppinsBold,
-                    ),
-                  );
-              }
-            },
-          ),
+        child: Consumer<ManageAddressProvider>(
+          builder: (context, provider, child) {
+            switch (provider.loaderState) {
+              case LoaderState.loading:
+                return const CustomLinearProgress();
+              case LoaderState.loaded:
+                return AddressTile(
+                  addressList: provider.addressesList,
+                  manageAddressProvider: provider,
+                  isFromCart: widget.isFromCart,
+                );
+              case LoaderState.noProducts:
+                return Center(
+                  child: Text(
+                    'No address found',
+                    style: FontPalette.poppinsBold,
+                  ),
+                );
+              case LoaderState.networkErr:
+                return Center(
+                  child: Text(
+                    'Network Error',
+                    style: FontPalette.poppinsBold,
+                  ),
+                );
+              case LoaderState.error:
+                return Center(
+                  child: Text('Oops...! Error', style: FontPalette.poppinsBold),
+                );
+              case LoaderState.noData:
+                return Center(
+                  child: Text(
+                    'No address Found',
+                    style: FontPalette.poppinsBold,
+                  ),
+                );
+            }
+          },
         ),
       ).withBackgroundImage(),
     );

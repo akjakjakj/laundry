@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/services/get_it.dart';
@@ -7,6 +8,7 @@ import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/utils/validator.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';
 import 'package:provider/provider.dart';
 
@@ -20,11 +22,19 @@ class AddAddressScreen extends StatefulWidget {
 }
 
 class _AddAddressScreenState extends State<AddAddressScreen> {
-  Helpers helpers = sl.get<Helpers>();
+  final Helpers helpers = sl.get<Helpers>();
+  final Validator validator = sl.get<Validator>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    CommonFunctions.afterInit(() => widget.manageAddressProvider.clearValues());
+    super.dispose();
   }
 
   @override
@@ -78,82 +88,109 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 24.w),
         child: ChangeNotifierProvider.value(
           value: widget.manageAddressProvider,
-          child: Column(
-            children: [
-              40.verticalSpace,
-              CustomTextField(
-                controller: widget
-                    .manageAddressProvider.buildingNumberEditingController,
-                labelText: 'Building Number',
-                hintText: 'Enter Your Building Number',
-              ),
-              40.verticalSpace,
-              CustomTextField(
-                controller:
-                    widget.manageAddressProvider.addressStreetController,
-                labelText: 'Street Name',
-                hintText: 'Enter Your Street Name',
-              ),
-              40.verticalSpace,
-              CustomTextField(
-                controller: widget.manageAddressProvider.addressCityController,
-                labelText: 'City',
-                hintText: 'Enter Your City',
-              ),
-              40.verticalSpace,
-              CustomTextField(
-                controller:
-                    widget.manageAddressProvider.addressEmirateController,
-                labelText: 'Emirate',
-                hintText: 'Enter Your Emirate',
-              ),
-              Expanded(
-                  child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 9.w),
-                        child: Selector<ManageAddressProvider, LoaderState>(
-                          selector: (context, provider) => provider.loaderState,
-                          builder: (context, value, child) => CustomButton(
-                            title: 'Confirm Address',
-                            isLoading: value == LoaderState.loading,
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              if (widget.manageAddressProvider
-                                      .buildingNumberEditingController.text
-                                      .trim()
-                                      .isEmpty &&
-                                  widget.manageAddressProvider
-                                      .addressCityController.text
-                                      .trim()
-                                      .isEmpty &&
-                                  widget.manageAddressProvider
-                                      .addressStreetController.text
-                                      .trim()
-                                      .isEmpty &&
-                                  widget.manageAddressProvider
-                                      .addressEmirateController.text
-                                      .trim()
-                                      .isNotEmpty) {
-                                helpers.errorToast(
-                                    'Please provide any of above values..');
-                              } else {
-                                widget.manageAddressProvider.addAddress(
-                                  onSuccess: () => widget.manageAddressProvider
-                                      .getAddress(
-                                          onSuccess: () => Navigator.popUntil(
-                                              context,
-                                              (route) =>
-                                                  route.settings.name ==
-                                                  RouteGenerator
-                                                      .routeAddressScreen)),
-                                );
-                              }
-                            },
-                          ),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        40.verticalSpace,
+                        CustomTextField(
+                          controller: widget.manageAddressProvider
+                              .buildingNumberEditingController,
+                          labelText: 'Building Number',
+                          hintText: 'Enter Your Building Number',
+                          validator: (value) =>
+                              validator.validateEmptyField(context, value),
                         ),
-                      )))
-            ],
+                        40.verticalSpace,
+                        CustomTextField(
+                          controller: widget
+                              .manageAddressProvider.addressStreetController,
+                          labelText: 'Street Name',
+                          hintText: 'Enter Your Street Name',
+                          validator: (value) =>
+                              validator.validateEmptyField(context, value),
+                        ),
+                        40.verticalSpace,
+                        CustomTextField(
+                          controller: widget
+                              .manageAddressProvider.addressCityController,
+                          labelText: 'City',
+                          hintText: 'Enter Your City',
+                          validator: (value) =>
+                              validator.validateEmptyField(context, value),
+                        ),
+                        40.verticalSpace,
+                        CustomTextField(
+                          controller: widget
+                              .manageAddressProvider.addressEmirateController,
+                          labelText: 'Emirate',
+                          hintText: 'Enter Your Emirate',
+                          validator: (value) =>
+                              validator.validateEmptyField(context, value),
+                        ),
+                        60.verticalSpace
+                      ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 9.w,
+                  ),
+                  child: Selector<ManageAddressProvider, LoaderState>(
+                    selector: (context, provider) => provider.loaderState,
+                    builder: (context, value, child) => CustomButton(
+                      title: 'Confirm Address',
+                      isLoading: value == LoaderState.loading,
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                        if (_formKey.currentState != null) {
+                          if (_formKey.currentState!.validate()) {
+                            // if (widget.manageAddressProvider
+                            //     .buildingNumberEditingController.text
+                            //     .trim()
+                            //     .isEmpty &&
+                            //     widget.manageAddressProvider
+                            //         .addressCityController.text
+                            //         .trim()
+                            //         .isEmpty &&
+                            //     widget.manageAddressProvider
+                            //         .addressStreetController.text
+                            //         .trim()
+                            //         .isEmpty &&
+                            //     widget.manageAddressProvider
+                            //         .addressEmirateController.text
+                            //         .trim()
+                            //         .isNotEmpty) {
+                            //   helpers.errorToast(
+                            //       'Please provide any of above values..');
+                            // } else {
+                            widget.manageAddressProvider.addAddress(
+                              onSuccess: () => widget.manageAddressProvider
+                                  .getAddress(
+                                      onSuccess: () => Navigator.popUntil(
+                                          context,
+                                          (route) =>
+                                              route.settings.name ==
+                                              RouteGenerator
+                                                  .routeAddressScreen)),
+                              onFailure: () => helpers.errorToast(
+                                  widget.manageAddressProvider.errorMessage ??
+                                      'Oops something went wrong'),
+                            );
+                            //}
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),
