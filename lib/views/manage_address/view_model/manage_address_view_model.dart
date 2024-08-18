@@ -210,11 +210,50 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
       sharedPreferencesHelper.setCurrentLocation(LatLng(
           locationData?.latitude ?? 23.4241,
           locationData?.longitude ?? 53.8478));
+      updateCameraPositionAndMarker(LatLng(locationData?.latitude ?? 23.4241,
+          locationData?.longitude ?? 53.8478));
       await mapController?.animateCamera(CameraUpdate.newLatLng(LatLng(
           locationData?.latitude ?? 23.4241,
           locationData?.longitude ?? 53.8478)));
     }
 
+    notifyListeners();
+  }
+
+  Future<void> getCurrentLocation() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Check if location services are enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      return;
+    }
+
+    // Request permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      return;
+    }
+
+    // Get the current position
+    locationData = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    sharedPreferencesHelper.setCurrentLocation(LatLng(
+        locationData?.latitude ?? 23.4241, locationData?.longitude ?? 53.8478));
+    updateCameraPositionAndMarker(LatLng(
+        locationData?.latitude ?? 23.4241, locationData?.longitude ?? 53.8478));
+    await mapController?.animateCamera(CameraUpdate.newLatLng(LatLng(
+        locationData?.latitude ?? 23.4241,
+        locationData?.longitude ?? 53.8478)));
     notifyListeners();
   }
 
@@ -224,14 +263,14 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
       var result = await Permission.location.request();
       return result.isGranted;
     }
-    return status.isGranted;
+    return status.isDenied;
   }
 
   Future<void> getLocationFromLocalStorage() async {
     updateBtnLoaderState(true);
     LatLng? latLng = await sharedPreferencesHelper.getCurrentLocation();
     updateCurrentPosition(latLng ?? const LatLng(23.4241, 53.8478));
-    await updateCameraPositionAndMarker(
+     updateCameraPositionAndMarker(
         latLng ?? const LatLng(23.4241, 53.8478));
     updateBtnLoaderState(false);
     notifyListeners();

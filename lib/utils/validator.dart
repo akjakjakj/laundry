@@ -10,8 +10,10 @@ class Validator {
     RegExp regExp = RegExp(pattern);
     if (msg != null) return msg;
     if ((value ?? '').isEmpty) return "This field can't be empty";
-    if (!regExp.hasMatch(value!) ||
-        (maxLength != null && value.length != maxLength)) {
+    if (!regExp.hasMatch(value!)
+        // ||
+        // (maxLength != null && value.length != maxLength)
+        ) {
       return 'Enter valid mobile number.';
     }
     return null;

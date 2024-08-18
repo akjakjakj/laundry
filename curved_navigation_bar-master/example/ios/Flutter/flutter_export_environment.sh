@@ -1,6 +1,6 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/anumodh/Documents/flutter"
+export "FLUTTER_ROOT=/Users/anumodh/Documents/flutter_sdk/flutter_3.10.6"
 export "FLUTTER_APPLICATION_PATH=/Users/anumodh/Documents/GitHub/laundry/curved_navigation_bar-master/example"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib/main.dart"

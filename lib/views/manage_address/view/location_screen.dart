@@ -76,7 +76,7 @@ class _LocationScreenState extends State<LocationScreen> {
         elevation: 0.0,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<ManageAddressProvider>().getLocation(),
+        onPressed: () => context.read<ManageAddressProvider>().getCurrentLocation(),
         child: const Icon(Icons.my_location_rounded),
       ),
       floatingActionButtonLocation: CustomFabLocation(),

@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyBIqAyWU21AiT7BE9sCCbxT48RCP-Kk8HM',
-    appId: '1:59711469600:ios:014a87f4037a5eb96fa445',
+    appId: '1:59711469600:ios:436def4b48eab5e06fa445',
     messagingSenderId: '59711469600',
     projectId: 'laundry-1389e',
     storageBucket: 'laundry-1389e.appspot.com',
-    iosBundleId: 'com.laundry',
+    iosBundleId: 'com.digitintech.ledegraissage',
   );
 
 }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
@@ -108,7 +107,8 @@ class AddressTile extends StatelessWidget {
                             child: Text(
                               'Set As Default',
                               style: FontPalette.poppinsRegular.copyWith(
-                                  fontSize: 12.sp, color: Colors.white),
+                                  fontSize: 12.0, color: Colors.white),
+                              softWrap: true,
                             ),
                           ),
                         ),
@@ -141,7 +141,7 @@ class AddressTile extends StatelessWidget {
                         child: Text(
                           'Remove',
                           style: FontPalette.poppinsRegular
-                              .copyWith(fontSize: 12.sp, color: Colors.white),
+                              .copyWith(fontSize: 12.0, color: Colors.white),
                         ),
                       ),
                     ).removeSplash(),

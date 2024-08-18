@@ -101,8 +101,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               .buildingNumberEditingController,
                           labelText: 'Building Number',
                           hintText: 'Enter Your Building Number',
-                          validator: (value) =>
-                              validator.validateEmptyField(context, value),
+                          validator: (value) => validator.validateEmptyField(
+                              context,
+                              widget.manageAddressProvider
+                                  .buildingNumberEditingController.text
+                                  .trim()),
                         ),
                         40.verticalSpace,
                         CustomTextField(
@@ -110,8 +113,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               .manageAddressProvider.addressStreetController,
                           labelText: 'Street Name',
                           hintText: 'Enter Your Street Name',
-                          validator: (value) =>
-                              validator.validateEmptyField(context, value),
+                          validator: (value) => validator.validateEmptyField(
+                              context,
+                              widget.manageAddressProvider
+                                  .addressStreetController.text
+                                  .trim()),
                         ),
                         40.verticalSpace,
                         CustomTextField(
@@ -119,8 +125,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               .manageAddressProvider.addressCityController,
                           labelText: 'City',
                           hintText: 'Enter Your City',
-                          validator: (value) =>
-                              validator.validateEmptyField(context, value),
+                          validator: (value) => validator.validateEmptyField(
+                              context,
+                              widget.manageAddressProvider.addressCityController
+                                  .text
+                                  .trim()),
                         ),
                         40.verticalSpace,
                         CustomTextField(
@@ -128,8 +137,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               .manageAddressProvider.addressEmirateController,
                           labelText: 'Emirate',
                           hintText: 'Enter Your Emirate',
-                          validator: (value) =>
-                              validator.validateEmptyField(context, value),
+                          validator: (value) => validator.validateEmptyField(
+                              context,
+                              widget.manageAddressProvider
+                                  .addressEmirateController.text
+                                  .trim()),
                         ),
                         60.verticalSpace
                       ],
@@ -149,25 +161,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         FocusScope.of(context).unfocus();
                         if (_formKey.currentState != null) {
                           if (_formKey.currentState!.validate()) {
-                            // if (widget.manageAddressProvider
-                            //     .buildingNumberEditingController.text
-                            //     .trim()
-                            //     .isEmpty &&
-                            //     widget.manageAddressProvider
-                            //         .addressCityController.text
-                            //         .trim()
-                            //         .isEmpty &&
-                            //     widget.manageAddressProvider
-                            //         .addressStreetController.text
-                            //         .trim()
-                            //         .isEmpty &&
-                            //     widget.manageAddressProvider
-                            //         .addressEmirateController.text
-                            //         .trim()
-                            //         .isNotEmpty) {
-                            //   helpers.errorToast(
-                            //       'Please provide any of above values..');
-                            // } else {
                             widget.manageAddressProvider.addAddress(
                               onSuccess: () => widget.manageAddressProvider
                                   .getAddress(
@@ -181,7 +174,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   widget.manageAddressProvider.errorMessage ??
                                       'Oops something went wrong'),
                             );
-                            //}
                           }
                         }
                       },

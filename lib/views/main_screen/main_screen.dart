@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
   void initState() {
     homeProvider = context.read<HomeProvider>();
     homeProvider.getServices();
-    context.read<ManageAddressProvider>().getLocation();
+    context.read<ManageAddressProvider>().getCurrentLocation();
     selectedIndex = ValueNotifier(2);
     pageController = PageController(initialPage: 2, keepPage: true);
     homeScrollController = ScrollController();

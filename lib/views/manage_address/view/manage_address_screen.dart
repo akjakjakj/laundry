@@ -18,12 +18,13 @@ class ManageAddressScreen extends StatefulWidget {
 }
 
 class _ManageAddressScreenState extends State<ManageAddressScreen> {
-  ManageAddressProvider manageAddressProvider = ManageAddressProvider();
+  late ManageAddressProvider manageAddressProvider;
 
   @override
   void initState() {
+    manageAddressProvider = context.read<ManageAddressProvider>();
     manageAddressProvider
-      ..getLocation()
+      ..getCurrentLocation()
       ..getAddress();
     super.initState();
   }
