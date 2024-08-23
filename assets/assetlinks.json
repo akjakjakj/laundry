@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.app.campus",
+    "sha256_cert_fingerprints":
+    ["F4:96:6A:BC:78:0C:46:78:F9:2B:DC:70:5D:39:40:2B:E5:41:01:9B:5F:A0:39:59:E9:97:40:99:5C:F6:D8:94"]
+  }
+}]

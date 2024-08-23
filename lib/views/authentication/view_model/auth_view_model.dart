@@ -111,8 +111,10 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                 mobileNumber: registrationMobileNumberController.text.trim());
         resp = registrationRepo
             .register(registrationRequestModel)
-            .thenRight((right) {
+            .thenRight((right) async {
           userData = right;
+          await sharedPreferencesHelper.saveUserToken(userData?.token ?? '');
+          await sharedPreferencesHelper.saveLoginStatus(true);
           updateErrorMessage(null);
           if (onSuccess != null) onSuccess();
           updateBtnLoaderState(false);
@@ -230,8 +232,11 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
     if (network) {
       try {
         resp = forgotPasswordRepo
-            .verifyForgotPasswordOtp(forgotPasswordEmailController.text.trim(),
-                forgotPasswordOtpController.text.trim())
+            .resetPassword(
+                email: forgotPasswordEmailController.text.trim(),
+                confirmPassword:
+                    resetPasswordConfirmationController.text.trim(),
+                password: resetPasswordController.text.trim())
             .thenRight((right) {
           if (onSuccess != null) onSuccess();
           updateBtnLoaderState(false);

@@ -33,6 +33,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   @override
+  void dispose() {
+    authProvider.forgotPasswordEmailController.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -87,7 +93,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 controller: authProvider.forgotPasswordEmailController,
                 hintText: 'Enter Your Email Address',
                 labelText: 'Email',
-                validator: (value) => validator.validateEmail(context, value),
+                validator: (value) => validator.validateEmail(context,
+                    authProvider.forgotPasswordEmailController.text.trim()),
               ),
               50.verticalSpace,
               Expanded(

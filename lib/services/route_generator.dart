@@ -137,6 +137,7 @@ class RouteGenerator {
               pastOrdersProvider:
                   routeArgs.pastOrdersProvider ?? PastOrdersProvider(),
               orderId: routeArgs.orderId,
+              orders: routeArgs.orders,
             ));
       case routeActiveOrderDetails:
         ActiveOrderDetailsArguments routeArgs =
@@ -146,6 +147,7 @@ class RouteGenerator {
             ActiveOrdersDetailsScreen(
               activeOrdersProvider:
                   routeArgs.activeOrdersProvider ?? ActiveOrdersProvider(),
+              orders: routeArgs.orders,
               orderId: routeArgs.orderId,
             ));
       case routePricePdfView:

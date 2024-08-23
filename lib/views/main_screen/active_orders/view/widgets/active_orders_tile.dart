@@ -23,7 +23,8 @@ class ActiveOrdersTile extends StatelessWidget {
             context, RouteGenerator.routeActiveOrderDetails,
             arguments: ActiveOrderDetailsArguments(
                 orderId: ordersList[index].id,
-                activeOrdersProvider: activeOrdersProvider)),
+                activeOrdersProvider: activeOrdersProvider,
+                orders: ordersList[index])),
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
           decoration: BoxDecoration(
@@ -44,7 +45,7 @@ class ActiveOrdersTile extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    ordersList[index].date ?? '',
+                    ordersList[index].orderDate ?? '',
                     style: FontPalette.poppinsRegular.copyWith(
                         fontSize: 11.sp,
                         color: ColorPalette.greenColor,
@@ -52,50 +53,29 @@ class ActiveOrdersTile extends StatelessWidget {
                   )
                 ],
               ),
-              30.verticalSpace,
-              Row(
-                children: [
-                  Flexible(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: Text(
-                        ordersList[index].productsName?.join(', ') ?? '',
-                        style: FontPalette.poppinsRegular.copyWith(
-                            fontSize: 11.sp,
-                            color: HexColor('#000000'),
-                            fontWeight: FontWeight.w500),
-                      ),
-                    ),
-                  ),
-                  15.horizontalSpace,
-                  Text(
-                    'Items',
-                    style: FontPalette.poppinsRegular.copyWith(
-                        fontSize: 11.sp,
-                        color: HexColor('#000000'),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
+              10.verticalSpace,
+              Text(
+                'Address :  ${ordersList[index].address.toString()}',
+                style: FontPalette.poppinsRegular.copyWith(
+                    fontSize: 11.sp,
+                    color: HexColor('#000000'),
+                    fontWeight: FontWeight.w500),
               ),
               10.verticalSpace,
-              Row(
-                children: [
-                  Text(
-                    'Service for men',
-                    style: FontPalette.poppinsRegular.copyWith(
-                        fontSize: 8.sp,
-                        color: HexColor('#000000'),
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const Spacer(),
-                  Text(
-                    ordersList[index].quantity.toString(),
-                    style: FontPalette.poppinsRegular.copyWith(
-                        fontSize: 11.sp,
-                        color: HexColor('#000000'),
-                        fontWeight: FontWeight.w500),
-                  ),
-                ],
+              Text(
+                'Pickup Date : ${ordersList[index].pickupDate ?? 'N/A'}',
+                style: FontPalette.poppinsRegular.copyWith(
+                    fontSize: 11.sp,
+                    color: HexColor('#000000'),
+                    fontWeight: FontWeight.w500),
+              ),
+              10.verticalSpace,
+              Text(
+                'Pickup Time Slot : ${ordersList[index].pickUpTimeSlot ?? 'N/A'}',
+                style: FontPalette.poppinsRegular.copyWith(
+                    fontSize: 11.sp,
+                    color: HexColor('#000000'),
+                    fontWeight: FontWeight.w500),
               ),
             ],
           ),

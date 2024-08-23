@@ -99,8 +99,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         CustomTextField(
                           controller: widget.manageAddressProvider
                               .buildingNumberEditingController,
-                          labelText: 'Building Number',
-                          hintText: 'Enter Your Building Number',
+                          labelText: 'Flat/House Number',
+                          hintText: 'Enter Your Flat/House Number',
                           validator: (value) => validator.validateEmptyField(
                               context,
                               widget.manageAddressProvider
@@ -123,8 +123,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         CustomTextField(
                           controller: widget
                               .manageAddressProvider.addressCityController,
-                          labelText: 'City',
-                          hintText: 'Enter Your City',
+                          labelText: 'Landmark',
+                          hintText: 'Enter Your Landmark',
                           validator: (value) => validator.validateEmptyField(
                               context,
                               widget.manageAddressProvider.addressCityController

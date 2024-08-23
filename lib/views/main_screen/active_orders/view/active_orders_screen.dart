@@ -74,7 +74,7 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
                               children: [
                                 20.verticalSpace,
                                 Text(
-                                  'Past Orders',
+                                  'Active Orders',
                                   style: FontPalette.poppinsBold.copyWith(
                                       fontSize: 11.sp,
                                       color: HexColor('#000000')),

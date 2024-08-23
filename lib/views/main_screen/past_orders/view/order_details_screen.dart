@@ -5,14 +5,19 @@ import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
 import 'package:provider/provider.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   const OrderDetailsScreen(
-      {super.key, required this.pastOrdersProvider, this.orderId});
+      {super.key,
+      required this.pastOrdersProvider,
+      this.orderId,
+      required this.orders});
   final PastOrdersProvider pastOrdersProvider;
   final int? orderId;
+  final Orders? orders;
 
   @override
   _OrderDetailsScreenState createState() => _OrderDetailsScreenState();
@@ -21,7 +26,7 @@ class OrderDetailsScreen extends StatefulWidget {
 class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
   @override
   void initState() {
-    widget.pastOrdersProvider.getOrderDetails(widget.orderId ?? 0);
+    // widget.pastOrdersProvider.getOrderDetails(widget.orderId ?? 0);
     super.initState();
   }
 
@@ -90,15 +95,23 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       20.verticalSpace,
                       Row(
                         children: [
+                          Text('Order Status : ',
+                              style: FontPalette.poppinsRegular.copyWith(
+                                  fontSize: 14.sp,
+                                  color: ColorPalette.primaryColor)),
                           Text(
-                            'Cancelled',
-                            style: FontPalette.poppinsRegular.copyWith(
-                                fontSize: 17.sp, color: HexColor('#F11A1A')),
+                            widget.orders?.orderStatus ?? 'N/A',
+                            style: FontPalette.poppinsBold.copyWith(
+                                color: HexColor('#404041'), fontSize: 17.sp),
                           ),
                           const Spacer(),
+                          Text('Order id : ',
+                              style: FontPalette.poppinsRegular.copyWith(
+                                  fontSize: 14.sp,
+                                  color: ColorPalette.primaryColor)),
                           Text(
-                            'Order Id: ${provider.orderDetailsModel?.order?.id}',
-                            style: FontPalette.poppinsRegular.copyWith(
+                            "#${widget.orders?.id?.toString() ?? 'N/A'}",
+                            style: FontPalette.poppinsBold.copyWith(
                                 fontSize: 14.sp,
                                 color: ColorPalette.primaryColor),
                           )
@@ -113,123 +126,132 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       25.verticalSpace,
                       _OrderDetailsTile(
                         title: 'Name',
-                        value:
-                            provider.orderDetailsModel?.order?.customer ?? '',
+                        value: widget.orders?.customer ?? 'N/A',
                       ),
-                      32.verticalSpace,
-                      const _OrderDetailsTile(
+                      14.verticalSpace,
+                      _OrderDetailsTile(
                         title: 'Address',
-                        value: '',
+                        value: widget.orders?.address?.toString() ?? 'N/A',
                       ),
-                      32.verticalSpace,
+                      14.verticalSpace,
                       _OrderDetailsTile(
-                        title: 'Pick up details',
-                        value: provider.orderDetailsModel?.order?.pickupAt,
+                        title: 'Order Date',
+                        value: widget.orders?.orderDate ?? 'N/A',
                       ),
-                      32.verticalSpace,
+                      14.verticalSpace,
                       _OrderDetailsTile(
-                        title: 'Delivery details',
-                        value: provider
-                            .orderDetailsModel?.order?.expectedDeliveryDate,
+                        title: 'Pickup Date',
+                        value: widget.orders?.pickupDate ?? 'N/A',
                       ),
-                      32.verticalSpace,
-                      Text(
-                        'Total Items',
-                        style:
-                            FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
-                      ),
-                      32.verticalSpace,
+                      14.verticalSpace,
                       _OrderDetailsTile(
-                        title: 'Total items is',
-                        value: provider
-                            .orderDetailsModel?.order?.details?.length
-                            .toString(),
+                        title: 'Pickup Time',
+                        value: widget.orders?.pickUpTimeSlot ?? 'N/A',
                       ),
-                      25.verticalSpace,
-                      Text(
-                        'Included Items',
-                        style:
-                            FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
-                      ),
-                      25.verticalSpace,
-                      Container(
-                        padding: EdgeInsets.symmetric(horizontal: 25.w),
-                        decoration: BoxDecoration(
-                            color: const Color(0xfff3f3f4),
-                            borderRadius: BorderRadius.circular(7.r)),
-                        child: Column(
-                          children: [
-                            15.verticalSpace,
-                            ListView.separated(
-                              itemBuilder: (context, index) {
-                                return Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          provider.orderDetailsModel?.order
-                                                  ?.details?[index].product ??
-                                              '',
-                                          style: FontPalette.poppinsBold
-                                              .copyWith(fontSize: 14.sp),
-                                        ),
-                                        Text(
-                                          'Stream Ironing x (${provider.orderDetailsModel?.order?.details?[index].quantity})',
-                                          style: FontPalette.poppinsRegular
-                                              .copyWith(
-                                                  fontSize: 11.sp,
-                                                  color: HexColor('#404041')),
-                                        )
-                                      ],
-                                    ),
-                                    Text(
-                                      'AED ${provider.orderDetailsModel?.order?.details?[index].amount}',
-                                      style: FontPalette.poppinsRegular
-                                          .copyWith(
-                                              fontSize: 15.sp,
-                                              color: HexColor('#404041')),
-                                    )
-                                  ],
-                                );
-                              },
-                              separatorBuilder: (context, index) =>
-                                  10.verticalSpace,
-                              itemCount:
-                                  (provider.orderDetailsModel?.order?.details !=
-                                          null)
-                                      ? provider.orderDetailsModel!.order!
-                                          .details!.length
-                                      : 0,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                            ),
-                            20.verticalSpace,
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  'Total (Incl. VAT)',
-                                  style: FontPalette.poppinsRegular.copyWith(
-                                      fontSize: 13.sp,
-                                      color: HexColor('#404041')),
-                                ),
-                                Text(
-                                  'AED ${provider.orderDetailsModel?.order?.totalCost}',
-                                  style: FontPalette.poppinsBold.copyWith(
-                                      fontSize: 15.sp,
-                                      color: HexColor('#404041')),
-                                )
-                              ],
-                            ),
-                            20.verticalSpace
-                          ],
-                        ),
-                      ),
-                      50.verticalSpace
+                      14.verticalSpace,
+                      // _OrderDetailsTile(
+                      //   title: 'Delivery details',
+                      //   value: provider
+                      //       .orderDetailsModel?.order?.expectedDeliveryDate,
+                      // ),
+                      // 32.verticalSpace,
+                      // Text(
+                      //   'Total Items',
+                      //   style:
+                      //       FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
+                      // ),
+                      // 32.verticalSpace,
+                      // _OrderDetailsTile(
+                      //   title: 'Total items is',
+                      //   value: provider
+                      //       .orderDetailsModel?.order?.details?.length
+                      //       .toString(),
+                      // ),
+                      // 25.verticalSpace,
+                      // Text(
+                      //   'Included Items',
+                      //   style:
+                      //       FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
+                      // ),
+                      // 25.verticalSpace,
+                      // Container(
+                      //   padding: EdgeInsets.symmetric(horizontal: 25.w),
+                      //   decoration: BoxDecoration(
+                      //       color: const Color(0xfff3f3f4),
+                      //       borderRadius: BorderRadius.circular(7.r)),
+                      //   child: Column(
+                      //     children: [
+                      //       15.verticalSpace,
+                      //       ListView.separated(
+                      //         itemBuilder: (context, index) {
+                      //           return Row(
+                      //             mainAxisAlignment:
+                      //                 MainAxisAlignment.spaceBetween,
+                      //             children: [
+                      //               Column(
+                      //                 crossAxisAlignment:
+                      //                     CrossAxisAlignment.start,
+                      //                 children: [
+                      //                   Text(
+                      //                     provider.orderDetailsModel?.order
+                      //                             ?.details?[index].product ??
+                      //                         '',
+                      //                     style: FontPalette.poppinsBold
+                      //                         .copyWith(fontSize: 14.sp),
+                      //                   ),
+                      //                   Text(
+                      //                     'Stream Ironing x (${provider.orderDetailsModel?.order?.details?[index].quantity})',
+                      //                     style: FontPalette.poppinsRegular
+                      //                         .copyWith(
+                      //                             fontSize: 11.sp,
+                      //                             color: HexColor('#404041')),
+                      //                   )
+                      //                 ],
+                      //               ),
+                      //               Text(
+                      //                 'AED ${provider.orderDetailsModel?.order?.details?[index].amount}',
+                      //                 style: FontPalette.poppinsRegular
+                      //                     .copyWith(
+                      //                         fontSize: 15.sp,
+                      //                         color: HexColor('#404041')),
+                      //               )
+                      //             ],
+                      //           );
+                      //         },
+                      //         separatorBuilder: (context, index) =>
+                      //             10.verticalSpace,
+                      //         itemCount:
+                      //             (provider.orderDetailsModel?.order?.details !=
+                      //                     null)
+                      //                 ? provider.orderDetailsModel!.order!
+                      //                     .details!.length
+                      //                 : 0,
+                      //         shrinkWrap: true,
+                      //         physics: const NeverScrollableScrollPhysics(),
+                      //       ),
+                      //       20.verticalSpace,
+                      //       Row(
+                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      //         children: [
+                      //           Text(
+                      //             'Total (Incl. VAT)',
+                      //             style: FontPalette.poppinsRegular.copyWith(
+                      //                 fontSize: 13.sp,
+                      //                 color: HexColor('#404041')),
+                      //           ),
+                      //           Text(
+                      //             'AED ${provider.orderDetailsModel?.order?.totalCost}',
+                      //             style: FontPalette.poppinsBold.copyWith(
+                      //                 fontSize: 15.sp,
+                      //                 color: HexColor('#404041')),
+                      //           )
+                      //         ],
+                      //       ),
+                      //       20.verticalSpace
+                      //     ],
+                      //   ),
+                      // ),
+                      // 50.verticalSpace
                     ],
                   ),
                 ),
@@ -274,25 +296,26 @@ class _OrderDetailsTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 50.h,
-      padding: EdgeInsets.symmetric(horizontal: 25.w),
-      decoration: BoxDecoration(
-          color: const Color(0xfff3f3f4),
-          borderRadius: BorderRadius.circular(7.r)),
-      child: Row(
-        children: [
-          Text(
-            title ?? '',
-            style:
-                FontPalette.poppinsRegular.copyWith(color: HexColor('#404041')),
-          ),
-          const Spacer(),
-          Text(value ?? '',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title ?? '',
+          style:
+          FontPalette.poppinsRegular.copyWith(color: HexColor('#404041')),
+        ),
+        6.verticalSpace,
+        Container(
+          width: double.maxFinite,
+          padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.0),
+          decoration: BoxDecoration(
+              color: const Color(0xfff3f3f4),
+              borderRadius: BorderRadius.circular(7.r)),
+          child: Text(value ?? '',
               style: FontPalette.poppinsRegular
-                  .copyWith(color: HexColor('#404041')))
-        ],
-      ),
+                  .copyWith(color: HexColor('#404041'))),
+        ),
+      ],
     );
   }
 }

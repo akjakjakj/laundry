@@ -45,6 +45,12 @@ class _ForgotPasswordOtpVerificationScreenState
   }
 
   @override
+  void dispose() {
+    authProvider.forgotPasswordOtpController.clear();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double width =
         190.w < (context.sw() - 40.w) ? 190.w / 4 : (context.sw() - 40.w) / 4;
@@ -144,10 +150,24 @@ class _ForgotPasswordOtpVerificationScreenState
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
-                child: CustomButton(
-                  title: 'Continue',
-                  onTap: () => Navigator.pushNamed(context,
-                      RouteGenerator.routeForgotPasswordResetPasswordScreen),
+                child: Selector<AuthProvider, bool>(
+                  selector: (context, provider) => provider.btnLoaderState,
+                  builder: (context, value, child) => CustomButton(
+                    isLoading: value,
+                    title: 'Continue',
+                    onTap: () => authProvider.verifyForgotPasswordOtp(
+                        onSuccess: () {
+                          authProvider.updateErrorMessage(null);
+                          authProvider.helpers
+                              .successToast('OTP verified successfully');
+                          Navigator.pushNamed(
+                              context,
+                              RouteGenerator
+                                  .routeForgotPasswordResetPasswordScreen);
+                        },
+                        onFailure: () => authProvider.helpers
+                            .errorToast(authProvider.errorMessage ?? '')),
+                  ),
                 ),
               ),
             )

@@ -149,7 +149,7 @@ class _NormalServiceState extends State<NormalService> {
                                           await showDatePicker(
                                               context: context,
                                               initialDate: DateTime.now(),
-                                              firstDate: DateTime(1950),
+                                              firstDate: DateTime.now(),
                                               lastDate: DateTime(2100));
 
                                       if (pickedDate != null) {

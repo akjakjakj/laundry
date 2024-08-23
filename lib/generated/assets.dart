@@ -2,6 +2,7 @@
 class Assets {
   Assets._();
 
+  static const String assetsAssetlinks = 'assets/assetlinks.json';
   static const String fontsPoppinsBlack = 'assets/fonts/Poppins-Black.ttf';
   static const String fontsPoppinsBlackItalic = 'assets/fonts/Poppins-BlackItalic.ttf';
   static const String fontsPoppinsBold = 'assets/fonts/Poppins-Bold.ttf';
@@ -20,6 +21,7 @@ class Assets {
   static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
   static const String fontsPoppinsThin = 'assets/fonts/Poppins-Thin.ttf';
   static const String fontsPoppinsThinItalic = 'assets/fonts/Poppins-ThinItalic.ttf';
+  static const String iconsActiveOrders = 'assets/icons/active_orders.png';
   static const String iconsBag = 'assets/icons/bag.png';
   static const String iconsCart = 'assets/icons/cart.png';
   static const String iconsEcoDryClean = 'assets/icons/eco_dry_clean.png';
@@ -36,10 +38,13 @@ class Assets {
   static const String iconsTerms = 'assets/icons/terms.png';
   static const String iconsWhatsapp = 'assets/icons/whatsapp.png';
   static const String imagesBgImage = 'assets/images/bg_image.png';
+  static const String imagesBlankImage = 'assets/images/blank_image.png';
   static const String imagesElectrolux = 'assets/images/electrolux.png';
   static const String imagesKidsShoe = 'assets/images/kids_shoe.png';
   static const String imagesLoginLogo = 'assets/images/login_logo.png';
   static const String imagesLogo = 'assets/images/logo.png';
+  static const String imagesPrice = 'assets/images/price.png';
   static const String imagesShoe = 'assets/images/shoe.png';
+  static const String imagesSplashScreen = 'assets/images/Splash_Screen.gif';
 
 }

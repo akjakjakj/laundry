@@ -175,7 +175,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               onSuccess: () =>
                                   Navigator.pushNamedAndRemoveUntil(
                                       context,
-                                      RouteGenerator.routeLogin,
+                                      RouteGenerator.routeMainScreen,
                                       (route) => false),
                               onFailure: () => helpers
                                   .errorToast(authProvider.errorMessage ?? ''),

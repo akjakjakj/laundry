@@ -28,6 +28,14 @@ class Orders {
   String? date;
   List<Details>? details;
   List<String>? productsName;
+  String? branch;
+  dynamic address;
+  String? orderDate;
+  String? createdDate;
+  String? pickupDate;
+  String? pickUpTimeSlot;
+  String? customer;
+  String? orderStatus;
 
   Orders(
       {this.id,
@@ -37,7 +45,15 @@ class Orders {
       this.quantity,
       this.date,
       this.details,
-      this.productsName});
+      this.productsName,
+      this.pickUpTimeSlot,
+      this.orderDate,
+      this.pickupDate,
+      this.createdDate,
+      this.address,
+      this.branch,
+      this.customer,
+      this.orderStatus});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -46,6 +62,14 @@ class Orders {
     product = json['product'];
     quantity = json['quantity'];
     date = json['date'];
+    customer = json['customer'];
+    branch = json['branch'];
+    address = json['address'];
+    orderDate = json['order_date'];
+    createdDate = json['created_date'];
+    pickupDate = json['pickup_date'];
+    pickUpTimeSlot = json['pickup_time_slot'];
+    orderStatus = json['order_status'];
     if (json['details'] != null) {
       details = <Details>[];
       productsName = [];

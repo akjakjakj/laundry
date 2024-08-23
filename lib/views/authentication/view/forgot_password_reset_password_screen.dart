@@ -4,6 +4,7 @@ import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/services/get_it.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/utils/validator.dart';
 import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
@@ -21,11 +22,21 @@ class _ForgotPasswordResetPasswordScreenState
     extends State<ForgotPasswordResetPasswordScreen> {
   Validator validator = sl.get<Validator>();
   late AuthProvider authProvider;
+  late final GlobalKey<FormState> _formKey;
 
   @override
   void initState() {
     authProvider = context.read<AuthProvider>();
+    _formKey = GlobalKey<FormState>();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    authProvider
+      ..resetPasswordController.clear()
+      ..resetPasswordConfirmationController.clear();
+    super.dispose();
   }
 
   @override
@@ -34,7 +45,10 @@ class _ForgotPasswordResetPasswordScreenState
       appBar: AppBar(
         centerTitle: true,
         leading: GestureDetector(
-          onTap: () => Navigator.pop(context),
+          onTap: () => Navigator.popUntil(
+              context,
+              (route) =>
+                  route.settings.name == RouteGenerator.routeForgotPassword),
           child: Center(
             child: Container(
               decoration: const BoxDecoration(
@@ -74,34 +88,63 @@ class _ForgotPasswordResetPasswordScreenState
       ),
       body: Padding(
         padding: EdgeInsets.symmetric(vertical: 50.h, horizontal: 24.w),
-        child: Column(
-          children: [
-            CustomTextField(
-              controller: authProvider.resetPasswordController,
-              labelText: 'Enter New Password',
-              hintText: 'Enter Your New Password',
-              enableObscure: true,
-              validator: (value) => validator.validatePassword(context, value),
-            ),
-            35.verticalSpace,
-            CustomTextField(
-              controller: authProvider.registrationConfirmPasswordController,
-              labelText: 'Confirm Password',
-              hintText: 'Re-Enter Your New Password',
-              enableObscure: true,
-              validator: (value) => validator.validatePassword(context, value),
-            ),
-            const Expanded(
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: CustomButton(
-                  title: 'Reset Password',
-                  // onTap: () => Navigator.pushNamed(context,
-                  //     RouteGenerator.routeForgotPasswordResetPasswordScreen),
-                ),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              CustomTextField(
+                controller: authProvider.resetPasswordController,
+                labelText: 'Enter New Password',
+                hintText: 'Enter Your New Password',
+                enableObscure: true,
+                validator: (value) =>
+                    validator.validatePassword(context, value),
               ),
-            )
-          ],
+              35.verticalSpace,
+              CustomTextField(
+                controller: authProvider.resetPasswordConfirmationController,
+                labelText: 'Confirm Password',
+                hintText: 'Re-Enter Your New Password',
+                enableObscure: true,
+                validator: (value) => validator.validateConfirmPassword(
+                    context,
+                    authProvider.resetPasswordController.text.trim(),
+                    value ?? ''),
+              ),
+              Expanded(
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Selector<AuthProvider, bool>(
+                    selector: (context, provider) => provider.btnLoaderState,
+                    builder: (context, value, child) => CustomButton(
+                      title: 'Reset Password',
+                      isLoading: value,
+                      onTap: () {
+                        if (_formKey.currentState != null) {
+                          if (_formKey.currentState!.validate()) {
+                            authProvider.resetPassword(
+                                onSuccess: () {
+                                  authProvider.updateErrorMessage(null);
+                                  authProvider.helpers.successToast(
+                                      'Password changed successfully');
+                                  Navigator.popUntil(
+                                      context,
+                                      (route) =>
+                                          route.settings.name ==
+                                          RouteGenerator.routeLogin);
+                                },
+                                onFailure: () => authProvider.helpers
+                                    .errorToast(
+                                        authProvider.errorMessage ?? ''));
+                          }
+                        }
+                      },
+                    ),
+                  ),
+                ),
+              )
+            ],
+          ),
         ),
       ).withBackgroundImage(),
     );
