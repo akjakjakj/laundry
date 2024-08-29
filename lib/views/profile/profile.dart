@@ -116,20 +116,20 @@ class _ProfileState extends State<Profile> {
                                             image: user?.profilePicture,
                                             fit: BoxFit.cover,
                                           )),
-                                  Container(
-                                    height: 30.r,
-                                    width: 30.r,
-                                    margin: EdgeInsets.all(10.r),
-                                    decoration: BoxDecoration(
-                                      color: ColorPalette.primaryColor,
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      size: 18.r,
-                                      Icons.edit,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  // Container(
+                                  //   height: 30.r,
+                                  //   width: 30.r,
+                                  //   margin: EdgeInsets.all(10.r),
+                                  //   decoration: BoxDecoration(
+                                  //     color: ColorPalette.primaryColor,
+                                  //     shape: BoxShape.circle,
+                                  //   ),
+                                  //   child: Icon(
+                                  //     size: 18.r,
+                                  //     Icons.edit,
+                                  //     color: Colors.white,
+                                  //   ),
+                                  // ),
                                 ],
                               ),
                               5.verticalSpace,
