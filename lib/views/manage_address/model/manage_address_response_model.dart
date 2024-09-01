@@ -1,4 +1,3 @@
-
 class ManageAddressResponse {
   bool? status;
   List<Addresses>? addresses;
@@ -32,6 +31,7 @@ class Addresses {
   String? createdAt;
   String? updatedAt;
   int? isDefault;
+  String? houseNumber;
 
   Addresses(
       {id,
@@ -46,7 +46,8 @@ class Addresses {
       longitude,
       createdAt,
       updatedAt,
-      isDefault});
+      isDefault,
+      houseNumber});
 
   Addresses.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -62,6 +63,7 @@ class Addresses {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     isDefault = json['is_default'];
+    houseNumber = json['house_no'];
   }
 
   Map<String, dynamic> toJson() {
@@ -79,7 +81,7 @@ class Addresses {
     data['is_default'] = isDefault;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    data['house_no']=houseNumber;
     return data;
   }
 }
-

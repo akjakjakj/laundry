@@ -6,6 +6,7 @@ import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
+import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/utils/validator.dart';
@@ -90,10 +91,12 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
           child: Form(
             key: _formKey,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: SingleChildScrollView(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         40.verticalSpace,
                         CustomTextField(
@@ -108,41 +111,104 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                   .trim()),
                         ),
                         40.verticalSpace,
-                        CustomTextField(
-                          controller: widget
-                              .manageAddressProvider.addressStreetController,
-                          labelText: 'Street Name',
-                          hintText: 'Enter Your Street Name',
+                        FormField(
+                          autovalidateMode: AutovalidateMode.disabled,
                           validator: (value) => validator.validateEmptyField(
                               context,
-                              widget.manageAddressProvider
-                                  .addressStreetController.text
-                                  .trim()),
-                        ),
-                        40.verticalSpace,
-                        CustomTextField(
-                          controller: widget
-                              .manageAddressProvider.addressCityController,
-                          labelText: 'Landmark',
-                          hintText: 'Enter Your Landmark',
-                          validator: (value) => validator.validateEmptyField(
-                              context,
-                              widget.manageAddressProvider.addressCityController
+                              widget.manageAddressProvider.fullAddressController
                                   .text
                                   .trim()),
+                          builder: (field) => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Full Address",
+                                style: FontPalette.poppinsBold.copyWith(
+                                    color: field.hasError
+                                        ? HexColor("E50019")
+                                        : Colors.black,
+                                    fontSize: 11.sp),
+                              ),
+                              SizedBox(
+                                height: 100,
+                                width: double.maxFinite,
+                                child: Expanded(
+                                    child: TextFormField(
+                                  controller: widget.manageAddressProvider
+                                      .fullAddressController,
+                                  decoration: InputDecoration(
+                                      hintText: 'Enter Full Address',
+                                      hintStyle: FontPalette.poppinsRegular
+                                          .copyWith(
+                                              color: ColorPalette.hintColor),
+                                      contentPadding: EdgeInsets.symmetric(
+                                          horizontal: 0.w, vertical: 0.h),
+                                      border: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: field.hasError
+                                                  ? HexColor("E50019")
+                                                  : HexColor('#DBDBDB'))),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                          color: field.hasError
+                                              ? HexColor("E50019")
+                                              : Colors.blue, // Focused border
+                                        ),
+                                      ),
+                                      enabledBorder: UnderlineInputBorder(
+                                          borderSide: BorderSide(
+                                        color: field.hasError
+                                            ? HexColor("E50019")
+                                            : HexColor(
+                                                '#DBDBDB'), // Default border
+                                      ))),
+                                  maxLines: null,
+                                  expands: true,
+                                  keyboardType: TextInputType.multiline,
+                                )),
+                              ),
+                              AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                child: field.hasError
+                                    ? Padding(
+                                        padding: EdgeInsets.only(top: 4.h),
+                                        child: Text(
+                                          field.errorText ?? '',
+                                          style: FontPalette.poppinsRegular
+                                              .copyWith(
+                                                  color: HexColor("E50019")),
+                                        ),
+                                      )
+                                    : const SizedBox.shrink(),
+                              )
+                            ],
+                          ),
                         ),
-                        40.verticalSpace,
-                        CustomTextField(
-                          controller: widget
-                              .manageAddressProvider.addressEmirateController,
-                          labelText: 'Emirate',
-                          hintText: 'Enter Your Emirate',
-                          validator: (value) => validator.validateEmptyField(
-                              context,
-                              widget.manageAddressProvider
-                                  .addressEmirateController.text
-                                  .trim()),
-                        ),
+
+                        // 40.verticalSpace,
+                        // CustomTextField(
+                        //   controller: widget
+                        //       .manageAddressProvider.addressCityController,
+                        //   labelText: 'Landmark',
+                        //   hintText: 'Enter Your Landmark',
+                        //   validator: (value) => validator.validateEmptyField(
+                        //       context,
+                        //       widget.manageAddressProvider.addressCityController
+                        //           .text
+                        //           .trim()),
+                        // ),
+                        // 40.verticalSpace,
+                        // CustomTextField(
+                        //   controller: widget
+                        //       .manageAddressProvider.addressEmirateController,
+                        //   labelText: 'Emirate',
+                        //   hintText: 'Enter Your Emirate',
+                        //   validator: (value) => validator.validateEmptyField(
+                        //       context,
+                        //       widget.manageAddressProvider
+                        //           .addressEmirateController.text
+                        //           .trim()),
+                        // ),
                         60.verticalSpace
                       ],
                     ),

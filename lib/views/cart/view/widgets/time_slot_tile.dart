@@ -6,10 +6,15 @@ import 'package:laundry/utils/font_palette.dart';
 
 class TimeSlotTile extends StatelessWidget {
   const TimeSlotTile(
-      {super.key, this.title, required this.isSelectedIndex, this.onTap});
+      {super.key,
+      this.title,
+      required this.isSelectedIndex,
+      this.onTap,
+      this.isAvailable});
   final String? title;
   final bool isSelectedIndex;
   final Function()? onTap;
+  final bool? isAvailable;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -27,7 +32,11 @@ class TimeSlotTile extends StatelessWidget {
           children: [
             Icon(
               Icons.timer,
-              color: isSelectedIndex ? Colors.white : ColorPalette.primaryColor,
+              color: (isAvailable ?? true)
+                  ? isSelectedIndex
+                      ? Colors.white
+                      : ColorPalette.primaryColor
+                  : ColorPalette.primaryColor.withOpacity(.5),
             ),
             5.horizontalSpace,
             Text(
@@ -35,7 +44,11 @@ class TimeSlotTile extends StatelessWidget {
               style: FontPalette.poppinsRegular.copyWith(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w500,
-                  color: isSelectedIndex ? Colors.white : Colors.black),
+                  color: (isAvailable ?? true)
+                      ? isSelectedIndex
+                          ? Colors.white
+                          : Colors.black
+                      : Colors.black.withOpacity(.5)),
             )
           ],
         ),

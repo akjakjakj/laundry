@@ -1,4 +1,5 @@
 class AddAddressRequestModel {
+  String? houseNumber;
   String? address;
   String? city;
   String? state;
@@ -14,5 +15,6 @@ class AddAddressRequestModel {
       this.state,
       this.latitude,
       this.country,
-      this.postalCode});
+      this.postalCode,
+      this.houseNumber});
 }

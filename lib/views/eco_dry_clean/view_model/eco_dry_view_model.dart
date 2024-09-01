@@ -14,6 +14,7 @@ import 'package:laundry/views/eco_dry_clean/model/products_response_model.dart';
 import 'package:laundry/views/eco_dry_clean/repo/eco_dry_clean_repo.dart';
 import 'package:laundry/views/main_screen/home_screen/model/categories_model.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:http/http.dart' as http;
 
 class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
   Helpers helpers = sl.get<Helpers>();
@@ -194,17 +195,12 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
   Future<File> createFileOfPdfUrl(String url) async {
     updateLoadState(LoaderState.loading);
     Completer<File> completer = Completer();
-    print("Start download file from internet!");
     try {
-      // "https://berlin2017.droidcon.cod.newthinking.net/sites/global.droidcon.cod.newthinking.net/files/media/documents/Flutter%20-%2060FPS%20UI%20of%20the%20future%20%20-%20DroidconDE%2017.pdf";
-      // final url = "https://pdfkit.org/docs/guide.pdf";
       final filename = url.substring(url.lastIndexOf("/") + 1);
       var request = await HttpClient().getUrl(Uri.parse(url));
       var response = await request.close();
       var bytes = await consolidateHttpClientResponseBytes(response);
       var dir = await getApplicationDocumentsDirectory();
-      print("Download files");
-      print("${dir.path}/$filename");
       file = File("${dir.path}/$filename");
 
       await file?.writeAsBytes(bytes, flush: true);
@@ -216,6 +212,28 @@ class EcoDryProvider extends ChangeNotifier with ProviderHelperClass {
     }
     notifyListeners();
     return completer.future;
+  }
+
+  Future<void> downloadAndSavePDF(String url) async {
+    updateLoadState(LoaderState.loading);
+    try {
+      final response = await http.get(Uri.parse(url));
+      // Get the temporary directory
+      final directory = await getTemporaryDirectory();
+
+      // Create a file path for the PDF
+
+      // Write the PDF data to a file
+      file = File('${directory.path}/downloaded.pdf');
+      await file?.writeAsBytes(response.bodyBytes);
+
+      // Update the state with the file path and stop the loading indicator
+      updateLoadState(LoaderState.loaded);
+    } catch (e) {
+      updateLoadState(LoaderState.loaded);
+      print(e.toString());
+    }
+    notifyListeners();
   }
 
   void updateCategoryId(int value) {

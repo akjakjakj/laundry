@@ -46,7 +46,7 @@ class AddressTile extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    addressList[index].address ?? '',
+                    addressList[index].houseNumber ?? '',
                     style: FontPalette.poppinsRegular.copyWith(
                         color: HexColor('#404041'),
                         fontSize: 15.sp,
@@ -64,7 +64,7 @@ class AddressTile extends StatelessWidget {
               ),
               2.verticalSpace,
               Text(
-                addressList[index].city ?? '',
+                addressList[index].address ?? '',
                 style: FontPalette.poppinsRegular.copyWith(
                     color: HexColor('#404041'),
                     fontSize: 15.sp,
@@ -73,18 +73,18 @@ class AddressTile extends StatelessWidget {
               2.verticalSpace,
               Row(
                 children: [
-                  SizedBox(
-                    width: 145.w,
-                    child: Text(
-                      addressList[index].country ?? '',
-                      style: FontPalette.poppinsRegular.copyWith(
-                          color: HexColor('#404041'),
-                          fontSize: 15.sp,
-                          fontWeight: FontWeight.w500),
-                      maxLines: 10,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
+                  // SizedBox(
+                  //   width: 145.w,
+                  //   child: Text(
+                  //     addressList[index].country ?? '',
+                  //     style: FontPalette.poppinsRegular.copyWith(
+                  //         color: HexColor('#404041'),
+                  //         fontSize: 15.sp,
+                  //         fontWeight: FontWeight.w500),
+                  //     maxLines: 10,
+                  //     overflow: TextOverflow.ellipsis,
+                  //   ),
+                  // ),
                   const Spacer(),
                   if (addressList[index].isDefault != 1 &&
                       (!(isFromCart ?? false)))
@@ -107,7 +107,7 @@ class AddressTile extends StatelessWidget {
                             child: Text(
                               'Set As Default',
                               style: FontPalette.poppinsRegular.copyWith(
-                                  fontSize: 12.0, color: Colors.white),
+                                  fontSize: 10.0, color: Colors.white),
                               softWrap: true,
                             ),
                           ),
@@ -141,7 +141,7 @@ class AddressTile extends StatelessWidget {
                         child: Text(
                           'Remove',
                           style: FontPalette.poppinsRegular
-                              .copyWith(fontSize: 12.0, color: Colors.white),
+                              .copyWith(fontSize: 10.0, color: Colors.white),
                         ),
                       ),
                     ).removeSplash(),

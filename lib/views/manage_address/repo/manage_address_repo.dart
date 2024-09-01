@@ -37,6 +37,7 @@ class ManageAddressRepo {
       AddAddressRequestModel addAddressRequestModel) async {
     return httpReq
         .postRequest('/api/customer/add-address?address', param: {
+          'house_no': addAddressRequestModel.houseNumber,
           'address': addAddressRequestModel.address,
           'city': addAddressRequestModel.city,
           'state': addAddressRequestModel.state,

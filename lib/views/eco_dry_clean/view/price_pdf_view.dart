@@ -16,18 +16,28 @@ class PricePdfView extends StatefulWidget {
 }
 
 class _PricePdfViewState extends State<PricePdfView> {
+  ValueNotifier<bool> isLoading = ValueNotifier(true);
   @override
   void initState() {
     CommonFunctions.afterInit(() {
       if (widget.index == 0) {
-        widget.ecoDryProvider?.createFileOfPdfUrl(
+        widget.ecoDryProvider?.downloadAndSavePDF(
             widget.ecoDryProvider?.priceListResponse?.priceList?[0].normal ??
                 '');
       } else {
-        widget.ecoDryProvider?.createFileOfPdfUrl(
+        widget.ecoDryProvider?.downloadAndSavePDF(
             widget.ecoDryProvider?.priceListResponse?.priceList?[0].express ??
                 '');
       }
+      // if (widget.index == 0) {
+      //   widget.ecoDryProvider?.createFileOfPdfUrl(
+      //       widget.ecoDryProvider?.priceListResponse?.priceList?[0].normal ??
+      //           '');
+      // } else {
+      //   widget.ecoDryProvider?.createFileOfPdfUrl(
+      //       widget.ecoDryProvider?.priceListResponse?.priceList?[0].express ??
+      //           '');
+      // }
     });
     super.initState();
   }
@@ -45,7 +55,17 @@ class _PricePdfViewState extends State<PricePdfView> {
               case LoaderState.loaded:
                 return PDFView(
                   filePath: widget.ecoDryProvider?.file?.path,
+                  onRender: (pages) => isLoading.value = false,
                 );
+              // return ValueListenableBuilder(
+              //   valueListenable: isLoading,
+              //   builder: (context, value, child) => value
+              //       ? const CustomLinearProgress()
+              //       : PDFView(
+              //           filePath: widget.ecoDryProvider?.file?.path,
+              //           onRender: (pages) => isLoading.value = false,
+              //         ),
+              // );
               case LoaderState.noProducts:
                 return Center(
                   child: Text(

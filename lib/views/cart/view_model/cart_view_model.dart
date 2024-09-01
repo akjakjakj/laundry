@@ -5,6 +5,7 @@ import 'package:either_dart/either.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/services/api_reponse.dart';
@@ -285,6 +286,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   void updateTimeSlotList(TimeSlotResponse timeSlotResponse) {
     pickUpTimeSlotsList = timeSlotResponse.timeSlots ?? [];
     deliveryTimeSlotList = timeSlotResponse.timeSlots ?? [];
+    pickDateController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
     notifyListeners();
   }
 
@@ -336,10 +338,11 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void updateIsCatFormValidated() {
-    if (pickDateController.text.trim().isNotEmpty &&
-        defaultAddress != null &&
-        commentsController.text.trim().isNotEmpty &&
-        imageFilesList.notEmpty) {
+    if (pickDateController.text.trim().isNotEmpty && defaultAddress != null
+        // &&
+        // commentsController.text.trim().isNotEmpty &&
+        // imageFilesList.notEmpty
+        ) {
       isCartFormValidated = true;
     } else {
       isCartFormValidated = false;

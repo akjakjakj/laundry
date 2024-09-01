@@ -36,7 +36,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   TextEditingController buildingNumberEditingController =
       TextEditingController();
   TextEditingController addressStreetController = TextEditingController();
-  TextEditingController addressCityController = TextEditingController();
+  TextEditingController fullAddressController = TextEditingController();
   TextEditingController addressEmirateController = TextEditingController();
   TextEditingController textEditingController = TextEditingController();
 
@@ -108,7 +108,8 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     if (network) {
       updateLoadState(LoaderState.loading);
       AddAddressRequestModel addAddressRequestModel = AddAddressRequestModel(
-          address: buildingNumberEditingController.text.trim(),
+          address: fullAddressController.text.trim(),
+          houseNumber: buildingNumberEditingController.text.trim(),
           city: addressStreetController.text.trim(),
           country: addressEmirateController.text.trim(),
           postalCode: double.tryParse(postalCode ?? '0'),
@@ -270,8 +271,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     updateBtnLoaderState(true);
     LatLng? latLng = await sharedPreferencesHelper.getCurrentLocation();
     updateCurrentPosition(latLng ?? const LatLng(23.4241, 53.8478));
-     updateCameraPositionAndMarker(
-        latLng ?? const LatLng(23.4241, 53.8478));
+    updateCameraPositionAndMarker(latLng ?? const LatLng(23.4241, 53.8478));
     updateBtnLoaderState(false);
     notifyListeners();
   }
@@ -303,7 +303,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     addressStreetController.text = (place.subLocality ?? '').isNotEmpty
         ? place.subLocality ?? ''
         : place.locality ?? '';
-    addressCityController.text = place.locality ?? '';
+     fullAddressController.text = place.locality ?? '';
     addressEmirateController.text = place.country ?? '';
     postalCode = place.postalCode ?? '';
     notifyListeners();
@@ -327,7 +327,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   void clearAddressControllers() {
     addressStreetController.clear();
     buildingNumberEditingController.clear();
-    addressCityController.clear();
+    fullAddressController.clear();
     notifyListeners();
   }
 
@@ -339,7 +339,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   void clearValues() {
     buildingNumberEditingController.clear();
     addressStreetController.clear();
-    addressCityController.clear();
+    fullAddressController.clear();
     addressEmirateController.clear();
     textEditingController.clear();
   }

@@ -105,8 +105,9 @@ class _NormalServiceState extends State<NormalService> {
                             children: [
                               10.verticalSpace,
                               AddressSelectionWidget(
-                                address: cartProvider.defaultAddress?['city']
-                                    .toString(),
+                                address:
+                                    cartProvider.defaultAddress?['house_no'] ??
+                                        'N/A',
                                 cartViewProvider: cartProvider,
                               ),
                               20.verticalSpace,
@@ -148,10 +149,8 @@ class _NormalServiceState extends State<NormalService> {
                                       DateTime? pickedDate =
                                           await showDatePicker(
                                               context: context,
-                                              initialDate: DateTime.now()
-                                                  .add(const Duration(days: 1)),
-                                              firstDate: DateTime.now()
-                                                  .add(const Duration(days: 1)),
+                                              initialDate: DateTime.now(),
+                                              firstDate: DateTime.now(),
                                               lastDate: DateTime(2100));
 
                                       if (pickedDate != null) {
@@ -183,96 +182,41 @@ class _NormalServiceState extends State<NormalService> {
                                         crossAxisSpacing: 10,
                                         mainAxisSpacing: 10,
                                         crossAxisCount: 2),
-                                itemBuilder: (context, index) => TimeSlotTile(
-                                    onTap: () => provider
-                                        .updatePickUpTimeSlotIndex(index),
-                                    isSelectedIndex:
-                                        index == provider.pickUpTimeSlotIndex,
-                                    title:
-                                        '${provider.pickUpTimeSlotsList[index].from} - ${provider.pickUpTimeSlotsList[index].to}'),
+                                itemBuilder: (context, index) {
+                                  bool isAvailable = helpers
+                                          .checkSelectedDateAndCurrentDateIsSame(
+                                              cartProvider
+                                                  .pickDateController.text
+                                                  .trim())
+                                      ? helpers.checkTimeSlotIsAvailableOrNot(
+                                          provider.pickUpTimeSlotsList[index]
+                                                  .to ??
+                                              '10:00 AM')
+                                      // helpers.returnGreaterTimeFlag(
+                                      //         (helpers.convertTo24HoursFormat(
+                                      //             (provider
+                                      //                         .pickUpTimeSlotsList[
+                                      //                             index]
+                                      //                         .to ??
+                                      //                     '10:00 am')
+                                      //                 .split(' ')[0])),
+                                      //         helpers
+                                      //             .convertCurrentDateTimeTo24HoursFormat())
+                                      : true;
+                                  return TimeSlotTile(
+                                      onTap: isAvailable
+                                          ? () => provider
+                                              .updatePickUpTimeSlotIndex(index)
+                                          : null,
+                                      isAvailable: isAvailable,
+                                      isSelectedIndex: isAvailable
+                                          ? index ==
+                                              provider.pickUpTimeSlotIndex
+                                          : false,
+                                      title:
+                                          '${provider.pickUpTimeSlotsList[index].from} - ${provider.pickUpTimeSlotsList[index].to}');
+                                },
                               ),
-                              // 12.verticalSpace,
-                              // Text('Delivery Date',
-                              //     style: FontPalette.poppinsRegular.copyWith(
-                              //         color: const Color(0xff404041),
-                              //         fontSize: 11.sp,
-                              //         fontWeight: FontWeight.w500)),
-                              // 5.verticalSpace,
-                              // Container(
-                              //     decoration: BoxDecoration(
-                              //         color: const Color(0xfff3f3f4),
-                              //         borderRadius:
-                              //             BorderRadius.circular(10.r)),
-                              //     height: 50.h,
-                              //     child: Center(
-                              //         child: TextField(
-                              //       controller:
-                              //           cartProvider.deliveryDateController,
-                              //       style: FontPalette.poppinsRegular.copyWith(
-                              //           color: const Color(0xff404041),
-                              //           fontSize: 13.sp),
-                              //       decoration: InputDecoration(
-                              //         border: InputBorder.none,
-                              //         suffixIcon: const Icon(
-                              //           Icons.arrow_forward_ios,
-                              //           color: Colors.black,
-                              //           size: 15,
-                              //         ),
-                              //         contentPadding: EdgeInsets.symmetric(
-                              //             horizontal: 15.w, vertical: 15.h),
-                              //         hintText: "Delivery Date",
-                              //         hintStyle: FontPalette.poppinsRegular
-                              //             .copyWith(
-                              //                 color: const Color(0xff404041),
-                              //                 fontSize: 11.sp),
-                              //       ),
-                              //       readOnly: true,
-                              //       onTap: () async {
-                              //         DateTime? pickedDate =
-                              //             await showDatePicker(
-                              //                 context: context,
-                              //                 initialDate: DateTime.now(),
-                              //                 firstDate: DateTime(1950),
-                              //                 lastDate: DateTime(2100));
-                              //
-                              //         if (pickedDate != null) {
-                              //           String formattedDate =
-                              //               DateFormat('yyyy-MM-dd')
-                              //                   .format(pickedDate);
-                              //
-                              //           cartProvider.deliveryDateController
-                              //               .text = formattedDate;
-                              //           cartProvider.updateIsCatFormValidated();
-                              //         }
-                              //       },
-                              //     ))),
-                              // 12.verticalSpace,
-                              // Text('Select Slots',
-                              //     style: FontPalette.poppinsRegular.copyWith(
-                              //         color: const Color(0xff404041),
-                              //         fontSize: 11.sp,
-                              //         fontWeight: FontWeight.w500)),
-                              // GridView.builder(
-                              //   itemCount: provider.deliveryTimeSlotList.length,
-                              //   shrinkWrap: true,
-                              //   physics: const NeverScrollableScrollPhysics(),
-                              //   padding:
-                              //       const EdgeInsets.symmetric(vertical: 12),
-                              //   gridDelegate:
-                              //       const SliverGridDelegateWithFixedCrossAxisCount(
-                              //           mainAxisExtent: 40,
-                              //           crossAxisSpacing: 10,
-                              //           mainAxisSpacing: 10,
-                              //           crossAxisCount: 2),
-                              //   itemBuilder: (context, index) => TimeSlotTile(
-                              //       onTap: () => provider
-                              //           .updateDeliveryTimeSlotIndex(index),
-                              //       isSelectedIndex:
-                              //           index == provider.deliveryTimeSlotIndex,
-                              //       title:
-                              //           '${provider.deliveryTimeSlotList[index].from} - ${provider.deliveryTimeSlotList[index].to}'),
-                              // ),
-
                               20.verticalSpace,
                               Text(
                                 "Add Your Comments",
