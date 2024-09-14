@@ -33,7 +33,7 @@ class HomeImageSlider extends StatelessWidget {
             width: 247.w,
             decoration: const BoxDecoration(
                 color: Color(0XFFa7b8c5), borderRadius: BorderRadius.zero),
-            title: 'NEW PRICING',
+            title: 'PRICE LIST',
             textStyle: FontPalette.poppinsBold
                 .copyWith(fontSize: 15.sp, color: ColorPalette.greenColor),
             onTap: () => Navigator.pushNamed(

@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
+import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/route_generator.dart';
+import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
@@ -92,29 +94,126 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                   case LoaderState.loading:
                     return const CustomLinearProgress();
                   case LoaderState.loaded:
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 12.w),
-                      child: Column(
+                    return LayoutBuilder(
+                      builder: (context, constraints) => Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          40.verticalSpace,
-                          CustomButton(
-                            title: 'Normal Service',
-                            onTap: () => Navigator.pushNamed(
-                                context, RouteGenerator.routePricePdfView,
-                                arguments: PriceListScreenArguments(
-                                    serviceId: 0,
-                                    ecoDryProvider: ecoDryProvider)),
+                          Container(
+                            color: Colors.white,
+                            height: constraints.maxHeight / 2.2,
+                            child: Column(children: [
+                              Assets.images.ecoFriendly.image(),
+                              InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                    context, RouteGenerator.routePricePdfView,
+                                    arguments: PriceListScreenArguments(
+                                        serviceId: 0,
+                                        ecoDryProvider: ecoDryProvider)),
+                                child: Container(
+                                  height: 50.r,
+                                  width: 180.r,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40.r),
+                                      border: Border.all(color: Colors.black)),
+                                  child: Text(
+                                    'Price List',
+                                    style: FontPalette.poppinsRegular
+                                        .copyWith(fontSize: 20.0),
+                                  ),
+                                ),
+                              )
+                            ]),
                           ),
-                          20.verticalSpace,
-                          CustomButton(
-                            title: 'Express Service',
-                            onTap: () => Navigator.pushNamed(
-                                context, RouteGenerator.routePricePdfView,
-                                arguments: PriceListScreenArguments(
-                                    serviceId: 1,
-                                    ecoDryProvider: ecoDryProvider)),
+                          Container(
+                            height: 50,
+                            color: Colors.grey[200],
+                            child: CustomPaint(
+                              painter: CurvedDividerPainter(),
+                              child: Container(),
+                            ),
                           ),
+                          Container(
+                            color: Colors.grey[200],
+                            height: constraints.maxHeight / 2.2,
+                            width: double.maxFinite,
+                            alignment: Alignment.center,
+                            child: Column(children: [
+                              Assets.images.designerLogo.image(
+                                height: constraints.maxWidth * .6,
+                                width: constraints.maxWidth * .8,
+                              ),
+                              InkWell(
+                                onTap: () => Navigator.pushNamed(
+                                    context, RouteGenerator.routePricePdfView,
+                                    arguments: PriceListScreenArguments(
+                                        serviceId: 1,
+                                        ecoDryProvider: ecoDryProvider)),
+                                child: Container(
+                                  height: 50.r,
+                                  width: 180.r,
+                                  alignment: Alignment.center,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(40.r),
+                                      border: Border.all(color: Colors.black)),
+                                  child: Text(
+                                    'Price List',
+                                    style: FontPalette.poppinsRegular
+                                        .copyWith(fontSize: 20.0),
+                                  ),
+                                ),
+                              )
+                            ]),
+                          )
+                          // 100.verticalSpace,
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(20.r),
+                          //       color: Colors.green.withOpacity(.5)),
+                          //   padding: EdgeInsets.symmetric(
+                          //       vertical: 20.h, horizontal: 12.w),
+                          //   child: Column(
+                          //     children: [
+                          //       Assets.images.designerLogo.image(
+                          //         height: 80.h,
+                          //       ),
+                          //       10.verticalSpace,
+                          //       CustomButton(
+                          //         title: 'Designer',
+                          //         color: Colors.black,
+                          //         onTap: () => Navigator.pushNamed(
+                          //             context, RouteGenerator.routePricePdfView,
+                          //             arguments: PriceListScreenArguments(
+                          //                 serviceId: 1,
+                          //                 ecoDryProvider: ecoDryProvider)),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
+                          // 100.verticalSpace,
+                          // Container(
+                          //   decoration: BoxDecoration(
+                          //       borderRadius: BorderRadius.circular(20.r),
+                          //       color: Colors.green.withOpacity(.5)),
+                          //   padding: EdgeInsets.symmetric(
+                          //       vertical: 20.h, horizontal: 12.w),
+                          //   child: Column(
+                          //     children: [
+                          //       Assets.images.logo.image(
+                          //         height: 80.h,
+                          //       ),
+                          //       10.verticalSpace,
+                          //       CustomButton(
+                          //         title: 'Eco-Friendly',
+                          //         onTap: () => Navigator.pushNamed(
+                          //             context, RouteGenerator.routePricePdfView,
+                          //             arguments: PriceListScreenArguments(
+                          //                 serviceId: 0,
+                          //                 ecoDryProvider: ecoDryProvider)),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // ),
                         ],
                       ),
                     );
@@ -149,5 +248,31 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                 }
               },
             )).withBackgroundImage());
+  }
+}
+
+class CurvedDividerPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint paint = Paint()
+      ..color = Colors.white // Adjust the color of the divider
+      ..style = PaintingStyle.fill;
+
+    Path path = Path();
+    path.moveTo(0, size.height * 0.3); // Starting point of the curve
+    path.quadraticBezierTo(
+      size.width * 0.5, size.height * -.3, // Control point for the curve
+      size.width, size.height * 0.3, // End point of the curve
+    );
+    path.lineTo(size.width, 0); // Draw to the top-right
+    path.lineTo(0, 0); // Draw to the top-left
+    path.close();
+
+    canvas.drawPath(path, paint);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) {
+    return false;
   }
 }

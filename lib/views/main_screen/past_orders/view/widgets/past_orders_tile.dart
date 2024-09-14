@@ -57,6 +57,8 @@ class PastOrdersTile extends StatelessWidget {
               10.verticalSpace,
               Text(
                 'Address :  ${ordersList[index].address.toString()}',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
                 style: FontPalette.poppinsRegular.copyWith(
                     fontSize: 11.sp,
                     color: HexColor('#000000'),

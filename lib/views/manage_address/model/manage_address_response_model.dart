@@ -19,7 +19,7 @@ class ManageAddressResponse {
 
 class Addresses {
   int? id;
-  int? customerId;
+  dynamic customerId;
   String? name;
   String? address;
   String? city;
@@ -30,7 +30,7 @@ class Addresses {
   String? longitude;
   String? createdAt;
   String? updatedAt;
-  int? isDefault;
+  dynamic isDefault;
   String? houseNumber;
 
   Addresses(
@@ -81,7 +81,7 @@ class Addresses {
     data['is_default'] = isDefault;
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
-    data['house_no']=houseNumber;
+    data['house_no'] = houseNumber;
     return data;
   }
 }

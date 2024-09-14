@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 50.h,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
@@ -69,55 +69,17 @@ class _HomeScreenState extends State<HomeScreen> {
                     ChooseServiceWidget(
                       servicesList: context.read<HomeProvider>().servicesList,
                     ),
-                    30.horizontalSpace,
-                    InkWell(
-                      // onTap: () {
-                      //   context.read<PaymentProvider>().payWithCard();
-                      // },
-                      onTap: () => Navigator.pushNamed(
-                        context,
-                        RouteGenerator.routeEcoDryClean,
-                        arguments:
-                            EcoDryCleanArguments(title: '', serviceId: 1),
-                      ),
-                      child: Column(
-                        children: [
-                          Container(
-                            height: 65.h,
-                            width: 65.w,
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Colors.white,
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 1.r,
-                                  blurRadius: 15.r,
-                                  offset: const Offset(0,
-                                      2), // changes the position of the shadow
-                                ),
-                              ],
-                            ),
-                            child: Assets.images.price.image(
-                              height: 25.h,
-                              // width: 38.w,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                          10.verticalSpace,
-                          Text(
-                            'Price List',
-                            style: FontPalette.poppinsRegular.copyWith(
-                                fontSize: 11.sp,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w500),
-                          )
-                        ],
-                      ),
-                    ).removeSplash(),
                     // 30.horizontalSpace,
                     // InkWell(
+                    //   // onTap: () {
+                    //   //   context.read<PaymentProvider>().payWithCard();
+                    //   // },
+                    //   onTap: () => Navigator.pushNamed(
+                    //     context,
+                    //     RouteGenerator.routeEcoDryClean,
+                    //     arguments:
+                    //         EcoDryCleanArguments(title: '', serviceId: 1),
+                    //   ),
                     //   child: Column(
                     //     children: [
                     //       Container(
@@ -145,7 +107,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //       ),
                     //       10.verticalSpace,
                     //       Text(
-                    //         'Offers',
+                    //         'Price List',
                     //         style: FontPalette.poppinsRegular.copyWith(
                     //             fontSize: 11.sp,
                     //             color: Colors.black,
@@ -153,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     //       )
                     //     ],
                     //   ),
-                    // ).removeSplash()
+                    // ).removeSplash(),
                   ],
                 ),
               )

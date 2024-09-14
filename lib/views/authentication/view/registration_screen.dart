@@ -126,7 +126,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               authProvider.registrationMobileNumberController,
                           focusNode: authProvider.registerMobileNumberFocusNode,
                           labelText: 'Mobile Number',
-                          hintText: 'Enter mobile number with country code',
+                          hintText: 'Enter mobile number',
                           maxLength: 12,
                           textInputType: TextInputType.number,
                           // prefix: Text('+971',

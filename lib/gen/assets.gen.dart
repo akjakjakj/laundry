@@ -183,6 +183,18 @@ class $AssetsImagesGen {
   AssetGenImage get blankImage =>
       const AssetGenImage('assets/images/blank_image.png');
 
+  /// File path: assets/images/designer.png
+  AssetGenImage get designer =>
+      const AssetGenImage('assets/images/designer.png');
+
+  /// File path: assets/images/designer_logo.png
+  AssetGenImage get designerLogo =>
+      const AssetGenImage('assets/images/designer_logo.png');
+
+  /// File path: assets/images/eco_friendly.png
+  AssetGenImage get ecoFriendly =>
+      const AssetGenImage('assets/images/eco_friendly.png');
+
   /// File path: assets/images/electrolux.png
   AssetGenImage get electrolux =>
       const AssetGenImage('assets/images/electrolux.png');
@@ -209,6 +221,9 @@ class $AssetsImagesGen {
         splashScreen,
         bgImage,
         blankImage,
+        designer,
+        designerLogo,
+        ecoFriendly,
         electrolux,
         kidsShoe,
         loginLogo,
@@ -227,9 +242,16 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(this._assetName);
+  const AssetGenImage(
+    this._assetName, {
+    this.size,
+    this.flavors = const {},
+  });
 
   final String _assetName;
+
+  final Size? size;
+  final Set<String> flavors;
 
   Image image({
     Key? key,

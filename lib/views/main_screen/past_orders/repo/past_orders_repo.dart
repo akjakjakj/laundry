@@ -5,6 +5,7 @@ import 'package:laundry/services/http_req.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_model.dart';
 import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
+import 'package:laundry/views/main_screen/past_orders/model/payment_response.dart';
 
 class PastOrdersRepo {
   HttpReq httpReq = sl.get<HttpReq>();
@@ -47,5 +48,18 @@ class PastOrdersRepo {
         .onError((error, stackTrace) {
           return Left(ApiResponse(exceptions: ApiExceptions.networkError));
         });
+  }
+
+  Future<Either<ApiResponse, dynamic>> updateTransactionDetails(
+      PaymentRequestModel paymentRequestModel) {
+    return httpReq
+        .postRequest('/api/pos/orders/payment',
+            param: paymentRequestModel.toJson())
+        .thenRight((right) => Right(right))
+        .thenLeft((left) {
+      return Left(left);
+    }).onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
   }
 }

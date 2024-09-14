@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
 import 'package:laundry/utils/enums.dart';
@@ -47,55 +48,92 @@ class _PricePdfViewState extends State<PricePdfView> {
     return Scaffold(
       body: ChangeNotifierProvider.value(
         value: widget.ecoDryProvider,
-        child: Consumer<EcoDryProvider>(
-          builder: (context, provider, child) {
-            switch (provider.loaderState) {
-              case LoaderState.loading:
-                return const CustomLinearProgress();
-              case LoaderState.loaded:
-                return PDFView(
-                  filePath: widget.ecoDryProvider?.file?.path,
-                  onRender: (pages) => isLoading.value = false,
-                );
-              // return ValueListenableBuilder(
-              //   valueListenable: isLoading,
-              //   builder: (context, value, child) => value
-              //       ? const CustomLinearProgress()
-              //       : PDFView(
-              //           filePath: widget.ecoDryProvider?.file?.path,
-              //           onRender: (pages) => isLoading.value = false,
-              //         ),
-              // );
-              case LoaderState.noProducts:
-                return Center(
-                  child: Text(
-                    'No categories found',
-                    style: FontPalette.poppinsBold,
+        child: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            leading: Padding(
+              padding: EdgeInsets.only(left: 15.r),
+              child: GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Center(
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 4,
+                            blurStyle: BlurStyle.outer,
+                            color: Color.fromARGB(255, 224, 224, 224),
+                            spreadRadius: 0.5)
+                      ],
+                    ),
+                    child: CircleAvatar(
+                        radius: 18.r,
+                        backgroundColor: Colors.white,
+                        child: Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(left: 6.w),
+                            child: Icon(
+                              Icons.arrow_back_ios,
+                              color: Colors.black,
+                              size: 18.r,
+                            ),
+                          ),
+                        )),
                   ),
-                );
-              case LoaderState.networkErr:
-                return Center(
-                  child: Text(
-                    'Network Error',
-                    style: FontPalette.poppinsBold,
-                  ),
-                );
-              case LoaderState.error:
-                return Expanded(
-                  child: Center(
-                    child:
-                        Text('Oops...! Error', style: FontPalette.poppinsBold),
-                  ),
-                );
-              case LoaderState.noData:
-                return Center(
-                  child: Text(
-                    'No Data Found',
-                    style: FontPalette.poppinsBold,
-                  ),
-                );
-            }
-          },
+                ),
+              ),
+            ),
+            title: Text(
+              'Price List',
+              style: FontPalette.poppinsBold
+                  .copyWith(color: Colors.black, fontSize: 17.sp),
+            ),
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+          ),
+          body: Consumer<EcoDryProvider>(
+            builder: (context, provider, child) {
+              switch (provider.loaderState) {
+                case LoaderState.loading:
+                  return const CustomLinearProgress();
+                case LoaderState.loaded:
+                  return PDFView(
+                    filePath: widget.ecoDryProvider?.file?.path,
+                    onRender: (pages) => isLoading.value = false,
+                  );
+                case LoaderState.noProducts:
+                  return Center(
+                    child: Text(
+                      'No categories found',
+                      style: FontPalette.poppinsBold,
+                    ),
+                  );
+                case LoaderState.networkErr:
+                  return Center(
+                    child: Text(
+                      'Network Error',
+                      style: FontPalette.poppinsBold,
+                    ),
+                  );
+                case LoaderState.error:
+                  return Expanded(
+                    child: Center(
+                      child: Text('Oops...! Error',
+                          style: FontPalette.poppinsBold),
+                    ),
+                  );
+                case LoaderState.noData:
+                  return Center(
+                    child: Text(
+                      'No Data Found',
+                      style: FontPalette.poppinsBold,
+                    ),
+                  );
+              }
+            },
+          ),
         ),
       ),
     );

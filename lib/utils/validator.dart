@@ -6,7 +6,7 @@ import 'enums.dart';
 class Validator {
   String? validateMobile(BuildContext context, String? value,
       {int? maxLength, String? msg}) {
-    String pattern = r'^-?(([0-9]*)|(([0-9]*)\.([0-9]*)))$';
+    String pattern = r'^05[0-9]{8}$';
     RegExp regExp = RegExp(pattern);
     if (msg != null) return msg;
     if ((value ?? '').isEmpty) return "This field can't be empty";

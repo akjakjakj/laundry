@@ -236,7 +236,6 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
         } else {
           if (onFailure != null) onFailure();
         }
-        print('response view model $resp');
         updateBtnLoaderState(false);
       } catch (e) {
         updateBtnLoaderState(false);
@@ -286,7 +285,7 @@ class CartViewProvider extends ChangeNotifier with ProviderHelperClass {
   void updateTimeSlotList(TimeSlotResponse timeSlotResponse) {
     pickUpTimeSlotsList = timeSlotResponse.timeSlots ?? [];
     deliveryTimeSlotList = timeSlotResponse.timeSlots ?? [];
-    pickDateController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+    // pickDateController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
     notifyListeners();
   }
 

@@ -35,8 +35,11 @@ class Orders {
   String? pickupDate;
   String? pickUpTimeSlot;
   String? customer;
+  String? phoneNumber;
+  String? email;
   String? orderStatus;
-
+  String? paymentStatus;
+  Invoice? invoice;
   Orders(
       {this.id,
       this.orderNumber,
@@ -53,7 +56,11 @@ class Orders {
       this.address,
       this.branch,
       this.customer,
-      this.orderStatus});
+      this.orderStatus,
+      this.phoneNumber,
+      this.invoice,
+      this.email,
+      this.paymentStatus});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -63,6 +70,8 @@ class Orders {
     quantity = json['quantity'];
     date = json['date'];
     customer = json['customer'];
+    phoneNumber = json['contact_number'];
+    email = json['email'];
     branch = json['branch'];
     address = json['address'];
     orderDate = json['order_date'];
@@ -70,6 +79,7 @@ class Orders {
     pickupDate = json['pickup_date'];
     pickUpTimeSlot = json['pickup_time_slot'];
     orderStatus = json['order_status'];
+    paymentStatus = json['payment_status'];
     if (json['details'] != null) {
       details = <Details>[];
       productsName = [];
@@ -78,5 +88,43 @@ class Orders {
         productsName!.add(v['product']);
       });
     }
+    if (json['invoice'] != null) {
+      invoice = Invoice.fromJson(json['invoice']);
+    }
+  }
+}
+
+class Invoice {
+  int? id;
+  String? orderId;
+  String? totalBillNumber;
+  String? subTotal;
+  String? discountAmount;
+  String? totalAmount;
+  String? taxAmount;
+  String? netAmount;
+  String? invoiceNumber;
+
+  Invoice(
+      {this.id,
+      this.orderId,
+      this.discountAmount,
+      this.netAmount,
+      this.subTotal,
+      this.taxAmount,
+      this.totalAmount,
+      this.totalBillNumber,
+      this.invoiceNumber});
+
+  Invoice.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    orderId = json['order_id'];
+    totalBillNumber = json['total_bill_no'];
+    discountAmount = json['discount_amount'];
+    netAmount = json['net_amount'];
+    subTotal = json['sub_total'];
+    taxAmount = json['tax_amount'];
+    totalAmount = json['total_amount'];
+    invoiceNumber = json['pos_order_id'];
   }
 }

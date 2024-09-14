@@ -117,7 +117,9 @@ class Helpers {
 
   bool checkTimeSlotIsAvailableOrNot(String time) {
     final now = DateTime.now();
-    final formatter = DateFormat('h:mm a'); /// 'h:mm a' formats time as 10:00 AM
+    final formatter = DateFormat('h:mm a');
+
+    /// 'h:mm a' formats time as 10:00 AM
     final formattedTime = formatter.format(now);
 
     final timeToCompareString = time;
@@ -125,9 +127,8 @@ class Helpers {
     /// Parse the time strings into DateTime objects
     final currentTime = formatter.parse(formattedTime);
     final timeToCompare = formatter.parse(timeToCompareString);
-    final timePlus30Minutes = timeToCompare.add(const Duration(minutes: 30));
-
-    print('is greater ${currentTime.isBefore(timePlus30Minutes)}');
+    final timePlus30Minutes =
+        timeToCompare.subtract(const Duration(minutes: 30));
     return currentTime.isBefore(timePlus30Minutes);
   }
 }

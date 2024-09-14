@@ -132,8 +132,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               SizedBox(
                                 height: 100,
                                 width: double.maxFinite,
-                                child: Expanded(
-                                    child: TextFormField(
+                                child: TextFormField(
                                   controller: widget.manageAddressProvider
                                       .fullAddressController,
                                   decoration: InputDecoration(
@@ -152,20 +151,21 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         borderSide: BorderSide(
                                           color: field.hasError
                                               ? HexColor("E50019")
-                                              : Colors.blue, // Focused border
+                                              : HexColor(
+                                                  '#DBDBDB'), // Focused border
                                         ),
                                       ),
                                       enabledBorder: UnderlineInputBorder(
                                           borderSide: BorderSide(
                                         color: field.hasError
                                             ? HexColor("E50019")
-                                            : HexColor(
-                                                '#DBDBDB'), // Default border
+                                            : ColorPalette
+                                                .greenColor, // Default border
                                       ))),
                                   maxLines: null,
                                   expands: true,
                                   keyboardType: TextInputType.multiline,
-                                )),
+                                ),
                               ),
                               AnimatedSwitcher(
                                 duration: const Duration(milliseconds: 300),

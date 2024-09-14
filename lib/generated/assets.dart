@@ -39,6 +39,9 @@ class Assets {
   static const String iconsWhatsapp = 'assets/icons/whatsapp.png';
   static const String imagesBgImage = 'assets/images/bg_image.png';
   static const String imagesBlankImage = 'assets/images/blank_image.png';
+  static const String imagesDesigner = 'assets/images/designer.png';
+  static const String imagesDesignerLogo = 'assets/images/designer_logo.png';
+  static const String imagesEcoFriendly = 'assets/images/eco_friendly.png';
   static const String imagesElectrolux = 'assets/images/electrolux.png';
   static const String imagesKidsShoe = 'assets/images/kids_shoe.png';
   static const String imagesLoginLogo = 'assets/images/login_logo.png';

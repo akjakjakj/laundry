@@ -295,11 +295,13 @@ class _NormalServiceState extends State<NormalService> {
                                 onSuccess: () {
                                   helpers.successToast(
                                       'Order Placed Successfully...!');
-                                  Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      RouteGenerator.routeMainScreen,
-                                      (route) => false);
                                   cartProvider.clearValues();
+                                  Navigator.popUntil(
+                                    context,
+                                    (route) =>
+                                        route.settings.name ==
+                                        RouteGenerator.routeMainScreen,
+                                  );
                                 },
                                 onFailure: () => helpers.errorToast(
                                     'OOps...! Something went wrong...!'));
@@ -309,36 +311,28 @@ class _NormalServiceState extends State<NormalService> {
                 ],
               );
             case LoaderState.noProducts:
-              return Expanded(
-                child: Center(
-                  child: Text(
-                    'No Data found',
-                    style: FontPalette.poppinsBold,
-                  ),
+              return Center(
+                child: Text(
+                  'No Data found',
+                  style: FontPalette.poppinsBold,
                 ),
               );
             case LoaderState.networkErr:
-              return Expanded(
-                child: Center(
-                  child: Text(
-                    'Network Error',
-                    style: FontPalette.poppinsBold,
-                  ),
+              return Center(
+                child: Text(
+                  'Network Error',
+                  style: FontPalette.poppinsBold,
                 ),
               );
             case LoaderState.error:
-              return Expanded(
-                child: Center(
-                  child: Text('Oops...! Error', style: FontPalette.poppinsBold),
-                ),
+              return Center(
+                child: Text('Oops...! Error', style: FontPalette.poppinsBold),
               );
             case LoaderState.noData:
-              return Expanded(
-                child: Center(
-                  child: Text(
-                    'No Data Found',
-                    style: FontPalette.poppinsBold,
-                  ),
+              return Center(
+                child: Text(
+                  'No Data Found',
+                  style: FontPalette.poppinsBold,
                 ),
               );
 

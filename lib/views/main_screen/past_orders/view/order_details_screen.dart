@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
 import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
 import 'package:provider/provider.dart';
+
+import '../view_model/payment_view_model.dart';
 
 class OrderDetailsScreen extends StatefulWidget {
   const OrderDetailsScreen(
@@ -104,7 +110,11 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             style: FontPalette.poppinsBold.copyWith(
                                 color: HexColor('#404041'), fontSize: 17.sp),
                           ),
-                          const Spacer(),
+                        ],
+                      ),
+                      10.verticalSpace,
+                      Row(
+                        children: [
                           Text('Order id : ',
                               style: FontPalette.poppinsRegular.copyWith(
                                   fontSize: 14.sp,
@@ -117,13 +127,13 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           )
                         ],
                       ),
-                      30.verticalSpace,
+                      14.verticalSpace,
                       Text(
                         'Details',
                         style:
                             FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
                       ),
-                      25.verticalSpace,
+                      14.verticalSpace,
                       _OrderDetailsTile(
                         title: 'Name',
                         value: widget.orders?.customer ?? 'N/A',
@@ -149,109 +159,120 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         value: widget.orders?.pickUpTimeSlot ?? 'N/A',
                       ),
                       14.verticalSpace,
-                      // _OrderDetailsTile(
-                      //   title: 'Delivery details',
-                      //   value: provider
-                      //       .orderDetailsModel?.order?.expectedDeliveryDate,
-                      // ),
-                      // 32.verticalSpace,
-                      // Text(
-                      //   'Total Items',
-                      //   style:
-                      //       FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
-                      // ),
-                      // 32.verticalSpace,
-                      // _OrderDetailsTile(
-                      //   title: 'Total items is',
-                      //   value: provider
-                      //       .orderDetailsModel?.order?.details?.length
-                      //       .toString(),
-                      // ),
-                      // 25.verticalSpace,
-                      // Text(
-                      //   'Included Items',
-                      //   style:
-                      //       FontPalette.poppinsBold.copyWith(fontSize: 17.sp),
-                      // ),
-                      // 25.verticalSpace,
-                      // Container(
-                      //   padding: EdgeInsets.symmetric(horizontal: 25.w),
-                      //   decoration: BoxDecoration(
-                      //       color: const Color(0xfff3f3f4),
-                      //       borderRadius: BorderRadius.circular(7.r)),
-                      //   child: Column(
-                      //     children: [
-                      //       15.verticalSpace,
-                      //       ListView.separated(
-                      //         itemBuilder: (context, index) {
-                      //           return Row(
-                      //             mainAxisAlignment:
-                      //                 MainAxisAlignment.spaceBetween,
-                      //             children: [
-                      //               Column(
-                      //                 crossAxisAlignment:
-                      //                     CrossAxisAlignment.start,
-                      //                 children: [
-                      //                   Text(
-                      //                     provider.orderDetailsModel?.order
-                      //                             ?.details?[index].product ??
-                      //                         '',
-                      //                     style: FontPalette.poppinsBold
-                      //                         .copyWith(fontSize: 14.sp),
-                      //                   ),
-                      //                   Text(
-                      //                     'Stream Ironing x (${provider.orderDetailsModel?.order?.details?[index].quantity})',
-                      //                     style: FontPalette.poppinsRegular
-                      //                         .copyWith(
-                      //                             fontSize: 11.sp,
-                      //                             color: HexColor('#404041')),
-                      //                   )
-                      //                 ],
-                      //               ),
-                      //               Text(
-                      //                 'AED ${provider.orderDetailsModel?.order?.details?[index].amount}',
-                      //                 style: FontPalette.poppinsRegular
-                      //                     .copyWith(
-                      //                         fontSize: 15.sp,
-                      //                         color: HexColor('#404041')),
-                      //               )
-                      //             ],
-                      //           );
-                      //         },
-                      //         separatorBuilder: (context, index) =>
-                      //             10.verticalSpace,
-                      //         itemCount:
-                      //             (provider.orderDetailsModel?.order?.details !=
-                      //                     null)
-                      //                 ? provider.orderDetailsModel!.order!
-                      //                     .details!.length
-                      //                 : 0,
-                      //         shrinkWrap: true,
-                      //         physics: const NeverScrollableScrollPhysics(),
-                      //       ),
-                      //       20.verticalSpace,
-                      //       Row(
-                      //         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //         children: [
-                      //           Text(
-                      //             'Total (Incl. VAT)',
-                      //             style: FontPalette.poppinsRegular.copyWith(
-                      //                 fontSize: 13.sp,
-                      //                 color: HexColor('#404041')),
-                      //           ),
-                      //           Text(
-                      //             'AED ${provider.orderDetailsModel?.order?.totalCost}',
-                      //             style: FontPalette.poppinsBold.copyWith(
-                      //                 fontSize: 15.sp,
-                      //                 color: HexColor('#404041')),
-                      //           )
-                      //         ],
-                      //       ),
-                      //       20.verticalSpace
-                      //     ],
-                      //   ),
-                      // ),
-                      // 50.verticalSpace
+                      if (widget.orders?.invoice != null)
+                        Column(
+                          children: [
+                            _OrderDetailsTile(
+                              title: 'Invoice Id',
+                              value: widget.orders?.invoice?.totalBillNumber ??
+                                  'N/A',
+                            ),
+                            14.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Invoice Id',
+                              value: widget.orders?.invoice?.totalBillNumber ??
+                                  'N/A',
+                            ),
+                            14.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Sub Total',
+                              value: widget.orders?.invoice?.subTotal ?? 'N/A',
+                            ),
+                            14.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Tax Amount',
+                              value: widget.orders?.invoice?.taxAmount ?? 'N/A',
+                            ),
+                            14.verticalSpace,
+                            if (widget.orders?.invoice?.discountAmount !=
+                                    null &&
+                                (widget.orders?.invoice?.discountAmount !=
+                                    '0.00'))
+                              _OrderDetailsTile(
+                                title: 'Discount Amount',
+                                value: widget.orders?.invoice?.discountAmount ??
+                                    'N/A',
+                              ),
+                            if (widget.orders?.invoice?.discountAmount !=
+                                    null &&
+                                (widget.orders?.invoice?.discountAmount !=
+                                    '0.00'))
+                              14.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Net Amount',
+                              value: widget.orders?.invoice?.netAmount ?? 'N/A',
+                            ),
+                            14.verticalSpace,
+                            CustomButton(
+                              title: 'View invoice',
+                              onTap: () => Navigator.pushNamed(
+                                  context, RouteGenerator.routeInvoiceView,
+                                  arguments: InvoiceArguments(
+                                      url:
+                                          'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${widget.orders?.invoice?.invoiceNumber}')),
+                            ),
+                            14.verticalSpace,
+                            if (widget.orders?.paymentStatus?.toLowerCase() !=
+                                'completed')
+                              Selector<PaymentProvider, bool>(
+                                selector: (context, provider) =>
+                                    provider.btnLoaderState,
+                                builder: (context, value, child) =>
+                                    CustomButton(
+                                  title: 'Pay Amount',
+                                  isLoading: value,
+                                  onTap: () {
+                                    context.read<PaymentProvider>().payWithCard(
+                                          orderId: widget.orders?.id,
+                                          amount: double.parse(widget
+                                                  .orders?.invoice?.netAmount ??
+                                              '0.00'),
+                                          shippingDetails: ShippingDetails(
+                                              widget.orders?.customer ?? 'N/A',
+                                              widget.orders?.email ?? 'N/A',
+                                              widget.orders?.phoneNumber ??
+                                                  'N/A',
+                                              widget.orders?.address ?? 'N/A',
+                                              'eg',
+                                              'UAE',
+                                              'UAE',
+                                              '00000'),
+                                          billingDetails: BillingDetails(
+                                              widget.orders?.customer ?? 'N/A',
+                                              widget.orders?.email ?? 'N/A',
+                                              widget.orders?.phoneNumber ??
+                                                  'N/A',
+                                              widget.orders?.address ?? 'N/A',
+                                              'eg',
+                                              'UAE',
+                                              'UAE',
+                                              '00000'),
+                                          onSuccess: () {
+                                            widget.pastOrdersProvider.helpers
+                                                .successToast(
+                                                    'Payment Successful!');
+                                            widget.pastOrdersProvider
+                                                .getPastOrders()
+                                                .then((value) =>
+                                                    Navigator.popUntil(
+                                                        context,
+                                                        (route) =>
+                                                            route.settings
+                                                                .name ==
+                                                            RouteGenerator
+                                                                .routeMainScreen));
+                                          },
+                                          onFailure: () => widget
+                                              .pastOrdersProvider.helpers
+                                              .errorToast(
+                                                  'Payment Failed. Please try again.'),
+                                        );
+                                  },
+                                ),
+                              ),
+                            30.verticalSpace
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -302,7 +323,7 @@ class _OrderDetailsTile extends StatelessWidget {
         Text(
           title ?? '',
           style:
-          FontPalette.poppinsRegular.copyWith(color: HexColor('#404041')),
+              FontPalette.poppinsRegular.copyWith(color: HexColor('#404041')),
         ),
         6.verticalSpace,
         Container(

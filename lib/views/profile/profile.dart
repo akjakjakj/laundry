@@ -92,50 +92,51 @@ class _ProfileState extends State<Profile> {
                             case LoaderState.loaded:
                               return Column(
                                 children: [
-                                  Stack(
-                                    alignment: Alignment.bottomRight,
-                                    children: [
-                                      user?.profilePicture == null
-                                          ? CircleAvatar(
-                                              radius: 80,
-                                              backgroundImage: NetworkImage(user
-                                                      ?.profilePicture ??
-                                                  'https://eu.ui-avatars.com/api/?name=John+Doe'),
-                                              child: Text(
-                                                user?.name?[0] ?? "",
-                                                style: FontPalette
-                                                    .poppinsRegular
-                                                    .copyWith(
-                                                        color: ColorPalette
-                                                            .primaryColor,
-                                                        fontSize: 50.sp),
-                                              ),
-                                            )
-                                          : CircleAvatar(
-                                              radius: 80,
-                                              backgroundColor:
-                                                  const Color.fromARGB(
-                                                      255, 221, 221, 221),
-                                              child: CommonFadeInImage(
-                                                image: user?.profilePicture,
-                                                fit: BoxFit.cover,
-                                              )),
-                                      // Container(
-                                      //   height: 30.r,
-                                      //   width: 30.r,
-                                      //   margin: EdgeInsets.all(10.r),
-                                      //   decoration: BoxDecoration(
-                                      //     color: ColorPalette.primaryColor,
-                                      //     shape: BoxShape.circle,
-                                      //   ),
-                                      //   child: Icon(
-                                      //     size: 18.r,
-                                      //     Icons.edit,
-                                      //     color: Colors.white,
-                                      //   ),
-                                      // ),
-                                    ],
-                                  ),
+                                 40.verticalSpace,
+                                  // Stack(
+                                  //   alignment: Alignment.bottomRight,
+                                  //   children: [
+                                  // user?.profilePicture == null
+                                  //     ? CircleAvatar(
+                                  //         radius: 80,
+                                  //         backgroundImage: NetworkImage(user
+                                  //                 ?.profilePicture ??
+                                  //             'https://eu.ui-avatars.com/api/?name=John+Doe'),
+                                  //         child: Text(
+                                  //           user?.name?[0] ?? "",
+                                  //           style: FontPalette
+                                  //               .poppinsRegular
+                                  //               .copyWith(
+                                  //                   color: ColorPalette
+                                  //                       .primaryColor,
+                                  //                   fontSize: 50.sp),
+                                  //         ),
+                                  //       )
+                                  //     : CircleAvatar(
+                                  //         radius: 80,
+                                  //         backgroundColor:
+                                  //             const Color.fromARGB(
+                                  //                 255, 221, 221, 221),
+                                  //         child: CommonFadeInImage(
+                                  //           image: user?.profilePicture,
+                                  //           fit: BoxFit.cover,
+                                  //         )),
+                                  // Container(
+                                  //   height: 30.r,
+                                  //   width: 30.r,
+                                  //   margin: EdgeInsets.all(10.r),
+                                  //   decoration: BoxDecoration(
+                                  //     color: ColorPalette.primaryColor,
+                                  //     shape: BoxShape.circle,
+                                  //   ),
+                                  //   child: Icon(
+                                  //     size: 18.r,
+                                  //     Icons.edit,
+                                  //     color: Colors.white,
+                                  //   ),
+                                  // ),
+                                  //   ],
+                                  // ),
                                   5.verticalSpace,
                                   Text(
                                     user?.name ?? "",

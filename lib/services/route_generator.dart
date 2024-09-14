@@ -16,6 +16,7 @@ import 'package:laundry/views/main_screen/active_orders/view_model/active_orders
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
+import 'package:laundry/views/main_screen/past_orders/view/invoice_view.dart';
 import 'package:laundry/views/main_screen/past_orders/view/order_details_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view/past_orders_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
@@ -63,6 +64,8 @@ class RouteGenerator {
   static const String routeNormalServiceScreen = 'routeNormalServiceScreen';
   static const String routeLocationScreen = 'routeLocationScreen';
   static const String routeActiveOrderDetails = 'activeOrderDetails';
+  static const String routeInvoiceView = 'invoiceView';
+  static const String routeBlackScreen = 'blackScreenView';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -164,8 +167,14 @@ class RouteGenerator {
             NormalService(
               index: routeArgs.index,
             ));
+      case routeInvoiceView:
+        InvoiceArguments routeArgs = args as InvoiceArguments;
+        return _buildRoute(routeInvoiceView,
+            InvoiceView(url: routeArgs.url ?? 'https://flutter.dev'));
       case routeLocationScreen:
         return _buildRoute(routeLocationScreen, const LocationScreen());
+      case routeBlackScreen:
+        return _buildRoute(routeBlackScreen, const BlackScreen());
       default:
         return _buildRoute(routeInitial, const SplashScreen());
     }
