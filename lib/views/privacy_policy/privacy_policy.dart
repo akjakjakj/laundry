@@ -1,10 +1,52 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:flutter/services.dart'; // For loading asset files
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:laundry/common_widgets/custom_linear_progress_indicator.dart';
+import 'package:laundry/gen/assets.gen.dart';
+import 'dart:io';
 
-import '../../utils/font_palette.dart';
+import 'package:laundry/utils/font_palette.dart'; // For handling file
 
-class Privacy extends StatelessWidget {
+class Privacy extends StatefulWidget {
   const Privacy({super.key});
+
+  @override
+  _PrivacyState createState() => _PrivacyState();
+}
+
+class _PrivacyState extends State<Privacy> {
+  String assetPDFPath = "";
+
+  @override
+  void initState() {
+    super.initState();
+    loadPDF();
+  }
+
+  Future<void> loadPDF() async {
+    final file = await loadAssetPDF();
+    if (file != null) {
+      setState(() {
+        assetPDFPath = file.path;
+      });
+    }
+  }
+
+  Future<File?> loadAssetPDF() async {
+    try {
+      var data = await rootBundle
+          .load(Assets.pdf.privacyPolicy1); // Load the PDF from assets
+      var bytes = data.buffer.asUint8List();
+      var dir = await Directory.systemTemp.createTemp();
+      File tempFile = File('${dir.path}/sample.pdf');
+      return await tempFile.writeAsBytes(bytes,
+          flush: true); // Write bytes to a temporary file
+    } catch (e) {
+      debugPrint("Error loading PDF: $e");
+      return null;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,59 +88,18 @@ class Privacy extends StatelessWidget {
           ),
         ),
         title: Text(
-          "Privacy Policy",
+          'Privacy Policy',
           style: FontPalette.poppinsBold
               .copyWith(color: Colors.black, fontSize: 17.sp),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 20.w,vertical: 10.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Last Updated: November 15, 2021",
-                style: FontPalette.poppinsBold
-                    .copyWith(color: Colors.black, fontSize: 11.sp),
-              ),
-              2.verticalSpace,
-              Text(
-                "Welcome to Demo, the mobile application and online service of Demo Music, LLC (“DEMO,” “we,” or “us”). This page explains the terms by which you may use our online and/or mobile services and software provided on or in connection with the service (collectively “Service”). By accessing or using the Service, you agree to be bound by this Terms of Use Agreement (“Agreement”) and to the collection and use of your information as set forth in the DEMO Privacy Policy, whether or not you are a registered user of our Service. This Agreement applies to all visitors, users, members, contributors and others who access the Service (“Users”). This Agreement hereby incorporates the terms of the following additional documents, including all future amendments or modifications thereto",
-                style: FontPalette.poppinsRegular
-                    .copyWith(color: Colors.black, fontSize: 11.sp),
-              ),
-                 2.verticalSpace,
-              Text(
-                "Use of Our Service",
-                style: FontPalette.poppinsBold
-                    .copyWith(color: Colors.black, fontSize: 11.sp),
-              ),
-              2.verticalSpace,
-              Text(
-                "Welcome to Demo, the mobile application and online service of Demo Music, LLC (“DEMO,” “we,” or “us”). This page explains the terms by which you may use our online and/or mobile services and software provided on or in connection with the service (collectively “Service”). By accessing or using the Service, you agree to be bound by this Terms of Use Agreement (“Agreement”) and to the collection and use of your information as set forth in the DEMO Privacy Policy, whether or not you are a registered user of our Service. This Agreement applies to all visitors, users, members, contributors and others who access the Service (“Users”). This Agreement hereby incorporates the terms of the following additional documents, including all future amendments or modifications thereto",
-                style: FontPalette.poppinsRegular
-                    .copyWith(color: Colors.black, fontSize: 11.sp),
-              ),
-                 2.verticalSpace,
-              Text(
-                "General",
-                style: FontPalette.poppinsBold
-                    .copyWith(color: Colors.black, fontSize: 11.sp),
-              ),
-              2.verticalSpace,
-              Text(
-                "Welcome to Demo, the mobile application and online service of Demo Music, LLC (“DEMO,” “we,” or “us”). This page explains the terms by which you may use our online and/or mobile services and software provided on or in connection with the service (collectively “Service”). By accessing or using the Service, you agree to be bound by this Terms of Use Agreement (“Agreement”) and to the collection and use of your information as set forth in the DEMO Privacy Policy, whether or not you are a registered user of our Service. This Agreement applies to all visitors, users, members, contributors and others who access the Service (“Users”). This Agreement hereby incorporates the terms of the following additional documents, including all future amendments or modifications thereto",
-                style: FontPalette.poppinsRegular
-                    .copyWith(color: Colors.black, fontSize: 11.sp),
-              ),
-            ],
-          ),
-        ),
-      ),
+      body: assetPDFPath.isNotEmpty
+          ? PDFView(
+              filePath: assetPDFPath,
+            )
+          : const CustomLinearProgress(), // Show a loader until PDF is loaded
     );
   }
 }
