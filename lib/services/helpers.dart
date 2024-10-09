@@ -129,6 +129,6 @@ class Helpers {
     final timeToCompare = formatter.parse(timeToCompareString);
     final timePlus30Minutes =
         timeToCompare.subtract(const Duration(minutes: 30));
-    return currentTime.isBefore(timePlus30Minutes);
+    return currentTime.isBefore(timeToCompare);
   }
 }

@@ -67,13 +67,13 @@ class PriceListResponse {
 }
 
 class PriceList {
-  String? express;
-  String? normal;
+  String? designer;
+  String? ecoFriendly;
 
-  PriceList({this.express, this.normal});
+  PriceList({this.designer, this.ecoFriendly});
 
   PriceList.fromJson(Map<String, dynamic> json) {
-    express = json['express'];
-    normal = json['normal'];
+    designer = json['designer'];
+    ecoFriendly = json['eco-friendly'];
   }
 }

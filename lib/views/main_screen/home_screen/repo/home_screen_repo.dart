@@ -44,4 +44,8 @@ class HomeRepo {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
     });
   }
+
+  // Future<Either<ApiResponse,dynamic>> getBanners()async{
+  //   return httpReq.getRequest('api/list-banners').thenRight((right) => null)
+  // }
 }

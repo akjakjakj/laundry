@@ -190,7 +190,7 @@ class _NormalServiceState extends State<NormalService> {
                                                   .trim())
                                       ? helpers.checkTimeSlotIsAvailableOrNot(
                                           provider.pickUpTimeSlotsList[index]
-                                                  .to ??
+                                                  .from ??
                                               '10:00 AM')
                                       // helpers.returnGreaterTimeFlag(
                                       //         (helpers.convertTo24HoursFormat(

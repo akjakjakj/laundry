@@ -5,6 +5,7 @@ import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:whatsapp_share/whatsapp_share.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/font_palette.dart';
 
@@ -75,7 +76,7 @@ class _WhatsappState extends State<Whatsapp> {
                       ),
                       10.verticalSpace,
                       ElevatedButton(
-                          onPressed: isInstalled,
+                          onPressed: _openWhatsApp,
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorPalette.greenColor,
                             shape: RoundedRectangleBorder(
@@ -104,11 +105,22 @@ class _WhatsappState extends State<Whatsapp> {
     }
   }
 
+  void _openWhatsApp() async {
+    String whatsappUrl = "whatsapp://send?phone=9710529496710";
+
+    if (await canLaunch(whatsappUrl)) {
+      await launch(whatsappUrl);
+    } else {
+      // Handle the error when WhatsApp is not installed
+      helpers.errorToast("Whatsapp is not installed");
+    }
+  }
+
   Future<void> share() async {
     await WhatsappShare.share(
-      text: 'Whatsapp share text',
+      text: 'Hi',
       // linkUrl: 'https://flutter.dev/',
-      phone: '911234567890',
+      phone: '9710529496710',
     );
   }
 }

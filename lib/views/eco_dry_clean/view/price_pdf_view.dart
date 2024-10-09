@@ -23,11 +23,11 @@ class _PricePdfViewState extends State<PricePdfView> {
     CommonFunctions.afterInit(() {
       if (widget.index == 0) {
         widget.ecoDryProvider?.downloadAndSavePDF(
-            widget.ecoDryProvider?.priceListResponse?.priceList?[0].normal ??
+            widget.ecoDryProvider?.priceListResponse?.priceList?[0].ecoFriendly ??
                 '');
       } else {
         widget.ecoDryProvider?.downloadAndSavePDF(
-            widget.ecoDryProvider?.priceListResponse?.priceList?[0].express ??
+            widget.ecoDryProvider?.priceListResponse?.priceList?[0].designer ??
                 '');
       }
       // if (widget.index == 0) {
@@ -86,7 +86,7 @@ class _PricePdfViewState extends State<PricePdfView> {
               ),
             ),
             title: Text(
-              'Price List',
+              '',
               style: FontPalette.poppinsBold
                   .copyWith(color: Colors.black, fontSize: 17.sp),
             ),

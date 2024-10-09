@@ -140,8 +140,8 @@ class _EcoDryCleanScreenState extends State<EcoDryCleanScreen> {
                             alignment: Alignment.center,
                             child: Column(children: [
                               Assets.images.designerLogo.image(
-                                height: constraints.maxWidth * .6,
-                                width: constraints.maxWidth * .8,
+                                height: constraints.maxWidth * .5,
+                                width: constraints.maxWidth * .7,
                               ),
                               InkWell(
                                 onTap: () => Navigator.pushNamed(

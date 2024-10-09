@@ -31,8 +31,8 @@ class HomeImageSlider extends StatelessWidget {
           bottom: 60.h,
           child: CustomButton(
             width: 247.w,
-            decoration: const BoxDecoration(
-                color: Color(0XFFa7b8c5), borderRadius: BorderRadius.zero),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(40.r)),
             title: 'PRICE LIST',
             textStyle: FontPalette.poppinsBold
                 .copyWith(fontSize: 15.sp, color: ColorPalette.greenColor),
