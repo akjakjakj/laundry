@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -34,6 +35,12 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
     // widget.activeOrdersProvider.getOrderDetails(widget.orderId ?? 0);
     super.initState();
   }
+
+  // @override
+  // void dispose() {
+  //   widget.activeOrdersProvider.adminCommentStatus = null;
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -157,6 +164,74 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                         title: 'Pickup Time',
                         value: widget.orders?.pickUpTimeSlot ?? 'N/A',
                       ),
+                      if (widget.orders?.adminReportedData != null)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            14.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Comments from Branch',
+                              value: widget
+                                      .orders?.adminReportedData?.description ??
+                                  'N/A',
+                            ),
+                            10.verticalSpace,
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.start,
+                              alignment: WrapAlignment.start,
+                              runSpacing: 10.h,
+                              spacing: 10.w,
+                              children: List.generate(
+                                  (widget.orders?.adminReportedData?.images ??
+                                          [])
+                                      .length, (index) {
+                                return Container(
+                                  height: 100.r,
+                                  width: 100.r,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(20.r)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.orders?.adminReportedData
+                                            ?.images?[index] ??
+                                        '',
+                                    height: 100.r,
+                                    width: 100.r,
+                                  ),
+                                );
+                              }),
+                            ),
+                            10.verticalSpace,
+                            widget.orders?.adminReportedData?.status == null &&
+                                    widget.activeOrdersProvider
+                                            .adminCommentStatus ==
+                                        null
+                                ? Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      _RejectButton(
+                                          activeOrdersProvider:
+                                              widget.activeOrdersProvider,
+                                          orderId: (widget.orders?.id ?? 0)
+                                              .toString()),
+                                      _ApproveButton(
+                                          activeOrdersProvider:
+                                              widget.activeOrdersProvider,
+                                          orderId: (widget.orders?.id ?? 0)
+                                              .toString()),
+                                    ],
+                                  )
+                                : _OrderDetailsTile(
+                                    title: 'Status',
+                                    value: widget.orders?.adminReportedData
+                                            ?.status ??
+                                        widget.activeOrdersProvider
+                                            .adminCommentStatus ??
+                                        'N/A',
+                                  ),
+                          ],
+                        ),
                       14.verticalSpace,
                       if (widget.orders?.invoice != null)
                         Column(
@@ -336,6 +411,95 @@ class _OrderDetailsTile extends StatelessWidget {
                   .copyWith(color: HexColor('#404041'))),
         ),
       ],
+    );
+  }
+}
+
+class _ApproveButton extends StatefulWidget {
+  const _ApproveButton(
+      {required this.activeOrdersProvider, required this.orderId});
+  final ActiveOrdersProvider activeOrdersProvider;
+  final String? orderId;
+  @override
+  State<_ApproveButton> createState() => _ApproveButtonState();
+}
+
+class _ApproveButtonState extends State<_ApproveButton> {
+  ValueNotifier isLoading = ValueNotifier<bool>(false);
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder(
+      valueListenable: isLoading,
+      builder: (context, value, child) => CustomButton(
+        width: 150.w,
+        height: 40.0,
+        title: 'Approve',
+        isLoading: value,
+        onTap: () {
+          isLoading.value = true;
+          widget.activeOrdersProvider.updateAdminCommentStatus(
+            orderId: widget.orderId ?? '',
+            status: 'Approved',
+            onFailure: () {
+              isLoading.value = false;
+              widget.activeOrdersProvider.helpers.errorToast(
+                  widget.activeOrdersProvider.message ??
+                      'Oops... Something went wrong');
+            },
+            onSuccess: () {
+              isLoading.value = false;
+              widget.activeOrdersProvider.helpers.successToast(
+                  widget.activeOrdersProvider.message ??
+                      'Successfully updated');
+            },
+          );
+        },
+      ),
+    );
+  }
+}
+
+class _RejectButton extends StatefulWidget {
+  const _RejectButton(
+      {required this.activeOrdersProvider, required this.orderId});
+  final ActiveOrdersProvider activeOrdersProvider;
+  final String? orderId;
+  @override
+  State<_RejectButton> createState() => _RejectButtonState();
+}
+
+class _RejectButtonState extends State<_RejectButton> {
+  @override
+  Widget build(BuildContext context) {
+    ValueNotifier isLoading = ValueNotifier<bool>(false);
+    return ValueListenableBuilder(
+      valueListenable: isLoading,
+      builder: (context, value, child) => CustomButton(
+        width: 150.w,
+        height: 40.0,
+        title: 'Reject',
+        color: ColorPalette.errorBorderColor,
+        isLoading: value,
+        onTap: () {
+          isLoading.value = true;
+          widget.activeOrdersProvider.updateAdminCommentStatus(
+            orderId: widget.orderId ?? '',
+            status: 'Rejected',
+            onFailure: () {
+              isLoading.value = false;
+              widget.activeOrdersProvider.helpers.errorToast(
+                  widget.activeOrdersProvider.message ??
+                      'Oops... Something went wrong');
+            },
+            onSuccess: () {
+              isLoading.value = false;
+              widget.activeOrdersProvider.helpers.successToast(
+                  widget.activeOrdersProvider.message ??
+                      'Successfully updated');
+            },
+          );
+        },
+      ),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -158,6 +159,52 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         title: 'Pickup Time',
                         value: widget.orders?.pickUpTimeSlot ?? 'N/A',
                       ),
+                      14.verticalSpace,
+                      if (widget.orders?.adminReportedData != null)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            14.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Comments from Branch',
+                              value: widget
+                                      .orders?.adminReportedData?.description ??
+                                  'N/A',
+                            ),
+                            10.verticalSpace,
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.start,
+                              alignment: WrapAlignment.start,
+                              runSpacing: 10.h,
+                              spacing: 10.w,
+                              children: List.generate(
+                                  (widget.orders?.adminReportedData?.images ??
+                                          [])
+                                      .length, (index) {
+                                return Container(
+                                  height: 100.r,
+                                  width: 100.r,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.circular(20.r)),
+                                  child: CachedNetworkImage(
+                                    imageUrl: widget.orders?.adminReportedData
+                                            ?.images?[index] ??
+                                        '',
+                                    height: 100.r,
+                                    width: 100.r,
+                                  ),
+                                );
+                              }),
+                            ),
+                            10.verticalSpace,
+                            _OrderDetailsTile(
+                              title: 'Status',
+                              value: widget.orders?.adminReportedData?.status ??
+                                  'N/A',
+                            ),
+                          ],
+                        ),
                       14.verticalSpace,
                       if (widget.orders?.invoice != null)
                         Column(

@@ -40,6 +40,7 @@ class Orders {
   String? orderStatus;
   String? paymentStatus;
   Invoice? invoice;
+  AdminReportedData? adminReportedData;
   Orders(
       {this.id,
       this.orderNumber,
@@ -91,6 +92,9 @@ class Orders {
     if (json['invoice'] != null) {
       invoice = Invoice.fromJson(json['invoice']);
     }
+    adminReportedData = json['admin_reported_data'] != null
+        ? AdminReportedData.fromJson(json['admin_reported_data'])
+        : null;
   }
 }
 
@@ -126,5 +130,18 @@ class Invoice {
     taxAmount = json['tax_amount'];
     totalAmount = json['total_amount'];
     invoiceNumber = json['pos_order_id'];
+  }
+}
+
+class AdminReportedData {
+  List<String>? images;
+  String? description;
+  String? status;
+  AdminReportedData({this.images, this.description, this.status});
+
+  AdminReportedData.fromJson(Map<String, dynamic> json) {
+    images = json['images'].cast<String>();
+    description = json['description'];
+    status = json['status'];
   }
 }

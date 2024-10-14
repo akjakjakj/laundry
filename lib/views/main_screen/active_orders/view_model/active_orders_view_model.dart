@@ -16,6 +16,11 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   PastOrdersResponse? pastOrdersResponse;
   OrderDetailsModel? orderDetailsModel;
 
+  String? adminCommentStatus;
+  String? message;
+
+  bool? btnLoader = false;
+
   List<Orders> ordersList = [];
 
   Future<void> getActiveOrders() async {
@@ -76,6 +81,37 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  Future<void> updateAdminCommentStatus(
+      {required String orderId,
+      required String status,
+      Function()? onSuccess,
+      Function()? onFailure}) async {
+    updateBtnLoader(true);
+    final network = await helpers.isInternetAvailable();
+    if (network) {
+      try {
+        pastOrdersRepo
+            .updateAdminComments(orderId: orderId, status: status)
+            .fold((left) {
+          updateBtnLoader(false);
+          updateMessage(left.message ?? 'Oops... Something went wrong');
+          if (onFailure != null) onFailure();
+        }, (right) {
+          updateBtnLoader(false);
+          updateMessage(right['message'] ?? 'Successfully updated');
+          adminCommentStatus = status;
+          if (onSuccess != null) onSuccess();
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
   updateOrdersList(PastOrdersResponse? pastOrdersResponse) {
     ordersList = pastOrdersResponse?.orders ?? [];
     if (ordersList.isNotEmpty) {
@@ -84,6 +120,16 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
       updateLoadState(LoaderState.noData);
     }
 
+    notifyListeners();
+  }
+
+  void updateBtnLoader(bool value) {
+    btnLoader = value;
+    notifyListeners();
+  }
+
+  void updateMessage(String msg) {
+    message = msg;
     notifyListeners();
   }
 

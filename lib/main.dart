@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp(
-          title: 'Laundry',
+          title: 'Le Degraissage',
           debugShowCheckedModeBanner: false,
           theme: ColorPalette.themeData,
           onGenerateRoute: RouteGenerator.instance.generateRoute,

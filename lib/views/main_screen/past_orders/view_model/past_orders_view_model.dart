@@ -18,6 +18,11 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
   List<Orders> ordersList = [];
 
+  String? adminCommentStatus;
+  String? message;
+
+  bool? btnLoader = false;
+
   Future<void> getPastOrders() async {
     updateLoadState(LoaderState.loading);
     final network = await helpers.isInternetAvailable();
@@ -47,11 +52,10 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
   Future<void> getOrderDetails(int orderId) async {
     final network = await helpers.isInternetAvailable();
-    Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       updateLoadState(LoaderState.loading);
       try {
-        resp = pastOrdersRepo.getOrderDetails(orderId).thenRight((right) {
+        pastOrdersRepo.getOrderDetails(orderId).thenRight((right) {
           orderDetailsModel = right;
           if (orderDetailsModel?.status ?? false) {
             updateLoadState(LoaderState.loaded);
@@ -76,6 +80,30 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  Future<void> updateAdminCommentStatus(
+      {required String orderId,
+      required String status,
+      Function()? onSuccess,
+      Function()? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    updateBtnLoader(true);
+    try {
+      pastOrdersRepo.updateAdminComments(orderId: orderId, status: status).fold(
+          (left) {
+        updateBtnLoader(false);
+        updateMessage(left.message ?? 'Oops... Something went wrong');
+        if (onFailure != null) onFailure();
+      }, (right) {
+        updateBtnLoader(false);
+        updateMessage(right.message ?? 'Successfully updated');
+        if (onSuccess != null) onSuccess();
+      });
+    } catch (e) {
+      updateBtnLoaderState(false);
+      updateLoadState(LoaderState.error);
+    }
+  }
+
   updateOrdersList(PastOrdersResponse? pastOrdersResponse) {
     ordersList = pastOrdersResponse?.orders ?? [];
     if (ordersList.isNotEmpty) {
@@ -84,6 +112,16 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
       updateLoadState(LoaderState.noData);
     }
 
+    notifyListeners();
+  }
+
+  void updateBtnLoader(bool value) {
+    btnLoader = value;
+    notifyListeners();
+  }
+
+  void updateMessage(String msg) {
+    message = msg;
     notifyListeners();
   }
 

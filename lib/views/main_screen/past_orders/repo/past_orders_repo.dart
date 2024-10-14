@@ -62,4 +62,18 @@ class PastOrdersRepo {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
     });
   }
+
+  Future<Either<ApiResponse, dynamic>> updateAdminComments(
+      {required String orderId, required String status}) {
+    return httpReq
+        .postRequest('/api/customer/admin-reported-image-status-change',
+            param: {'order_id': orderId, 'status': status})
+        .thenRight((right) => Right(right))
+        .thenLeft((left) {
+          return Left(left);
+        })
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
 }
