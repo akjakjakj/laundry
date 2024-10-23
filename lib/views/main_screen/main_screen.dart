@@ -32,7 +32,9 @@ class _MainScreenState extends State<MainScreen> {
   @override
   void initState() {
     homeProvider = context.read<HomeProvider>();
-    homeProvider.getServices();
+    homeProvider
+      ..getServices()
+      ..getBanners();
     context.read<ManageAddressProvider>().getCurrentLocation();
     selectedIndex = ValueNotifier(2);
     pageController = PageController(initialPage: 2, keepPage: true);

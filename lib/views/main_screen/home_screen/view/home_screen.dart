@@ -53,7 +53,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                  height: context.sw(size: 1.1.h), child: HomeImageSlider()),
+                  height: context.sw(size: 1.1.h),
+                  child: HomeImageSlider(
+                    homeProvider: context.read<HomeProvider>(),
+                  )),
               19.verticalSpace,
               Text(
                 'CHOOSE OUR SERVICE',

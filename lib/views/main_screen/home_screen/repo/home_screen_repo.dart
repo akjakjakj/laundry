@@ -5,6 +5,7 @@ import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/http_req.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
 import 'package:laundry/utils/enums.dart';
+import 'package:laundry/views/main_screen/home_screen/model/banners_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/categories_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/services_model.dart';
 
@@ -45,7 +46,15 @@ class HomeRepo {
     });
   }
 
-  // Future<Either<ApiResponse,dynamic>> getBanners()async{
-  //   return httpReq.getRequest('api/list-banners').thenRight((right) => null)
-  // }
+  Future<Either<ApiResponse, dynamic>> getBanners() async {
+    return httpReq.getRequest('/api/list-banners').thenRight((right) {
+      final bannersModel = HomeBanners.fromJson(right);
+      return Right(bannersModel);
+    }).thenLeft((left) {
+      debugPrint(left.toString());
+      return Left(left);
+    }).onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
+  }
 }

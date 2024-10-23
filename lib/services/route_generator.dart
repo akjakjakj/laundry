@@ -13,6 +13,8 @@ import 'package:laundry/views/eco_dry_clean/view/price_pdf_view.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:laundry/views/main_screen/active_orders/view/active_orders_details_screen.dart';
 import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
+import 'package:laundry/views/main_screen/home_screen/model/banners_model.dart';
+import 'package:laundry/views/main_screen/home_screen/view/home_banner_vdo_player.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_screen.dart';
 import 'package:laundry/views/main_screen/main_screen.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
@@ -43,6 +45,7 @@ class RouteGenerator {
   static const String routeLogin = 'loginScreen';
   static const String routeRegistration = 'registrationScreen';
   static const String routeHomeScreen = 'homeScreen';
+  static const String routeVideoScreen = 'videoScreen';
   static const String routeForgotPassword = 'forgotPasswordScreen';
   static const String routePastOrders = 'pastOrdersScreen';
   static const String routeEcoDryClean = 'ecoDryCleanScreen';
@@ -78,6 +81,10 @@ class RouteGenerator {
         return _buildRoute(routeRegistration, const RegistrationScreen());
       case routeHomeScreen:
         return _buildRoute(routeHomeScreen, const HomeScreen());
+      case routeVideoScreen:
+        BannersArguments routeArgs = args as BannersArguments;
+
+        return _buildRoute(routeVideoScreen, VideoScreen(link: routeArgs.link));
       case routeForgotPassword:
         return _buildRoute(routeForgotPassword, const ForgotPasswordScreen());
       case routePastOrders:
