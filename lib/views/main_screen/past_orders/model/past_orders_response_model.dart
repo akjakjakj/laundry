@@ -28,6 +28,7 @@ class Orders {
   String? date;
   List<Details>? details;
   List<String>? productsName;
+  List<String>? images;
   String? branch;
   dynamic address;
   String? orderDate;
@@ -39,6 +40,8 @@ class Orders {
   String? email;
   String? orderStatus;
   String? paymentStatus;
+  String? paymentType;
+  String? transactionId;
   Invoice? invoice;
   AdminReportedData? adminReportedData;
   Orders(
@@ -61,7 +64,11 @@ class Orders {
       this.phoneNumber,
       this.invoice,
       this.email,
-      this.paymentStatus});
+      this.paymentStatus,
+      this.images,
+      this.adminReportedData,
+      this.paymentType,
+      this.transactionId});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -81,6 +88,9 @@ class Orders {
     pickUpTimeSlot = json['pickup_time_slot'];
     orderStatus = json['order_status'];
     paymentStatus = json['payment_status'];
+    paymentType = json['payment_type'];
+    transactionId = json['transaction_id'];
+
     if (json['details'] != null) {
       details = <Details>[];
       productsName = [];
@@ -95,6 +105,7 @@ class Orders {
     adminReportedData = json['admin_reported_data'] != null
         ? AdminReportedData.fromJson(json['admin_reported_data'])
         : null;
+    images = json['images'].cast<String>();
   }
 }
 

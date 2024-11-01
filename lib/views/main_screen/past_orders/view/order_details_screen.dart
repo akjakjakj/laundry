@@ -128,6 +128,41 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                           )
                         ],
                       ),
+                      10.verticalSpace,
+                      Row(
+                        children: [
+                          Text('Payment Status : ',
+                              style: FontPalette.poppinsRegular.copyWith(
+                                  fontSize: 14.sp,
+                                  color: ColorPalette.primaryColor)),
+                          Text(
+                            widget.orders?.paymentStatus ?? 'Pending',
+                            style: FontPalette.poppinsBold.copyWith(
+                                color: widget.orders?.paymentStatus
+                                                ?.toLowerCase() ==
+                                            'pending' ||
+                                        widget.orders?.paymentStatus == null
+                                    ? ColorPalette.errorBorderColor
+                                    : ColorPalette.primaryColor,
+                                fontSize: 17.sp),
+                          ),
+                        ],
+                      ),
+                      10.verticalSpace,
+                      Row(
+                        children: [
+                          Text('Payment Type : ',
+                              style: FontPalette.poppinsRegular.copyWith(
+                                  fontSize: 14.sp,
+                                  color: ColorPalette.primaryColor)),
+                          Text(
+                            widget.orders?.paymentType ?? 'N/A',
+                            style: FontPalette.poppinsBold.copyWith(
+                                color: ColorPalette.primaryColor,
+                                fontSize: 17.sp),
+                          ),
+                        ],
+                      ),
                       14.verticalSpace,
                       Text(
                         'Details',
@@ -160,6 +195,42 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         value: widget.orders?.pickUpTimeSlot ?? 'N/A',
                       ),
                       14.verticalSpace,
+                      if ((widget.orders?.images ?? []).notEmpty)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            14.verticalSpace,
+                            Text('Images',
+                                style: FontPalette.poppinsRegular.copyWith(
+                                  color: HexColor('#404041'),
+                                )),
+                            14.verticalSpace,
+                            Wrap(
+                              crossAxisAlignment: WrapCrossAlignment.start,
+                              alignment: WrapAlignment.start,
+                              runSpacing: 10.h,
+                              spacing: 10.w,
+                              children: List.generate(
+                                  (widget.orders?.images ?? []).length,
+                                  (index) {
+                                return Container(
+                                  height: 100.r,
+                                  width: 100.r,
+                                  decoration: BoxDecoration(
+                                      color: const Color(0xfff3f3f4),
+                                      borderRadius:
+                                          BorderRadius.circular(20.r)),
+                                  child: CachedNetworkImage(
+                                    imageUrl:
+                                        widget.orders?.images?[index] ?? '',
+                                    height: 100.r,
+                                    width: 100.r,
+                                  ),
+                                );
+                              }),
+                            ),
+                          ],
+                        ),
                       if (widget.orders?.adminReportedData != null)
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -185,6 +256,7 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   height: 100.r,
                                   width: 100.r,
                                   decoration: BoxDecoration(
+                                      color: const Color(0xfff3f3f4),
                                       borderRadius:
                                           BorderRadius.circular(20.r)),
                                   child: CachedNetworkImage(

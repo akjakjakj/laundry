@@ -81,8 +81,8 @@ class HttpReq {
 
       files?.forEach((key, value) async {
         for (int i = 0; i < value.length; i++) {
-          request.files.add(http.MultipartFile(
-              key, value[i].readAsBytes().asStream(), value[i].lengthSync(),
+          request.files.add(http.MultipartFile('$key[$i]',
+              value[i].readAsBytes().asStream(), value[i].lengthSync(),
               filename: value[i].path.split('/').last));
         }
       });

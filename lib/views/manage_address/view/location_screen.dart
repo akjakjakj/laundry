@@ -128,7 +128,7 @@ class _LocationScreenState extends State<LocationScreen> {
                               children: [
                                 Text(
                                   manageAddressProvider
-                                      .addressStreetController.text
+                                      .addressCityController.text
                                       .trim(),
                                   style: const TextStyle(
                                     color: Colors.black,

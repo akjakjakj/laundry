@@ -35,7 +35,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
 
   TextEditingController buildingNumberEditingController =
       TextEditingController();
-  TextEditingController addressStreetController = TextEditingController();
+  TextEditingController addressCityController = TextEditingController();
   TextEditingController fullAddressController = TextEditingController();
   TextEditingController addressEmirateController = TextEditingController();
   TextEditingController textEditingController = TextEditingController();
@@ -110,7 +110,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
       AddAddressRequestModel addAddressRequestModel = AddAddressRequestModel(
           address: fullAddressController.text.trim(),
           houseNumber: buildingNumberEditingController.text.trim(),
-          city: addressStreetController.text.trim(),
+          city: addressCityController.text.trim(),
           country: addressEmirateController.text.trim(),
           postalCode: double.tryParse(postalCode ?? '0'),
           latitude: currentPosition?.latitude,
@@ -300,7 +300,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
     List<Placemark> placeMarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placeMarks[0];
-    addressStreetController.text = (place.subLocality ?? '').isNotEmpty
+    addressCityController.text = (place.subLocality ?? '').isNotEmpty
         ? place.subLocality ?? ''
         : place.locality ?? '';
      fullAddressController.text = place.locality ?? '';
@@ -325,7 +325,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void clearAddressControllers() {
-    addressStreetController.clear();
+    addressCityController.clear();
     buildingNumberEditingController.clear();
     fullAddressController.clear();
     notifyListeners();
@@ -338,7 +338,7 @@ class ManageAddressProvider extends ChangeNotifier with ProviderHelperClass {
 
   void clearValues() {
     buildingNumberEditingController.clear();
-    addressStreetController.clear();
+    addressCityController.clear();
     fullAddressController.clear();
     addressEmirateController.clear();
     textEditingController.clear();

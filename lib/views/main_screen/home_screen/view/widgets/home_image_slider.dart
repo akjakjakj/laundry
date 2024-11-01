@@ -68,21 +68,22 @@ class HomeImageSlider extends StatelessWidget {
               arguments: EcoDryCleanArguments(title: '', serviceId: 1),
             ),
           )),
-      Positioned(
-        bottom: 20.h,
-        child: SmoothPageIndicator(
-          controller: pageController,
-          count: homeProvider.homeBanners.length,
-          effect: ScrollingDotsEffect(
-              strokeWidth: 1.0,
-              activeStrokeWidth: 1.0,
-              paintStyle: PaintingStyle.fill,
-              activeDotColor: ColorPalette.greenColor,
-              dotColor: Colors.white,
-              dotHeight: 7.r,
-              dotWidth: 7.r),
+      if (homeProvider.homeBanners.notEmpty)
+        Positioned(
+          bottom: 20.h,
+          child: SmoothPageIndicator(
+            controller: pageController,
+            count: homeProvider.homeBanners.length,
+            effect: ScrollingDotsEffect(
+                strokeWidth: 1.0,
+                activeStrokeWidth: 1.0,
+                paintStyle: PaintingStyle.fill,
+                activeDotColor: ColorPalette.greenColor,
+                dotColor: Colors.white,
+                dotHeight: 7.r,
+                dotWidth: 7.r),
+          ),
         ),
-      ),
     ]);
   }
 }
