@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
+import 'package:laundry/views/main_screen/active_orders/model/track_rider_arguments.dart';
+import 'package:laundry/views/main_screen/home_screen/view/home_banner_vdo_player.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_image_slider.dart';
 import 'package:laundry/views/main_screen/home_screen/view/widgets/home_screen_choose_service_widget.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
@@ -54,8 +57,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(
                   height: context.sw(size: 1.1.h),
-                  child: HomeImageSlider(
-                    homeProvider: context.read<HomeProvider>(),
+                  child: const VideoScreen(
+                    link:
+                        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
                   )),
               19.verticalSpace,
               Text(
@@ -72,56 +76,25 @@ class _HomeScreenState extends State<HomeScreen> {
                     ChooseServiceWidget(
                       servicesList: context.read<HomeProvider>().servicesList,
                     ),
-                    // 30.horizontalSpace,
-                    // InkWell(
-                    //   // onTap: () {
-                    //   //   context.read<PaymentProvider>().payWithCard();
-                    //   // },
-                    //   onTap: () => Navigator.pushNamed(
-                    //     context,
-                    //     RouteGenerator.routeEcoDryClean,
-                    //     arguments:
-                    //         EcoDryCleanArguments(title: '', serviceId: 1),
-                    //   ),
-                    //   child: Column(
-                    //     children: [
-                    //       Container(
-                    //         height: 65.h,
-                    //         width: 65.w,
-                    //         alignment: Alignment.center,
-                    //         decoration: BoxDecoration(
-                    //           shape: BoxShape.circle,
-                    //           color: Colors.white,
-                    //           boxShadow: [
-                    //             BoxShadow(
-                    //               color: Colors.grey.withOpacity(0.5),
-                    //               spreadRadius: 1.r,
-                    //               blurRadius: 15.r,
-                    //               offset: const Offset(0,
-                    //                   2), // changes the position of the shadow
-                    //             ),
-                    //           ],
-                    //         ),
-                    //         child: Assets.images.price.image(
-                    //           height: 25.h,
-                    //           // width: 38.w,
-                    //           fit: BoxFit.contain,
-                    //         ),
-                    //       ),
-                    //       10.verticalSpace,
-                    //       Text(
-                    //         'Price List',
-                    //         style: FontPalette.poppinsRegular.copyWith(
-                    //             fontSize: 11.sp,
-                    //             color: Colors.black,
-                    //             fontWeight: FontWeight.w500),
-                    //       )
-                    //     ],
-                    //   ),
-                    // ).removeSplash(),
                   ],
                 ),
-              )
+              ),
+              30.verticalSpace,
+              CustomButton(
+                width: 247.w,
+                height: 40.0,
+                decoration: BoxDecoration(
+                    color: ColorPalette.primaryColor,
+                    borderRadius: BorderRadius.circular(40.r)),
+                title: 'PRICE LIST',
+                textStyle: FontPalette.poppinsBold
+                    .copyWith(fontSize: 15.sp, color: Colors.white),
+                onTap: () => Navigator.pushNamed(
+                  context,
+                  RouteGenerator.routeEcoDryClean,
+                  arguments: EcoDryCleanArguments(title: '', serviceId: 1),
+                ),
+              ),
             ],
           )),
         ).withBackgroundImage(),

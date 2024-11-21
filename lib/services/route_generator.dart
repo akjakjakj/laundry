@@ -11,7 +11,9 @@ import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_item_selection_sc
 import 'package:laundry/views/eco_dry_clean/view/eco_dry_clean_screen.dart';
 import 'package:laundry/views/eco_dry_clean/view/price_pdf_view.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
+import 'package:laundry/views/main_screen/active_orders/model/track_rider_arguments.dart';
 import 'package:laundry/views/main_screen/active_orders/view/active_orders_details_screen.dart';
+import 'package:laundry/views/main_screen/active_orders/view/track_rider_screen.dart';
 import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/banners_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_banner_vdo_player.dart';
@@ -69,6 +71,7 @@ class RouteGenerator {
   static const String routeActiveOrderDetails = 'activeOrderDetails';
   static const String routeInvoiceView = 'invoiceView';
   static const String routeBlackScreen = 'blackScreenView';
+  static const String routeTrackRiderScreen = 'trackRider';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -176,12 +179,24 @@ class RouteGenerator {
             ));
       case routeInvoiceView:
         InvoiceArguments routeArgs = args as InvoiceArguments;
-        return _buildRoute(routeInvoiceView,
-            InvoiceView(url: routeArgs.url ?? 'https://flutter.dev'));
+        return _buildRoute(
+            routeInvoiceView,
+            InvoiceView(
+              url: routeArgs.url ?? 'https://flutter.dev',
+              orders: routeArgs.orders,
+              pastOrdersProvider: routeArgs.pastOrdersProvider,
+            ));
       case routeLocationScreen:
         return _buildRoute(routeLocationScreen, const LocationScreen());
       case routeBlackScreen:
         return _buildRoute(routeBlackScreen, const BlackScreen());
+      case routeTrackRiderScreen:
+        TrackRiderArguments routeArgs = args as TrackRiderArguments;
+        return _buildRoute(
+            routeTrackRiderScreen,
+            TrackRider(
+              activeOrdersProvider: routeArgs.activeOrdersProvider,
+            ));
       default:
         return _buildRoute(routeInitial, const SplashScreen());
     }

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -76,7 +75,8 @@ class _LocationScreenState extends State<LocationScreen> {
         elevation: 0.0,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => context.read<ManageAddressProvider>().getCurrentLocation(),
+        onPressed: () =>
+            context.read<ManageAddressProvider>().getCurrentLocation(),
         child: const Icon(Icons.my_location_rounded),
       ),
       floatingActionButtonLocation: CustomFabLocation(),

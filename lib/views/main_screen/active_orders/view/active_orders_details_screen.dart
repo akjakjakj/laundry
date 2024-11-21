@@ -9,6 +9,7 @@ import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
+import 'package:laundry/views/main_screen/active_orders/model/track_rider_arguments.dart';
 import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
 import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
@@ -269,6 +270,20 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                                   ),
                           ],
                         ),
+                      14.verticalSpace,
+                      CustomButton(
+                          height: 40.0,
+                          decoration: BoxDecoration(
+                              color: ColorPalette.primaryColor,
+                              borderRadius: BorderRadius.circular(40.r)),
+                          title: 'Track Rider',
+                          textStyle: FontPalette.poppinsBold
+                              .copyWith(fontSize: 15.sp, color: Colors.white),
+                          onTap: () => Navigator.pushNamed(
+                              context, RouteGenerator.routeTrackRiderScreen,
+                              arguments: TrackRiderArguments(
+                                  activeOrdersProvider:
+                                      widget.activeOrdersProvider))),
                       14.verticalSpace,
                       if (widget.orders?.invoice != null)
                         Column(

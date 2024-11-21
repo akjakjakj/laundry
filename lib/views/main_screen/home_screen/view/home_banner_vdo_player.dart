@@ -42,22 +42,22 @@ class _VideoScreenState extends State<VideoScreen> {
               )
             : Container(),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          setState(() {
-            _controller.value.isCompleted || !(_controller.value.isPlaying)
-                ? _controller.play()
-                : _controller.pause();
-          });
-        },
-        child: Icon(
-          _controller.value.isPlaying
-              ? Icons.pause
-              : _controller.value.isCompleted
-                  ? Icons.refresh
-                  : Icons.play_arrow,
-        ),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     setState(() {
+      //       _controller.value.isCompleted || !(_controller.value.isPlaying)
+      //           ? _controller.play()
+      //           : _controller.pause();
+      //     });
+      //   },
+      //   child: Icon(
+      //     _controller.value.isPlaying
+      //         ? Icons.pause
+      //         : _controller.value.isCompleted
+      //             ? Icons.refresh
+      //             : Icons.play_arrow,
+      //   ),
+      // ),
     );
   }
 

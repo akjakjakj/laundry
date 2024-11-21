@@ -20,5 +20,7 @@ class ActiveOrderDetailsArguments {
 
 class InvoiceArguments {
   String? url;
-  InvoiceArguments({this.url});
+  Orders? orders;
+  PastOrdersProvider? pastOrdersProvider;
+  InvoiceArguments({this.url, this.orders, this.pastOrdersProvider});
 }

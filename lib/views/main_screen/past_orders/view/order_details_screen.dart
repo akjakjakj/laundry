@@ -327,6 +327,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                               onTap: () => Navigator.pushNamed(
                                   context, RouteGenerator.routeInvoiceView,
                                   arguments: InvoiceArguments(
+                                      orders: widget.orders,
+                                      pastOrdersProvider:
+                                          widget.pastOrdersProvider,
                                       url:
                                           'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${widget.orders?.invoice?.invoiceNumber}')),
                             ),

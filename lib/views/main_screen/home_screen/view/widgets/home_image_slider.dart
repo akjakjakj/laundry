@@ -53,21 +53,21 @@ class HomeImageSlider extends StatelessWidget {
           ).removeSplash();
         },
       ),
-      Positioned(
-          bottom: 60.h,
-          child: CustomButton(
-            width: 247.w,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(40.r)),
-            title: 'PRICE LIST',
-            textStyle: FontPalette.poppinsBold
-                .copyWith(fontSize: 15.sp, color: ColorPalette.greenColor),
-            onTap: () => Navigator.pushNamed(
-              context,
-              RouteGenerator.routeEcoDryClean,
-              arguments: EcoDryCleanArguments(title: '', serviceId: 1),
-            ),
-          )),
+      // Positioned(
+      //     bottom: 60.h,
+      //     child: CustomButton(
+      //       width: 247.w,
+      //       decoration: BoxDecoration(
+      //           color: Colors.white, borderRadius: BorderRadius.circular(40.r)),
+      //       title: 'PRICE LIST',
+      //       textStyle: FontPalette.poppinsBold
+      //           .copyWith(fontSize: 15.sp, color: ColorPalette.greenColor),
+      //       onTap: () => Navigator.pushNamed(
+      //         context,
+      //         RouteGenerator.routeEcoDryClean,
+      //         arguments: EcoDryCleanArguments(title: '', serviceId: 1),
+      //       ),
+      //     )),
       if (homeProvider.homeBanners.notEmpty)
         Positioned(
           bottom: 20.h,

@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:laundry/services/api_reponse.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
@@ -8,6 +13,7 @@ import 'package:laundry/utils/enums.dart';
 import 'package:laundry/views/main_screen/past_orders/model/order_details_model.dart';
 import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
 import 'package:laundry/views/main_screen/past_orders/repo/past_orders_repo.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   Helpers helpers = sl.get<Helpers>();
@@ -22,6 +28,15 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   bool? btnLoader = false;
 
   List<Orders> ordersList = [];
+
+  GoogleMapController? mapController;
+
+  Map<PolylineId, Polyline> polylines = {};
+  PolylinePoints polylinePoints = PolylinePoints();
+  List<LatLng> polylineCoordinates = [];
+  Map<MarkerId, Marker> markers = {};
+
+  PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
 
   Future<void> getActiveOrders() async {
     updateLoadState(LoaderState.loading);
@@ -121,6 +136,114 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     }
 
     notifyListeners();
+  }
+
+  /// pusher
+
+  void initPusher() async {
+    try {
+      await pusher.init(
+        apiKey: '4f0b4f15fc53e7b6ad85',
+        cluster: 'ap2',
+        onConnectionStateChange: onConnectionStateChange,
+        onError: onError,
+        onSubscriptionSucceeded: onSubscriptionSucceeded,
+        onEvent: onEvent,
+        onSubscriptionError: onSubscriptionError,
+        onDecryptionFailure: onDecryptionFailure,
+        onMemberAdded: onMemberAdded,
+        onMemberRemoved: onMemberRemoved,
+        onSubscriptionCount: onSubscriptionCount,
+        // authEndpoint: "<Your Authendpoint Url>",
+        // onAuthorizer: onAuthorizer
+      );
+      await pusher.subscribe(channelName: 'driver.9');
+      await pusher.connect();
+    } catch (e) {
+      log("ERROR: $e");
+    }
+  }
+
+  void onConnectionStateChange(dynamic currentState, dynamic previousState) {
+    log("Connection: $currentState");
+  }
+
+  void onError(String message, int? code, dynamic e) {
+    log("onError: $message code: $code exception: $e");
+  }
+
+  void onEvent(PusherEvent event) {
+    log("onEvent: $event");
+  }
+
+  void onSubscriptionSucceeded(String channelName, dynamic data) {
+    log("onSubscriptionSucceeded: $channelName data: $data");
+    final me = pusher.getChannel(channelName)?.me;
+    log("Me: $me");
+  }
+
+  void onSubscriptionError(String message, dynamic e) {
+    log("onSubscriptionError: $message Exception: $e");
+  }
+
+  void onDecryptionFailure(String event, String reason) {
+    log("onDecryptionFailure: $event reason: $reason");
+  }
+
+  void onMemberAdded(String channelName, PusherMember member) {
+    log("onMemberAdded: $channelName user: $member");
+  }
+
+  void onMemberRemoved(String channelName, PusherMember member) {
+    log("onMemberRemoved: $channelName user: $member");
+  }
+
+  void onSubscriptionCount(String channelName, int subscriptionCount) {
+    log("onSubscriptionCount: $channelName subscriptionCount: $subscriptionCount");
+  }
+
+  dynamic onAuthorizer(String channelName, String socketId, dynamic options) {
+    return {
+      "auth": "foo:bar",
+      "channel_data": '{"user_id": 1}',
+      "shared_secret": "foobar"
+    };
+  }
+
+  /// poly line
+  void addPolyLine() {
+    PolylineId id = const PolylineId("poly");
+    Polyline polyline = Polyline(
+        polylineId: id,
+        color: Colors.black,
+        points: polylineCoordinates,
+        width: 1);
+    polylines[id] = polyline;
+    notifyListeners();
+  }
+
+  void getPolyline() async {
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
+      travelMode: TravelMode.driving,
+      const PointLatLng(10.2270, 76.3749),
+      const PointLatLng(10.2682, 76.3543),
+      // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
+    );
+
+    if (result.points.isNotEmpty) {
+      for (var point in result.points) {
+        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      }
+    }
+    addPolyLine();
+  }
+
+  void addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
+    MarkerId markerId = MarkerId(id);
+    Marker marker =
+        Marker(markerId: markerId, icon: descriptor, position: position);
+    markers[markerId] = marker;
   }
 
   void updateBtnLoader(bool value) {
