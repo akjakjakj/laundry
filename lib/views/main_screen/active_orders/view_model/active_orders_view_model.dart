@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:either_dart/either.dart';
@@ -21,9 +22,12 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
   PastOrdersResponse? pastOrdersResponse;
   OrderDetailsModel? orderDetailsModel;
+  FullAddress? fullAddress;
+  DriverLocationUpdatedEvent? driverLocation;
 
   String? adminCommentStatus;
   String? message;
+  String? pickUpId;
 
   bool? btnLoader = false;
 
@@ -41,10 +45,9 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   Future<void> getActiveOrders() async {
     updateLoadState(LoaderState.loading);
     final network = await helpers.isInternetAvailable();
-    Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       try {
-        resp = pastOrdersRepo.getActiveOrders().thenRight((right) {
+        pastOrdersRepo.getActiveOrders().thenRight((right) {
           pastOrdersResponse = right;
           updateOrdersList(pastOrdersResponse);
           return Right(right);
@@ -67,11 +70,10 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
   Future<void> getOrderDetails(int orderId) async {
     final network = await helpers.isInternetAvailable();
-    Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       updateLoadState(LoaderState.loading);
       try {
-        resp = pastOrdersRepo.getOrderDetails(orderId).thenRight((right) {
+        pastOrdersRepo.getOrderDetails(orderId).thenRight((right) {
           orderDetailsModel = right;
           if (orderDetailsModel?.status ?? false) {
             updateLoadState(LoaderState.loaded);
@@ -138,6 +140,11 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     notifyListeners();
   }
 
+  void updateFullAddress({required FullAddress? address, required String id}) {
+    fullAddress = address;
+    pickUpId = id;
+  }
+
   /// pusher
 
   void initPusher() async {
@@ -157,7 +164,8 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
         // authEndpoint: "<Your Authendpoint Url>",
         // onAuthorizer: onAuthorizer
       );
-      await pusher.subscribe(channelName: 'driver.9');
+
+      await pusher.subscribe(channelName: 'ledegraissage-$pickUpId');
       await pusher.connect();
     } catch (e) {
       log("ERROR: $e");
@@ -173,7 +181,32 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void onEvent(PusherEvent event) {
-    log("onEvent: $event");
+    // log("onEvent: $event");
+    // log(event.data);
+
+    /// origin marker
+    if (event.data != null) {
+      Map<String, dynamic> eventData = json.decode(event.data!);
+
+      driverLocation = DriverLocationUpdatedEvent.fromJson(eventData);
+
+      addMarker(
+          LatLng(double.parse(fullAddress?.latitude ?? '0'),
+              double.parse(fullAddress?.longitude ?? '0')),
+          "origin",
+          BitmapDescriptor.defaultMarker);
+
+      /// destination marker
+      if (driverLocation != null) {
+        addMarker(LatLng(driverLocation!.latitude, driverLocation!.longitude),
+            "destination", BitmapDescriptor.defaultMarkerWithHue(90));
+        getPolyline(
+            customerLatLng: LatLng(double.parse(fullAddress?.latitude ?? '0'),
+                double.parse(fullAddress?.longitude ?? '0')),
+            riderLatLng:
+                LatLng(driverLocation!.latitude, driverLocation!.longitude));
+      }
+    }
   }
 
   void onSubscriptionSucceeded(String channelName, dynamic data) {
@@ -222,21 +255,34 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     notifyListeners();
   }
 
-  void getPolyline() async {
-    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
-      travelMode: TravelMode.driving,
-      const PointLatLng(10.2270, 76.3749),
-      const PointLatLng(10.2682, 76.3543),
-      // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
-    );
+  void getPolyline(
+      {required LatLng riderLatLng, required LatLng customerLatLng}) async {
+    try {
+      // Clear previous route data to avoid duplicates
+      polylineCoordinates.clear();
 
-    if (result.points.isNotEmpty) {
-      for (var point in result.points) {
-        polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+      // Fetch route from Google Maps API
+      PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+        'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
+        travelMode: TravelMode.driving,
+        PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
+        PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+      );
+
+      if (result.points.isNotEmpty) {
+        // Add new route points
+        for (var point in result.points) {
+          polylineCoordinates.add(LatLng(point.latitude, point.longitude));
+        }
+
+        // Update the polyline on the map
+        addPolyLine();
+      } else {
+        print("No points returned for the route");
       }
+    } catch (e) {
+      print("Error fetching polyline: $e");
     }
-    addPolyLine();
   }
 
   void addMarker(LatLng position, String id, BitmapDescriptor descriptor) {

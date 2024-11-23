@@ -43,7 +43,10 @@ class Orders {
   String? paymentType;
   String? transactionId;
   Invoice? invoice;
+  FullAddress? fullAddress;
   AdminReportedData? adminReportedData;
+  String? pickUpRiderId;
+  String? returnRiderId;
   Orders(
       {this.id,
       this.orderNumber,
@@ -68,7 +71,10 @@ class Orders {
       this.images,
       this.adminReportedData,
       this.paymentType,
-      this.transactionId});
+      this.fullAddress,
+      this.transactionId,
+      this.pickUpRiderId,
+      this.returnRiderId});
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -90,6 +96,11 @@ class Orders {
     paymentStatus = json['payment_status'];
     paymentType = json['payment_type'];
     transactionId = json['transaction_id'];
+    pickUpRiderId = json['pick_up_rider_id'];
+    returnRiderId = json['return_rider_id'];
+    fullAddress = json['full_address'] != null
+        ? FullAddress.fromJson(json['full_address'])
+        : null;
 
     if (json['details'] != null) {
       details = <Details>[];
@@ -154,5 +165,73 @@ class AdminReportedData {
     images = json['images'].cast<String>();
     description = json['description'];
     status = json['status'];
+  }
+}
+
+class FullAddress {
+  int? id;
+  int? customerId;
+  String? address;
+  String? city;
+  String? houseNo;
+  String? state;
+  String? country;
+  String? postalCode;
+  String? latitude;
+  String? longitude;
+  int? isDefault;
+  String? createdAt;
+  String? updatedAt;
+
+  FullAddress(
+      {this.id,
+      this.customerId,
+      this.address,
+      this.city,
+      this.houseNo,
+      this.state,
+      this.country,
+      this.postalCode,
+      this.latitude,
+      this.longitude,
+      this.isDefault,
+      this.createdAt,
+      this.updatedAt});
+
+  FullAddress.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    customerId = json['customer_id'];
+    address = json['address'];
+    city = json['city'];
+    houseNo = json['house_no'];
+    state = json['state'];
+    country = json['country'];
+    postalCode = json['postal_code'];
+    latitude = json['latitude'];
+    longitude = json['longitude'];
+    isDefault = json['is_default'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+  }
+}
+
+class DriverLocationUpdatedEvent {
+  final int driverId;
+  final double latitude;
+  final double longitude;
+
+  DriverLocationUpdatedEvent({
+    required this.driverId,
+    required this.latitude,
+    required this.longitude,
+  });
+
+  // Factory method to create an instance from JSON
+  factory DriverLocationUpdatedEvent.fromJson(Map<String, dynamic> json) {
+    return DriverLocationUpdatedEvent(
+      driverId: json['driverId'],
+      latitude: json['latitude'],
+      longitude: json['longitude'],
+    );
   }
 }

@@ -13,7 +13,7 @@ import 'package:laundry/views/eco_dry_clean/view/price_pdf_view.dart';
 import 'package:laundry/views/eco_dry_clean/view_model/eco_dry_view_model.dart';
 import 'package:laundry/views/main_screen/active_orders/model/track_rider_arguments.dart';
 import 'package:laundry/views/main_screen/active_orders/view/active_orders_details_screen.dart';
-import 'package:laundry/views/main_screen/active_orders/view/track_rider_screen.dart';
+import 'package:laundry/views/main_screen/active_orders/view/track_rider_screen_active_orders.dart';
 import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/banners_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view/home_banner_vdo_player.dart';
@@ -194,7 +194,7 @@ class RouteGenerator {
         TrackRiderArguments routeArgs = args as TrackRiderArguments;
         return _buildRoute(
             routeTrackRiderScreen,
-            TrackRider(
+            TrackRiderActiveOrder(
               activeOrdersProvider: routeArgs.activeOrdersProvider,
             ));
       default:

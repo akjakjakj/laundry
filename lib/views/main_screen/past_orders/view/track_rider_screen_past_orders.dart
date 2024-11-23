@@ -1,31 +1,25 @@
+
+
 import 'package:flutter/material.dart';
-import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/font_palette.dart';
-import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
+import 'package:laundry/views/main_screen/past_orders/view_model/past_orders_view_model.dart';
 import 'package:provider/provider.dart';
 
-class TrackRider extends StatefulWidget {
-  const TrackRider({super.key, required this.activeOrdersProvider});
-  final ActiveOrdersProvider activeOrdersProvider;
+class TrackRiderPastOrder extends StatefulWidget {
+  const TrackRiderPastOrder({super.key, required this.pastOrders});
+  final PastOrdersProvider pastOrders;
   @override
-  State<TrackRider> createState() => _TrackRiderState();
+  State<TrackRiderPastOrder> createState() => _TrackRiderActiveOrderState();
 }
 
-class _TrackRiderState extends State<TrackRider> {
+class _TrackRiderActiveOrderState extends State<TrackRiderPastOrder> {
   @override
   void initState() {
-    widget.activeOrdersProvider.initPusher();
+    widget.pastOrders.initPusher();
 
-    /// origin marker
-    widget.activeOrdersProvider.addMarker(
-        LatLng(10.2270, 76.3749), "origin", BitmapDescriptor.defaultMarker);
-
-    /// destination marker
-    widget.activeOrdersProvider.addMarker(LatLng(10.2682, 76.3543),
-        "destination", BitmapDescriptor.defaultMarkerWithHue(90));
-    widget.activeOrdersProvider.getPolyline();
     super.initState();
   }
 
@@ -77,13 +71,14 @@ class _TrackRiderState extends State<TrackRider> {
         elevation: 0.0,
       ),
       body: ChangeNotifierProvider.value(
-        value: widget.activeOrdersProvider,
+        value: widget.pastOrders,
         child: Container(
           color: Colors.white,
-          child: Consumer<ActiveOrdersProvider>(
+          child: Consumer<PastOrdersProvider>(
             builder: (context, activeOrdersProvider, child) => Stack(
               children: [
-                GoogleMap(
+                activeOrdersProvider.driverLocation != null
+                    ? GoogleMap(
                   onMapCreated: (controller) {
                     activeOrdersProvider.mapController = controller;
                   },
@@ -92,16 +87,25 @@ class _TrackRiderState extends State<TrackRider> {
                   },
                   initialCameraPosition: CameraPosition(
                     target: LatLng(
-                        10.2270, 76.3749), // Default location (San Francisco)
+                        activeOrdersProvider.driverLocation!.latitude,
+                        activeOrdersProvider.driverLocation!
+                            .longitude), // Default location (San Francisco)
                     zoom: 12.0, // Initial zoom level
                   ),
                   markers: Set<Marker>.of(
-                      widget.activeOrdersProvider.markers.values),
+                      widget.pastOrders.markers.values),
                   polylines: Set<Polyline>.of(
-                      widget.activeOrdersProvider.polylines.values),
+                      widget.pastOrders.polylines.values),
                   // markers: activeOrdersProvider.markers,
                   // onTap: (argument) =>
                   //     manageAddressProvider.handleTap(argument),
+                )
+                    : Center(
+                  child: Text('Can\'t find Rider Information',
+                      style: FontPalette.poppinsRegular.copyWith(
+                          fontSize: 14.sp,
+                          color: HexColor('#000000'),
+                          fontWeight: FontWeight.w500)),
                 ),
               ],
             ),

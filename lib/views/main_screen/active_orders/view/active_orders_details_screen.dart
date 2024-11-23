@@ -270,20 +270,22 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                                   ),
                           ],
                         ),
-                      14.verticalSpace,
-                      CustomButton(
-                          height: 40.0,
-                          decoration: BoxDecoration(
-                              color: ColorPalette.primaryColor,
-                              borderRadius: BorderRadius.circular(40.r)),
-                          title: 'Track Rider',
-                          textStyle: FontPalette.poppinsBold
-                              .copyWith(fontSize: 15.sp, color: Colors.white),
-                          onTap: () => Navigator.pushNamed(
-                              context, RouteGenerator.routeTrackRiderScreen,
-                              arguments: TrackRiderArguments(
-                                  activeOrdersProvider:
-                                      widget.activeOrdersProvider))),
+                      if (widget.orders?.pickUpRiderId != null)
+                        14.verticalSpace,
+                      if (widget.orders?.pickUpRiderId != null)
+                        CustomButton(
+                            height: 40.0,
+                            decoration: BoxDecoration(
+                                color: ColorPalette.primaryColor,
+                                borderRadius: BorderRadius.circular(40.r)),
+                            title: 'Track Rider',
+                            textStyle: FontPalette.poppinsBold
+                                .copyWith(fontSize: 15.sp, color: Colors.white),
+                            onTap: () => Navigator.pushNamed(
+                                context, RouteGenerator.routeTrackRiderScreen,
+                                arguments: TrackRiderArguments(
+                                    activeOrdersProvider:
+                                        widget.activeOrdersProvider))),
                       14.verticalSpace,
                       if (widget.orders?.invoice != null)
                         Column(

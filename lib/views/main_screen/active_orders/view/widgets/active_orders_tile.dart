@@ -19,12 +19,16 @@ class ActiveOrdersTile extends StatelessWidget {
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       itemBuilder: (context, index) => InkWell(
-        onTap: () => Navigator.pushNamed(
-            context, RouteGenerator.routeActiveOrderDetails,
-            arguments: ActiveOrderDetailsArguments(
-                orderId: ordersList[index].id,
-                activeOrdersProvider: activeOrdersProvider,
-                orders: ordersList[index])),
+        onTap: () {
+          Navigator.pushNamed(context, RouteGenerator.routeActiveOrderDetails,
+              arguments: ActiveOrderDetailsArguments(
+                  orderId: ordersList[index].id,
+                  activeOrdersProvider: activeOrdersProvider,
+                  orders: ordersList[index]));
+          activeOrdersProvider?.updateFullAddress(
+              address: ordersList[index].fullAddress,
+              id: ordersList[index].pickUpRiderId ?? '');
+        },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),
           decoration: BoxDecoration(

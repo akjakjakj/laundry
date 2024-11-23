@@ -1,6 +1,5 @@
 import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
 import 'package:laundry/views/cart/view_model/cart_view_model.dart';
-import 'package:laundry/views/main_screen/active_orders/view_model/active_orders_view_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:laundry/views/main_screen/past_orders/view_model/payment_view_model.dart';
 import 'package:laundry/views/manage_address/view_model/manage_address_view_model.dart';

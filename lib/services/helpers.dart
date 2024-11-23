@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:intl/date_symbol_data_file.dart';
 import 'package:intl/intl.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/utils/color_palette.dart';
@@ -59,23 +58,6 @@ class Helpers {
         fontSize: 16.sp);
   }
 
-  static double convertToDouble(var valArg, {bool check = false}) {
-    double val = 0.0;
-    if (valArg == null) return val;
-    switch (valArg.runtimeType) {
-      case int _:
-        val = valArg.toDouble();
-        break;
-      case String _:
-        val = double.tryParse(valArg) ?? val;
-        break;
-
-      default:
-        val = valArg;
-    }
-    return val;
-  }
-
   DateTime convertTo24HoursFormat(String time) {
     DateFormat inputFormat = DateFormat("HH:mm");
     DateTime parsedTime = inputFormat.parse(time);
@@ -101,9 +83,7 @@ class Helpers {
       int.parse(formattedDate.split(':')[0]), // Hours
       int.parse(formattedDate.split(':')[1]), // Minutes
     );
-    // print('current date time ${timeFormat.parse(formattedDate)}');
     return timeIn24HoursFormat;
-    return timeFormat.parse(formattedDate);
   }
 
   bool returnGreaterTimeFlag(DateTime time, DateTime currentDateTime) {
@@ -127,8 +107,6 @@ class Helpers {
     /// Parse the time strings into DateTime objects
     final currentTime = formatter.parse(formattedTime);
     final timeToCompare = formatter.parse(timeToCompareString);
-    final timePlus30Minutes =
-        timeToCompare.subtract(const Duration(minutes: 30));
     return currentTime.isBefore(timeToCompare);
   }
 }
