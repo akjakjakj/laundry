@@ -28,3 +28,29 @@ class PaymentRequestModel {
         'payment_type': paymentType
       };
 }
+
+class PaymentRequestModelPos {
+  String? pickUpReferenceNumber;
+  String? orderId;
+  String? paymentStatus;
+  String? paymentType;
+  String? amount;
+  String? contactNumber;
+
+  PaymentRequestModelPos(
+      {this.orderId,
+      this.paymentType,
+      this.paymentStatus,
+      this.amount,
+      this.contactNumber,
+      this.pickUpReferenceNumber});
+
+  Map<String, dynamic> toJson() => {
+        'order_id': orderId,
+        'pickup_reference_no': pickUpReferenceNumber,
+        'payment_status': paymentStatus,
+        'payment_type': paymentType,
+        'amount': amount,
+        'customer_contact_no': contactNumber,
+      };
+}

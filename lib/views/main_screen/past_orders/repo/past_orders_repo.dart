@@ -63,6 +63,20 @@ class PastOrdersRepo {
     });
   }
 
+  Future<Either<ApiResponse, dynamic>> updateTransactionDetailsInPos(
+      PaymentRequestModelPos paymentRequestModel) {
+    return httpReq
+        .postRequestForPos(
+            'https://ledegraissage-online-v2.azureposae.com/api/laundry/receipt/store',
+            param: paymentRequestModel.toJson())
+        .thenRight((right) => Right(right))
+        .thenLeft((left) {
+      return Left(left);
+    }).onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
+  }
+
   Future<Either<ApiResponse, dynamic>> updateAdminComments(
       {required String orderId, required String status}) {
     return httpReq

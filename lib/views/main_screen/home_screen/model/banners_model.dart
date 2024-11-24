@@ -1,18 +1,20 @@
 class HomeBanners {
   bool? status;
-  List<Banners>? banners;
+  String? banners;
+  // List<Banners>? banners;
   String? message;
 
   HomeBanners({this.status, this.banners, this.message});
 
   HomeBanners.fromJson(Map<String, dynamic> json) {
     status = json['status'];
-    if (json['banners'] != null) {
-      banners = <Banners>[];
-      json['banners'].forEach((v) {
-        banners!.add(Banners.fromJson(v));
-      });
-    }
+    banners = json['banners'];
+    // if (json['banners'] != null) {
+    //   banners = <Banners>[];
+    //   json['banners'].forEach((v) {
+    //     banners!.add(Banners.fromJson(v));
+    //   });
+    // }
     message = json['message'];
   }
 }

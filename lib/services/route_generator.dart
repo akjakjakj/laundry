@@ -29,7 +29,8 @@ import 'package:laundry/views/manage_address/view/add_address_screen.dart';
 import 'package:laundry/views/manage_address/view/location_screen.dart';
 import 'package:laundry/views/manage_address/view/manage_address_screen.dart';
 import 'package:laundry/views/privacy_policy/privacy_policy.dart';
-import 'package:laundry/views/profile/profile.dart';
+import 'package:laundry/views/profile/view/edit_profile.dart';
+import 'package:laundry/views/profile/view/settings.dart';
 import 'package:laundry/views/splash/view/splash_screen.dart';
 import 'package:laundry/views/terms_of_use/terms_of_use.dart';
 
@@ -72,6 +73,7 @@ class RouteGenerator {
   static const String routeInvoiceView = 'invoiceView';
   static const String routeBlackScreen = 'blackScreenView';
   static const String routeTrackRiderScreen = 'trackRider';
+  static const String routeEditProfileScreen = 'routeEditProfile';
 
   Route generateRoute(RouteSettings settings, {var routeBuilders}) {
     var args = settings.arguments;
@@ -126,7 +128,7 @@ class RouteGenerator {
       case routeCart:
         return _buildRoute(routeCart, const Cart());
       case routeProfile:
-        return _buildRoute(routeCart, const Profile());
+        return _buildRoute(routeCart, const Settings());
       case routeForgotPasswordOtpVerificationScreen:
         return _buildRoute(routeForgotPasswordOtpVerificationScreen,
             const ForgotPasswordOtpVerificationScreen());
@@ -185,6 +187,8 @@ class RouteGenerator {
               url: routeArgs.url ?? 'https://flutter.dev',
               orders: routeArgs.orders,
               pastOrdersProvider: routeArgs.pastOrdersProvider,
+              onSuccess: routeArgs.onSuccess,
+              onFailure: routeArgs.onFailure,
             ));
       case routeLocationScreen:
         return _buildRoute(routeLocationScreen, const LocationScreen());
@@ -197,6 +201,9 @@ class RouteGenerator {
             TrackRiderActiveOrder(
               activeOrdersProvider: routeArgs.activeOrdersProvider,
             ));
+      case routeEditProfileScreen:
+        return _buildRoute(
+            RouteGenerator.routeEditProfileScreen, EditProfile());
       default:
         return _buildRoute(routeInitial, const SplashScreen());
     }
@@ -208,5 +215,36 @@ class RouteGenerator {
         fullscreenDialog: enableFullScreen,
         settings: RouteSettings(name: route),
         builder: (_) => widget);
+  }
+}
+
+class NavigationService {
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+  Future<dynamic> navigateTo(String routeName, {Object? arguments}) {
+    if (navigatorKey.currentState != null) {
+      return navigatorKey.currentState!
+          .pushNamed(routeName, arguments: arguments);
+    } else {
+      print('Navigator key is null, cannot navigate.');
+      return Future.value();
+    }
+  }
+
+  Future<dynamic> navigateAndRemove(String routeName, {Object? arguments}) {
+    if (navigatorKey.currentState != null) {
+      return navigatorKey.currentState!.pushNamedAndRemoveUntil(
+        routeName,
+        arguments: arguments,
+        (route) => false,
+      );
+    } else {
+      print('Navigator key is null, cannot navigate.');
+      return Future.value();
+    }
+  }
+
+  void goBack() {
+    return navigatorKey.currentState!.pop();
   }
 }

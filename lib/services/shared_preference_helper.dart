@@ -8,6 +8,7 @@ import 'app_config.dart';
 
 class SharedPreferencesHelper {
   final String authToken = "loginToken";
+  final String posToken = "posToken";
   final String deviceToken = "deviceToken";
   final String userEmail = "user_email";
   final String userCartId = "user_cart_id";
@@ -38,6 +39,18 @@ class SharedPreferencesHelper {
     await prefs.clear();
     AppConfig.accessToken = '';
     await prefs.remove(authToken);
+  }
+
+  Future<void> savePosToken(String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(posToken, token);
+    AppConfig.posToken = "Bearer $token";
+  }
+
+  Future<String> getPosToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? stringValue = prefs.getString(posToken);
+    return stringValue ?? "";
   }
 
   Future<void> saveDeviceToken(String token) async {
@@ -95,5 +108,4 @@ class SharedPreferencesHelper {
     }
     return null;
   }
-  }
-
+}

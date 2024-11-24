@@ -22,6 +22,7 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
       sl.get<SharedPreferencesHelper>();
 
   UserData? userData;
+  PosUserData? posUserData;
   String? errorMessage;
 
   TextEditingController loginEmailController = TextEditingController();
@@ -50,10 +51,10 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
     final network = await helpers.isInternetAvailable();
     String deviceToken =
         AppConfig.deviceToken ?? await sharedPreferencesHelper.getDeviceToken();
-    Future<Either<ApiResponse, dynamic>>? resp;
+
     if (network) {
       try {
-        resp = loginRepo
+        loginRepo
             .login(
                 email: loginEmailController.text.trim(),
                 password: loginPasswordController.text.trim(),
@@ -91,6 +92,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
           .errorToast('Network Error... Please check your internet connection');
     }
   }
+
+
 
   Future<void> register({Function()? onSuccess, Function()? onFailure}) async {
     updateBtnLoaderState(true);

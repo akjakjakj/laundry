@@ -270,9 +270,11 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                                   ),
                           ],
                         ),
-                      if (widget.orders?.pickUpRiderId != null)
+                      if (widget.orders?.pickUpRiderId != null ||
+                          widget.orders?.returnRiderId != null)
                         14.verticalSpace,
-                      if (widget.orders?.pickUpRiderId != null)
+                      if (widget.orders?.pickUpRiderId != null ||
+                          widget.orders?.returnRiderId != null)
                         CustomButton(
                             height: 40.0,
                             decoration: BoxDecoration(
@@ -336,8 +338,26 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                               onTap: () => Navigator.pushNamed(
                                   context, RouteGenerator.routeInvoiceView,
                                   arguments: InvoiceArguments(
-                                      url:
-                                          'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${widget.orders?.invoice?.invoiceNumber}')),
+                                    url:
+                                        'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${widget.orders?.invoice?.invoiceNumber}',
+                                    orders: widget.orders,
+                                    onSuccess: () {
+                                      widget.activeOrdersProvider.helpers
+                                          .successToast('Payment Successful!');
+                                      widget.activeOrdersProvider
+                                          .getActiveOrders()
+                                          .then((value) => Navigator.popUntil(
+                                              context,
+                                              (route) =>
+                                                  route.settings.name ==
+                                                  RouteGenerator
+                                                      .routeMainScreen));
+                                    },
+                                    onFailure: () => widget
+                                        .activeOrdersProvider.helpers
+                                        .errorToast(
+                                            'Payment Failed. Please try again.'),
+                                  )),
                             ),
                             14.verticalSpace,
                             if (widget.orders?.paymentStatus?.toLowerCase() !=
@@ -352,6 +372,8 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                                   onTap: () {
                                     context.read<PaymentProvider>().payWithCard(
                                           orderId: widget.orders?.id,
+                                          pickUpReferenceNumber: widget
+                                              .orders?.pickUpReferenceNumber,
                                           amount: double.parse(widget
                                                   .orders?.invoice?.netAmount ??
                                               '0.00'),

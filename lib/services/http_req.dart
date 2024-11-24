@@ -68,6 +68,34 @@ class HttpReq {
     }
   }
 
+  Future<Either<ApiResponse, dynamic>> postRequestForPos(String endPoint,
+      {param}) async {
+    try {
+      bool networkStat = await helpers.isInternetAvailable();
+      String token = await sharedPreferencesHelper.getPosToken();
+      if (!networkStat) {
+        return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+      }
+      // String storeCode = await SharedPreferencesHelper.getStoreCode();
+      // ESCredentialModel credentialModel = AppData.getESCredentials(storeCode);
+      // print(
+      //     "elastic search clientID ${credentialModel.clientId}  secreteKey ${credentialModel.secretKey}");
+      // print("es search  = $param");
+      var response = await http.post(
+        Uri.parse(endPoint),
+        body: jsonEncode(param),
+        headers: <String, String>{
+          HttpHeaders.acceptHeader: _appJson,
+          HttpHeaders.contentTypeHeader: _appJson,
+          'Authorization': 'Bearer $token',
+        },
+      ).timeout(const Duration(seconds: 60));
+      return _returnResponse(response, endPoint);
+    } catch (e) {
+      return Left(ApiResponse(exceptions: ApiExceptions.error));
+    }
+  }
+
   Future postRequestWithFiles(String endPoint,
       {param, Map<String, List<dynamic>>? files}) async {
     try {

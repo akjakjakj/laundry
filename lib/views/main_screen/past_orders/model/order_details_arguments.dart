@@ -6,6 +6,7 @@ class OrderDetailsArguments {
   PastOrdersProvider? pastOrdersProvider;
   int? orderId;
   Orders? orders;
+
   OrderDetailsArguments(
       {this.pastOrdersProvider, this.orderId, required this.orders});
 }
@@ -22,5 +23,12 @@ class InvoiceArguments {
   String? url;
   Orders? orders;
   PastOrdersProvider? pastOrdersProvider;
-  InvoiceArguments({this.url, this.orders, this.pastOrdersProvider});
+  Function()? onSuccess;
+  Function()? onFailure;
+  InvoiceArguments(
+      {this.url,
+      this.orders,
+      this.pastOrdersProvider,
+      this.onFailure,
+      this.onSuccess});
 }

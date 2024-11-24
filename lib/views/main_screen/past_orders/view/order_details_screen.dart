@@ -325,13 +325,31 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                             CustomButton(
                               title: 'View invoice',
                               onTap: () => Navigator.pushNamed(
-                                  context, RouteGenerator.routeInvoiceView,
-                                  arguments: InvoiceArguments(
-                                      orders: widget.orders,
-                                      pastOrdersProvider:
-                                          widget.pastOrdersProvider,
-                                      url:
-                                          'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${widget.orders?.invoice?.invoiceNumber}')),
+                                context,
+                                RouteGenerator.routeInvoiceView,
+                                arguments: InvoiceArguments(
+                                    orders: widget.orders,
+                                    pastOrdersProvider:
+                                        widget.pastOrdersProvider,
+                                    onSuccess: () {
+                                      widget.pastOrdersProvider.helpers
+                                          .successToast('Payment Successful!');
+                                      widget.pastOrdersProvider
+                                          .getPastOrders()
+                                          .then((value) => Navigator.popUntil(
+                                              context,
+                                              (route) =>
+                                                  route.settings.name ==
+                                                  RouteGenerator
+                                                      .routeMainScreen));
+                                    },
+                                    onFailure: () => widget
+                                        .pastOrdersProvider.helpers
+                                        .errorToast(
+                                            'Payment Failed. Please try again.'),
+                                    url:
+                                        'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${widget.orders?.invoice?.invoiceNumber}'),
+                              ),
                             ),
                             14.verticalSpace,
                             if (widget.orders?.paymentStatus?.toLowerCase() !=
@@ -346,6 +364,8 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                   onTap: () {
                                     context.read<PaymentProvider>().payWithCard(
                                           orderId: widget.orders?.id,
+                                          pickUpReferenceNumber: widget
+                                              .orders?.pickUpReferenceNumber,
                                           amount: double.parse(widget
                                                   .orders?.invoice?.netAmount ??
                                               '0.00'),

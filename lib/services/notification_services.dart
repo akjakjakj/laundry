@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:laundry/services/helpers.dart';
+import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
+import 'package:laundry/views/main_screen/past_orders/model/notification_invoice_model.dart';
+import 'package:laundry/views/main_screen/past_orders/model/order_details_arguments.dart';
+import 'package:laundry/views/main_screen/past_orders/model/past_orders_response_model.dart';
 
 import 'get_it.dart';
 
@@ -48,7 +56,45 @@ class PushNotificationService {
   }
 
   static void onNotificationTap(NotificationResponse notificationResponse) {
-    print('Notification tapped $notificationResponse');
+    NavigationService navigationService = sl.get<NavigationService>();
+    if ((notificationResponse.payload ?? '').isNotEmpty) {
+      final decodedData = json.decode(notificationResponse.payload!);
+      final notificationInvoiceModel =
+          NotificationInvoiceModel.fromJson(decodedData);
+      switch (notificationInvoiceModel.type) {
+        case 'invoice':
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            navigationService.navigateTo(RouteGenerator.routeInvoiceView,
+                arguments: InvoiceArguments(
+                    orders: Orders(
+                        id: int.parse(notificationInvoiceModel.orderId),
+                        address: notificationInvoiceModel.customerBuilding,
+                        phoneNumber: notificationInvoiceModel.customerMobile,
+                        customer: notificationInvoiceModel.customerName,
+                        invoice: Invoice(
+                            netAmount: notificationInvoiceModel.netAmount),
+                        email: notificationInvoiceModel.customerEmail),
+                    url:
+                        'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${notificationInvoiceModel.id}'));
+          });
+
+        default:
+          WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+            navigationService.navigateTo(RouteGenerator.routeInvoiceView,
+                arguments: InvoiceArguments(
+                    orders: Orders(
+                        id: int.parse(notificationInvoiceModel.orderId),
+                        address: notificationInvoiceModel.customerBuilding,
+                        phoneNumber: notificationInvoiceModel.customerMobile,
+                        customer: notificationInvoiceModel.customerName,
+                        invoice: Invoice(
+                            netAmount: notificationInvoiceModel.netAmount),
+                        email: notificationInvoiceModel.customerEmail),
+                    url:
+                        'https://ledegraissage-online-v2.azureposae.com/view/invoice-v3/html?order_id=${notificationInvoiceModel.id}'));
+          });
+      }
+    }
   }
 
   static Future showSimpleNotification({

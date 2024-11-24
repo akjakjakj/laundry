@@ -28,6 +28,7 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   String? adminCommentStatus;
   String? message;
   String? pickUpId;
+  String? returnId;
 
   bool? btnLoader = false;
 
@@ -140,9 +141,13 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     notifyListeners();
   }
 
-  void updateFullAddress({required FullAddress? address, required String id}) {
+  void updateFullAddress(
+      {required FullAddress? address,
+      required String idForPickup,
+      required String idForReturn}) {
     fullAddress = address;
-    pickUpId = id;
+    pickUpId = idForPickup;
+    returnId = idForReturn;
   }
 
   /// pusher
@@ -165,7 +170,9 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
         // onAuthorizer: onAuthorizer
       );
 
-      await pusher.subscribe(channelName: 'ledegraissage-$pickUpId');
+      pickUpId != null
+          ? await pusher.subscribe(channelName: 'ledegraissage-$pickUpId')
+          : await pusher.subscribe(channelName: 'ledegraissage-$returnId');
       await pusher.connect();
     } catch (e) {
       log("ERROR: $e");

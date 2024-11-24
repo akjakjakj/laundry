@@ -14,9 +14,7 @@ import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 Future _firebaseBackgroundMessage(RemoteMessage remoteMessage) async {
-  if (remoteMessage.notification != null) {
-    print('backgroud notification');
-  }
+  if (remoteMessage.notification != null) {}
 }
 
 void main() async {
@@ -32,7 +30,6 @@ void main() async {
   FirebaseMessaging.onBackgroundMessage(_firebaseBackgroundMessage);
   FirebaseMessaging.onMessage.listen((event) {
     String payLoad = jsonEncode(event.data);
-    print('Got a message in foreground');
     PushNotificationService.showSimpleNotification(
         title: event.notification?.title ?? '',
         body: event.notification?.body ?? '',
@@ -53,6 +50,7 @@ class MyApp extends StatelessWidget {
         splitScreenMode: true,
         child: MaterialApp(
           title: 'Le Degraissage',
+          navigatorKey: sl.get<NavigationService>().navigatorKey,
           debugShowCheckedModeBanner: false,
           theme: ColorPalette.themeData,
           onGenerateRoute: RouteGenerator.instance.generateRoute,

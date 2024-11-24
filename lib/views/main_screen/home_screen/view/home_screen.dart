@@ -57,9 +57,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(
                   height: context.sw(size: 1.1.h),
-                  child: const VideoScreen(
-                    link:
-                        'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                  child: VideoScreen(
+                    link: context.read<HomeProvider>().homeVdoLink ?? '',
                   )),
               19.verticalSpace,
               Text(

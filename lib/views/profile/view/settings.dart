@@ -16,23 +16,24 @@ import 'package:laundry/views/profile/view_model/profile_view_model.dart';
 import 'package:laundry/views/profile/widget/profile_tile.dart';
 import 'package:provider/provider.dart';
 
-import '../../common_widgets/common_fade_in_image.dart';
-import 'widget/profile_shimmer.dart';
+import '../../../common_widgets/common_fade_in_image.dart';
+import '../widget/profile_shimmer.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({super.key});
+class Settings extends StatefulWidget {
+  const Settings({super.key});
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<Settings> createState() => _SettingsState();
 }
 
-class _ProfileState extends State<Profile> {
-  ProfileProvider profileDetailProvider = ProfileProvider();
+class _SettingsState extends State<Settings> {
+  late ProfileProvider profileDetailProvider;
   SharedPreferencesHelper sharedPreferencesHelper =
       sl.get<SharedPreferencesHelper>();
 
   @override
   void initState() {
+    profileDetailProvider = context.read<ProfileProvider>();
     profileDetailProvider.getProfileDetail();
     super.initState();
   }
@@ -80,119 +81,128 @@ class _ProfileState extends State<Profile> {
                     //     backgroundImage: NetworkImage(
                     //         'https://eu.ui-avatars.com/api/?name=John+Doe')),
                     //=========================================================================
-                    ChangeNotifierProvider.value(
-                      value: profileDetailProvider,
-                      child: Consumer<ProfileProvider>(
-                        builder: (context, provider, child) {
-                          User? user = provider.profileResponse?.user;
+                    Consumer<ProfileProvider>(
+                      builder: (context, provider, child) {
+                        User? user = provider.profileResponse?.user;
 
-                          switch (provider.loaderState) {
-                            case LoaderState.loading:
-                              return const ProfileShimmer();
-                            case LoaderState.loaded:
-                              return Column(
-                                children: [
-                                 40.verticalSpace,
-                                  // Stack(
-                                  //   alignment: Alignment.bottomRight,
-                                  //   children: [
-                                  // user?.profilePicture == null
-                                  //     ? CircleAvatar(
-                                  //         radius: 80,
-                                  //         backgroundImage: NetworkImage(user
-                                  //                 ?.profilePicture ??
-                                  //             'https://eu.ui-avatars.com/api/?name=John+Doe'),
-                                  //         child: Text(
-                                  //           user?.name?[0] ?? "",
-                                  //           style: FontPalette
-                                  //               .poppinsRegular
-                                  //               .copyWith(
-                                  //                   color: ColorPalette
-                                  //                       .primaryColor,
-                                  //                   fontSize: 50.sp),
-                                  //         ),
-                                  //       )
-                                  //     : CircleAvatar(
-                                  //         radius: 80,
-                                  //         backgroundColor:
-                                  //             const Color.fromARGB(
-                                  //                 255, 221, 221, 221),
-                                  //         child: CommonFadeInImage(
-                                  //           image: user?.profilePicture,
-                                  //           fit: BoxFit.cover,
-                                  //         )),
-                                  // Container(
-                                  //   height: 30.r,
-                                  //   width: 30.r,
-                                  //   margin: EdgeInsets.all(10.r),
-                                  //   decoration: BoxDecoration(
-                                  //     color: ColorPalette.primaryColor,
-                                  //     shape: BoxShape.circle,
-                                  //   ),
-                                  //   child: Icon(
-                                  //     size: 18.r,
-                                  //     Icons.edit,
-                                  //     color: Colors.white,
-                                  //   ),
-                                  // ),
-                                  //   ],
-                                  // ),
-                                  5.verticalSpace,
-                                  Text(
-                                    user?.name ?? "",
-                                    style: FontPalette.poppinsBold.copyWith(
-                                        color: Colors.black, fontSize: 14.sp),
-                                  ),
-                                  2.verticalSpace,
-                                  Text(
-                                    user?.phone ?? "",
-                                    style: FontPalette.poppinsRegular.copyWith(
-                                        color: const Color(0XFF707071),
-                                        fontSize: 14.sp),
-                                  ),
-                                  2.verticalSpace,
-                                  Text(
-                                    user?.email ?? "",
-                                    style: FontPalette.poppinsRegular.copyWith(
-                                        color: const Color(0XFF707071),
-                                        fontSize: 14.sp),
-                                  ),
-                                ],
-                              );
-                            case LoaderState.noProducts:
-                              return Center(
-                                child: Text(
-                                  'No Profile found',
-                                  style: FontPalette.poppinsBold,
+                        switch (provider.loaderState) {
+                          case LoaderState.loading:
+                            return const ProfileShimmer();
+                          case LoaderState.loaded:
+                            return Column(
+                              children: [
+                                40.verticalSpace,
+                                // Stack(
+                                //   alignment: Alignment.bottomRight,
+                                //   children: [
+                                // user?.profilePicture == null
+                                //     ? CircleAvatar(
+                                //         radius: 80,
+                                //         backgroundImage: NetworkImage(user
+                                //                 ?.profilePicture ??
+                                //             'https://eu.ui-avatars.com/api/?name=John+Doe'),
+                                //         child: Text(
+                                //           user?.name?[0] ?? "",
+                                //           style: FontPalette
+                                //               .poppinsRegular
+                                //               .copyWith(
+                                //                   color: ColorPalette
+                                //                       .primaryColor,
+                                //                   fontSize: 50.sp),
+                                //         ),
+                                //       )
+                                //     : CircleAvatar(
+                                //         radius: 80,
+                                //         backgroundColor:
+                                //             const Color.fromARGB(
+                                //                 255, 221, 221, 221),
+                                //         child: CommonFadeInImage(
+                                //           image: user?.profilePicture,
+                                //           fit: BoxFit.cover,
+                                //         )),
+                                // Container(
+                                //   height: 30.r,
+                                //   width: 30.r,
+                                //   margin: EdgeInsets.all(10.r),
+                                //   decoration: BoxDecoration(
+                                //     color: ColorPalette.primaryColor,
+                                //     shape: BoxShape.circle,
+                                //   ),
+                                //   child: Icon(
+                                //     size: 18.r,
+                                //     Icons.edit,
+                                //     color: Colors.white,
+                                //   ),
+                                // ),
+                                //   ],
+                                // ),
+                                5.verticalSpace,
+                                Text(
+                                  user?.name ?? "",
+                                  style: FontPalette.poppinsBold.copyWith(
+                                      color: Colors.black, fontSize: 14.sp),
                                 ),
-                              );
-                            case LoaderState.networkErr:
-                              return Center(
-                                child: Text(
-                                  'Network Error',
-                                  style: FontPalette.poppinsBold,
+                                2.verticalSpace,
+                                Text(
+                                  user?.phone ?? "",
+                                  style: FontPalette.poppinsRegular.copyWith(
+                                      color: const Color(0XFF707071),
+                                      fontSize: 14.sp),
                                 ),
-                              );
-                            case LoaderState.error:
-                              return Center(
-                                child: Text('Oops...! Error',
-                                    style: FontPalette.poppinsBold),
-                              );
-                            case LoaderState.noData:
-                              return Center(
-                                child: Text(
-                                  'No Profile Found',
-                                  style: FontPalette.poppinsBold,
+                                2.verticalSpace,
+                                Text(
+                                  user?.email ?? "",
+                                  style: FontPalette.poppinsRegular.copyWith(
+                                      color: const Color(0XFF707071),
+                                      fontSize: 14.sp),
                                 ),
-                              );
+                              ],
+                            );
+                          case LoaderState.noProducts:
+                            return Center(
+                              child: Text(
+                                'No Profile found',
+                                style: FontPalette.poppinsBold,
+                              ),
+                            );
+                          case LoaderState.networkErr:
+                            return Center(
+                              child: Text(
+                                'Network Error',
+                                style: FontPalette.poppinsBold,
+                              ),
+                            );
+                          case LoaderState.error:
+                            return Center(
+                              child: Text('Oops...! Error',
+                                  style: FontPalette.poppinsBold),
+                            );
+                          case LoaderState.noData:
+                            return Center(
+                              child: Text(
+                                'No Profile Found',
+                                style: FontPalette.poppinsBold,
+                              ),
+                            );
 
-                            //
-                          }
-                        },
-                      ),
+                          //
+                        }
+                      },
                     ),
                     //===============================================
                     20.verticalSpace,
+                    ProfileTile(
+                      childIcon: Padding(
+                        padding: EdgeInsets.all(8.r),
+                        child: Assets.icons.male.image(color: Colors.white),
+                      ),
+                      title: "Edit Profile",
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, RouteGenerator.routeEditProfileScreen);
+                      },
+                    ),
+                    5.verticalSpace,
                     ProfileTile(
                       childIcon: Padding(
                         padding: EdgeInsets.all(8.r),

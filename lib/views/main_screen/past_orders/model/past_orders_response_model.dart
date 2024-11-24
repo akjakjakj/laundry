@@ -22,6 +22,7 @@ class PastOrdersResponse {
 class Orders {
   int? id;
   String? orderNumber;
+  String? pickUpReferenceNumber;
   String? category;
   String? product;
   int? quantity;
@@ -49,6 +50,7 @@ class Orders {
   String? returnRiderId;
   Orders(
       {this.id,
+      this.pickUpReferenceNumber,
       this.orderNumber,
       this.category,
       this.product,
@@ -78,6 +80,7 @@ class Orders {
 
   Orders.fromJson(Map<String, dynamic> json) {
     id = json['id'];
+    pickUpReferenceNumber = json['pickup_reference_no'];
     orderNumber = json['order_number'];
     category = json['category'];
     product = json['product'];

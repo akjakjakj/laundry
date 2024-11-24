@@ -27,7 +27,8 @@ class ActiveOrdersTile extends StatelessWidget {
                   orders: ordersList[index]));
           activeOrdersProvider?.updateFullAddress(
               address: ordersList[index].fullAddress,
-              id: ordersList[index].pickUpRiderId ?? '');
+              idForPickup: ordersList[index].pickUpRiderId ?? '',
+              idForReturn: ordersList[index].returnRiderId ?? '');
         },
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 25.w),

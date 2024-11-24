@@ -23,4 +23,20 @@ class LoginRepo {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
     });
   }
+
+  Future<Either<ApiResponse, dynamic>> loginToPos() {
+    return httpReq.postRequestForPos(
+        'https://ledegraissage-online-v2.azureposae.com/api/login',
+        param: {
+          'email': '240527112546@azureposuae.com',
+          'password': '123'
+        }).thenRight((right) {
+      final posUserModel = PosUserData.fromJson(right);
+      return Right(posUserModel);
+    }).thenLeft((left) {
+      return Left(left);
+    }).onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
+  }
 }

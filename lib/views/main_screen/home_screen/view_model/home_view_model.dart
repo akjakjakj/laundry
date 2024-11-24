@@ -17,6 +17,7 @@ class HomeProvider extends ChangeNotifier with ProviderHelperClass {
   ServicesResponseModel? servicesResponseModel;
   CategoriesResponseModel? categoriesResponseModel;
   HomeBanners? homeBannersModel;
+  String? homeVdoLink;
 
   List<Services> servicesList = [];
   List<Categories> categoriesList = [];
@@ -109,7 +110,8 @@ class HomeProvider extends ChangeNotifier with ProviderHelperClass {
   }
 
   void updateBannersList(HomeBanners? homeBannersModel) {
-    homeBanners = homeBannersModel?.banners ?? [];
+    // homeBanners = homeBannersModel?.banners ?? [];
+    homeVdoLink = homeBannersModel?.banners;
     notifyListeners();
   }
 

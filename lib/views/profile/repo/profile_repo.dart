@@ -21,6 +21,21 @@ class ProfileRepo {
         });
   }
 
+  Future<Either<ApiResponse, dynamic>> updateProfile(
+      {String? name, String? email, String? phoneNumber}) async {
+    return httpReq
+        .postRequest('/api/customer/profile/update',
+            param: {'name': name, 'email': email, 'phone': phoneNumber})
+        .thenRight((right) {
+          final manageAddress = ProfileModel.fromJson(right);
+          return Right(manageAddress);
+        })
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
+
   Future<Either<ApiResponse, dynamic>> deleteProfile() async {
     return httpReq
         .postRequest('/api/customer/profile/delete')

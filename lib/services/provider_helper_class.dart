@@ -11,7 +11,8 @@ mixin ProviderHelperClass {
 
   void updateApiCallCount() {}
 
-  void updateBtnLoaderState(bool val) {}
+  void updateBtnLoaderState(bool val) {
+  }
 
   void updateLoadState(LoaderState state);
 

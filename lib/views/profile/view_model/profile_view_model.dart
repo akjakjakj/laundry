@@ -14,14 +14,18 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
 
   ProfileModel? profileResponse;
 
+  TextEditingController nameTextEditingController = TextEditingController();
+  TextEditingController emailTextEditingController = TextEditingController();
+  TextEditingController phoneTextEditingController = TextEditingController();
+
   Future<void> getProfileDetail() async {
     final network = await helpers.isInternetAvailable();
-    Future<Either<ApiResponse, dynamic>>? resp;
     if (network) {
       updateLoadState(LoaderState.loading);
-      resp = profileRepo.getProfile().thenRight((right) {
+      profileRepo.getProfile().thenRight((right) {
         profileResponse = right;
         updateProfileDetail(profileResponse);
+        assignValuesToTextFields(profileResponse);
         return Right(right);
       }).thenLeft((left) {
         updateLoadState(LoaderState.error);
@@ -30,6 +34,36 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
         updateLoadState(LoaderState.error);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> updateProfile(
+      {Function()? onSuccess, Function()? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    if (network) {
+      updateBtnLoaderState(true);
+      profileRepo
+          .updateProfile(
+              email: emailTextEditingController.text.trim(),
+              phoneNumber: phoneTextEditingController.text.trim(),
+              name: nameTextEditingController.text.trim())
+          .fold((left) {
+        updateBtnLoaderState(false);
+        if (onFailure != null) onFailure();
+      }, (right) {
+        profileResponse = right;
+        updateProfileDetail(profileResponse);
+        updateBtnLoaderState(false);
+        if (onSuccess != null) onSuccess();
+      }).onError((error, stackTrace) {
+        updateBtnLoaderState(false);
+      });
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
     }
   }
 
@@ -55,6 +89,9 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
         updateLoadState(LoaderState.error);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
     }
   }
 
@@ -66,9 +103,23 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  void assignValuesToTextFields(ProfileModel? profileModel) {
+    nameTextEditingController.text = profileModel?.user?.name ?? '';
+    emailTextEditingController.text = profileModel?.user?.email ?? '';
+    phoneTextEditingController.text = profileModel?.user?.phone ?? '';
+    print('');
+  }
+
   @override
   void updateLoadState(LoaderState state) {
     loaderState = state;
     notifyListeners();
+  }
+
+  @override
+  void updateBtnLoaderState(bool val) {
+    btnLoaderState = val;
+    notifyListeners();
+    super.updateBtnLoaderState(val);
   }
 }
