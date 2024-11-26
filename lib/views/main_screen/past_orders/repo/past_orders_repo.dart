@@ -53,7 +53,7 @@ class PastOrdersRepo {
   Future<Either<ApiResponse, dynamic>> updateTransactionDetails(
       PaymentRequestModel paymentRequestModel) {
     return httpReq
-        .postRequest('/api/pos/orders/payment',
+        .postRequest('/api/customer/orders/payment',
             param: paymentRequestModel.toJson())
         .thenRight((right) => Right(right))
         .thenLeft((left) {

@@ -48,11 +48,6 @@ class HttpReq {
       if (!networkStat) {
         return Left(ApiResponse(exceptions: ApiExceptions.networkError));
       }
-      // String storeCode = await SharedPreferencesHelper.getStoreCode();
-      // ESCredentialModel credentialModel = AppData.getESCredentials(storeCode);
-      // print(
-      //     "elastic search clientID ${credentialModel.clientId}  secreteKey ${credentialModel.secretKey}");
-      // print("es search  = $param");
       var response = await http.post(
         Uri.parse('https://ledegraissage.tortillon.in$endPoint'),
         body: jsonEncode(param),
@@ -76,11 +71,6 @@ class HttpReq {
       if (!networkStat) {
         return Left(ApiResponse(exceptions: ApiExceptions.networkError));
       }
-      // String storeCode = await SharedPreferencesHelper.getStoreCode();
-      // ESCredentialModel credentialModel = AppData.getESCredentials(storeCode);
-      // print(
-      //     "elastic search clientID ${credentialModel.clientId}  secreteKey ${credentialModel.secretKey}");
-      // print("es search  = $param");
       var response = await http.post(
         Uri.parse(endPoint),
         body: jsonEncode(param),

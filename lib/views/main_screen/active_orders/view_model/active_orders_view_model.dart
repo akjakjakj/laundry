@@ -266,7 +266,6 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
       {required LatLng riderLatLng, required LatLng customerLatLng}) async {
     try {
       // Clear previous route data to avoid duplicates
-      polylineCoordinates.clear();
 
       // Fetch route from Google Maps API
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
@@ -275,7 +274,7 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
         PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
         PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
       );
-
+      polylineCoordinates.clear();
       if (result.points.isNotEmpty) {
         // Add new route points
         for (var point in result.points) {
