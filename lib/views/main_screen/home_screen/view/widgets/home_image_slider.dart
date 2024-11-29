@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
-import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/utils/color_palette.dart';
-import 'package:laundry/utils/font_palette.dart';
-import 'package:laundry/views/eco_dry_clean/model/eco_dry_clean_arguments.dart';
 import 'package:laundry/views/main_screen/home_screen/model/banners_model.dart';
 import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';

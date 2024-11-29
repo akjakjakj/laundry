@@ -60,13 +60,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: VideoScreen(
                     link: context.read<HomeProvider>().homeVdoLink ?? '',
                   )),
-              19.verticalSpace,
+              5.verticalSpace,
               Text(
                 'CHOOSE OUR SERVICE',
                 style: FontPalette.poppinsBold
                     .copyWith(color: ColorPalette.greenColor, fontSize: 15.sp),
               ),
-              16.verticalSpace,
+              5.verticalSpace,
               SizedBox(
                 height: 95.h,
                 child: Row(
@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              30.verticalSpace,
+              5.verticalSpace,
               CustomButton(
                 width: 247.w,
                 height: 40.0,
