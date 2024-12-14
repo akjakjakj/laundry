@@ -198,7 +198,7 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
             customerLatLng: LatLng(double.parse(fullAddress?.latitude ?? '0'),
                 double.parse(fullAddress?.longitude ?? '0')),
             riderLatLng:
-            LatLng(driverLocation!.latitude, driverLocation!.longitude));
+                LatLng(driverLocation!.latitude, driverLocation!.longitude));
       }
     }
   }
@@ -257,10 +257,13 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
       // Fetch route from Google Maps API
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
-        travelMode: TravelMode.driving,
-        PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
-        PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+        request: PolylineRequest(
+            origin: PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
+            destination:
+                PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+            mode: TravelMode.driving),
+        googleApiKey: 'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
+        // travelMode: TravelMode.driving,
       );
 
       if (result.points.isNotEmpty) {
@@ -282,7 +285,7 @@ class PastOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   void addMarker(LatLng position, String id, BitmapDescriptor descriptor) {
     MarkerId markerId = MarkerId(id);
     Marker marker =
-    Marker(markerId: markerId, icon: descriptor, position: position);
+        Marker(markerId: markerId, icon: descriptor, position: position);
     markers[markerId] = marker;
   }
 

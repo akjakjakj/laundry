@@ -37,7 +37,76 @@ class PaymentProvider extends ChangeNotifier with ProviderHelperClass {
       Function()? onFailure}) async {
     updateBtnLoader(true);
     FlutterPaytabsBridge.startCardPayment(
-        paymentService.generateConfig(
+        paymentService.cardPayment(
+            billingDetails: billingDetails,
+            shippingDetails: shippingDetails,
+            amount: amount), (event) {
+      updateBtnLoader(false);
+      if (event["status"] == "success") {
+        // Handle transaction details here.
+
+        var transactionDetails = event["data"];
+
+        if (transactionDetails["isSuccess"]) {
+          pastOrdersRepo
+              .updateTransactionDetails(PaymentRequestModel(
+                  amount: transactionDetails["cartAmount"],
+                  orderId: orderId,
+                  customerName: billingDetails.name,
+                  email: billingDetails.email,
+                  phoneNumber: billingDetails.phone,
+                  paymentType: 'PayTabs',
+                  paymentStatus: 'Completed',
+                  transactionId: transactionDetails['transactionReference']))
+              .fold((left) {
+            if (onFailure != null) onFailure();
+            updateBtnLoader(false);
+          }, (right) {
+            if (onSuccess != null) onSuccess();
+            updateBtnLoader(false);
+          }).onError((error, stackTrace) {
+            if (onFailure != null) onFailure();
+            updateBtnLoader(false);
+          });
+          loginToPos(
+            onSuccess: () {
+              pastOrdersRepo.updateTransactionDetailsInPos(
+                  PaymentRequestModelPos(
+                      amount: transactionDetails["cartAmount"],
+                      orderId: orderId?.toString(),
+                      contactNumber: billingDetails.phone,
+                      paymentType: 'PayTabs',
+                      paymentStatus: 'Completed',
+                      pickUpReferenceNumber: pickUpReferenceNumber));
+            },
+          );
+          print("successful transaction");
+        } else {
+          updateBtnLoader(false);
+          print("failed transaction");
+          if (onFailure != null) onFailure();
+        }
+      } else if (event["status"] == "error") {
+        updateBtnLoader(false);
+        if (onFailure != null) onFailure();
+        // Handle error here.
+      } else if (event["status"] == "event") {
+        updateBtnLoader(false);
+        // Handle cancel events here.
+      }
+    });
+  }
+
+  Future<void> payWithApplePay(
+      {required ShippingDetails shippingDetails,
+      required BillingDetails billingDetails,
+      required double amount,
+      required int? orderId,
+      required String? pickUpReferenceNumber,
+      Function()? onSuccess,
+      Function()? onFailure}) async {
+    FlutterPaytabsBridge.startApplePayPayment(
+        paymentService.applePay(
             billingDetails: billingDetails,
             shippingDetails: shippingDetails,
             amount: amount), (event) {

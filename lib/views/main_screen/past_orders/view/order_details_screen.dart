@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
@@ -411,6 +413,105 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
                                         );
                                   },
                                 ),
+                              ),
+                            if (widget.orders?.paymentStatus?.toLowerCase() !=
+                                    'completed' &&
+                                Platform.isIOS)
+                              Column(
+                                children: [
+                                  14.verticalSpace,
+                                  Selector<PaymentProvider, bool>(
+                                    selector: (context, provider) =>
+                                        provider.btnLoaderState,
+                                    builder: (context, value, child) =>
+                                        GestureDetector(
+                                      onTap: () {
+                                        context
+                                            .read<PaymentProvider>()
+                                            .payWithApplePay(
+                                              orderId: widget.orders?.id,
+                                              pickUpReferenceNumber: widget
+                                                  .orders
+                                                  ?.pickUpReferenceNumber,
+                                              amount: double.parse(widget.orders
+                                                      ?.invoice?.netAmount ??
+                                                  '0.00'),
+                                              shippingDetails: ShippingDetails(
+                                                  widget.orders?.customer ??
+                                                      'N/A',
+                                                  widget.orders?.email ?? 'N/A',
+                                                  widget.orders?.phoneNumber ??
+                                                      'N/A',
+                                                  widget.orders?.address ??
+                                                      'N/A',
+                                                  'eg',
+                                                  'UAE',
+                                                  'UAE',
+                                                  '00000'),
+                                              billingDetails: BillingDetails(
+                                                  widget.orders?.customer ??
+                                                      'N/A',
+                                                  widget.orders?.email ?? 'N/A',
+                                                  widget.orders?.phoneNumber ??
+                                                      'N/A',
+                                                  widget.orders?.address ??
+                                                      'N/A',
+                                                  'eg',
+                                                  'UAE',
+                                                  'UAE',
+                                                  '00000'),
+                                              onSuccess: () {
+                                                widget
+                                                    .pastOrdersProvider.helpers
+                                                    .successToast(
+                                                        'Payment Successful!');
+                                                widget.pastOrdersProvider
+                                                    .getPastOrders()
+                                                    .then((value) =>
+                                                        Navigator.popUntil(
+                                                            context,
+                                                            (route) =>
+                                                                route.settings
+                                                                    .name ==
+                                                                RouteGenerator
+                                                                    .routeMainScreen));
+                                              },
+                                              onFailure: () => widget
+                                                  .pastOrdersProvider.helpers
+                                                  .errorToast(
+                                                      'Payment Failed. Please try again.'),
+                                            );
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: double.infinity,
+                                        decoration: BoxDecoration(
+                                          color: Colors.black,
+                                          borderRadius:
+                                              BorderRadius.circular(40.r),
+                                        ),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            // Image.asset(
+                                            //   'assets/apple_logo_white.png', // Include a white Apple logo
+                                            //   height: 20,
+                                            // ),
+                                            // 10.horizontalSpace,
+                                            Text(
+                                              'Pay with Apple Pay',
+                                              style: FontPalette.poppinsBold
+                                                  .copyWith(
+                                                      color: Colors.white,
+                                                      fontSize: 17.sp),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             30.verticalSpace
                           ],

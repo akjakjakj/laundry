@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/three_bounce.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:video_player/video_player.dart';
@@ -21,8 +22,9 @@ class _VideoScreenState extends State<VideoScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeCachedVideo();
+    CommonFunctions.afterInit(() => _initializeCachedVideo());
   }
+
 
   Future<void> _initializeCachedVideo() async {
     setState(() {

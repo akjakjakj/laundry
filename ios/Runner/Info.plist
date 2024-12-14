@@ -24,14 +24,16 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>whatsapp</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
 	<string>We need access to your camera to take photos and videos.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to provide better services even when the app is in the background.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to provide better services.</string>
+	<string>This app requires access to your location to provide personalized features and enhance your experience while using the app.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to upload photos.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
@@ -42,10 +44,10 @@
 		<string>location</string>
 		<string>remote-notification</string>
 	</array>
-	<key>LSApplicationQueriesSchemes</key>
-    <array>
-      <string>whatsapp</string>
-    </array>
+	<key>UIDeviceFamily</key>
+	<array>
+		<integer>1</integer>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -53,15 +55,13 @@
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>

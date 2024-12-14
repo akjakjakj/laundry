@@ -24,7 +24,7 @@ class PaymentService {
       "dubai",
       "dubai",
       "12345");
-  PaymentSdkConfigurationDetails generateConfig(
+  PaymentSdkConfigurationDetails cardPayment(
       {ShippingDetails? shippingDetails,
       BillingDetails? billingDetails,
       int? customerId,
@@ -45,7 +45,7 @@ class PaymentService {
         merchantName: "Le degraissage laundry",
         screentTitle: "Pay with Card",
         locale: PaymentSdkLocale
-            .DEFAULT, //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
+            .AR, //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
         amount: amount,
         currencyCode: "AED",
         merchantCountryCode: "AE",
@@ -55,6 +55,38 @@ class PaymentService {
     configuration.transactionType = PaymentSdkTransactionType.SALE;
     configuration.tokeniseType = PaymentSdkTokeniseType.MERCHANT_MANDATORY;
     configuration.tokenFormat = PaymentSdkTokenFormat.AlphaNum20Format;
+    return configuration;
+  }
+
+  PaymentSdkConfigurationDetails applePay(
+      {ShippingDetails? shippingDetails,
+      BillingDetails? billingDetails,
+      int? customerId,
+      required double amount}) {
+    var configuration = PaymentSdkConfigurationDetails(
+      /// test
+      // profileId: "93721",
+      // serverKey: "SLJND2JGR2-JDHBDLZRWM-LHKMDWBZLR",
+      // clientKey: "C2KMBB-727N6D-H2DB9R-BBBB2H",
+
+      /// live
+      profileId: "93879",
+      serverKey: "S2JND2JG9T-JDHGWHHDZM-6KBDRZDNZR",
+      clientKey: "C6KMBB-72H96D-HTVHHD-RNBR7N",
+
+      cartId: "cart id",
+      cartDescription: "cart desc",
+      merchantName: "Le degraissage laundry",
+      screentTitle: "Pay with Apple Pay",
+      locale:
+          PaymentSdkLocale.AR, //PaymentSdkLocale.EN or PaymentSdkLocale.DEFAULT
+      amount: amount,
+      currencyCode: "AED",
+      merchantCountryCode: "AE",
+      merchantApplePayIndentifier: "merchant.LedegraissageLaundry.com",
+      linkBillingNameWithCardHolderName: false,
+    );
+    configuration.simplifyApplePayValidation = true;
     return configuration;
   }
 }

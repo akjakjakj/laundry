@@ -269,10 +269,13 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
       // Fetch route from Google Maps API
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
-        travelMode: TravelMode.driving,
-        PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
-        PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+        request: PolylineRequest(
+            origin: PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
+            destination:
+                PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+            mode: TravelMode.driving),
+        googleApiKey: 'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
+        // travelMode: TravelMode.driving,
       );
       polylineCoordinates.clear();
       if (result.points.isNotEmpty) {

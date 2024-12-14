@@ -29,10 +29,13 @@ class PushNotificationService {
       provisional: false,
       sound: true,
     );
-
-    final token = await _firebaseMessaging.getToken();
-    FirebaseMessaging.instance.getInitialMessage();
-    sharedPreferencesHelper.saveDeviceToken(token ?? '');
+    try {
+      final token = await _firebaseMessaging.getToken();
+      FirebaseMessaging.instance.getInitialMessage();
+      sharedPreferencesHelper.saveDeviceToken(token ?? '');
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   Future localNotificationInit() async {
