@@ -93,8 +93,6 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
-
-
   Future<void> register({Function()? onSuccess, Function()? onFailure}) async {
     updateBtnLoaderState(true);
     final network = await helpers.isInternetAvailable();
@@ -111,7 +109,8 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                     registrationConfirmPasswordController.text.trim(),
                 name: registrationNameController.text.trim(),
                 deviceToken: deviceToken,
-                mobileNumber: registrationMobileNumberController.text.trim());
+                mobileNumber:
+                    '+${registrationMobileNumberController.text.trim()}');
         resp = registrationRepo
             .register(registrationRequestModel)
             .thenRight((right) async {

@@ -8,15 +8,12 @@ import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
-import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
 import 'package:laundry/utils/font_palette.dart';
 import 'package:laundry/views/profile/model/profile_model.dart';
 import 'package:laundry/views/profile/view_model/profile_view_model.dart';
 import 'package:laundry/views/profile/widget/profile_tile.dart';
 import 'package:provider/provider.dart';
-
-import '../../../common_widgets/common_fade_in_image.dart';
 import '../widget/profile_shimmer.dart';
 
 class Settings extends StatefulWidget {
@@ -284,22 +281,24 @@ class _SettingsState extends State<Settings> {
                                 'Are you sure, you want to delete your account?',
                             actionButtonText: 'Yes',
                             cancelButtonText: 'No',
-                            isLoading: profileDetailProvider.loaderState ==
-                                LoaderState.loading,
+                            isLoading: profileDetailProvider.btnLoaderState,
                             onCancelButtonPressed: () => Navigator.pop(context),
-                            onActionButtonPressed: () async {
+                            onActionButtonPressed: () {
                               profileDetailProvider.deleteProfile(
                                 onSuccess: () async {
-                                  await sharedPreferencesHelper
-                                      .removeLoginToken();
                                   CommonFunctions.afterInit(() =>
                                       Navigator.pushNamedAndRemoveUntil(
                                           context,
                                           RouteGenerator.routeLogin,
                                           (route) => false));
+                                  await sharedPreferencesHelper
+                                      .removeLoginToken();
                                 },
-                                onFailure: () => sl.get<Helpers>().errorToast(
-                                    'Oops...! Something went wrong.'),
+                                onFailure: () {
+                                  Navigator.pop(context);
+                                  sl.get<Helpers>().errorToast(
+                                      'Oops...! Something went wrong.');
+                                },
                               );
                             },
                           )),

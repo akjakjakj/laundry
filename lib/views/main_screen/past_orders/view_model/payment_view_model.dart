@@ -57,6 +57,7 @@ class PaymentProvider extends ChangeNotifier with ProviderHelperClass {
                   phoneNumber: billingDetails.phone,
                   paymentType: 'PayTabs',
                   paymentStatus: 'Completed',
+                  pickUpReferenceNumber: orderId,
                   transactionId: transactionDetails['transactionReference']))
               .fold((left) {
             if (onFailure != null) onFailure();
@@ -77,7 +78,9 @@ class PaymentProvider extends ChangeNotifier with ProviderHelperClass {
                       contactNumber: billingDetails.phone,
                       paymentType: 'PayTabs',
                       paymentStatus: 'Completed',
-                      pickUpReferenceNumber: pickUpReferenceNumber));
+                      pickUpReferenceNumber: orderId,
+                      paymentTransactionId:
+                          transactionDetails['transactionReference']));
             },
           );
           print("successful transaction");
@@ -126,6 +129,7 @@ class PaymentProvider extends ChangeNotifier with ProviderHelperClass {
                   phoneNumber: billingDetails.phone,
                   paymentType: 'PayTabs',
                   paymentStatus: 'Completed',
+                  pickUpReferenceNumber: orderId,
                   transactionId: transactionDetails['transactionReference']))
               .fold((left) {
             if (onFailure != null) onFailure();
@@ -146,7 +150,9 @@ class PaymentProvider extends ChangeNotifier with ProviderHelperClass {
                       contactNumber: billingDetails.phone,
                       paymentType: 'PayTabs',
                       paymentStatus: 'Completed',
-                      pickUpReferenceNumber: pickUpReferenceNumber));
+                      pickUpReferenceNumber: orderId,
+                      paymentTransactionId:
+                          transactionDetails['transactionReference']));
             },
           );
           print("successful transaction");

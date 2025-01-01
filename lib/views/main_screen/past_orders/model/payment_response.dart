@@ -7,6 +7,7 @@ class PaymentRequestModel {
   String? customerName;
   String? phoneNumber;
   String? email;
+  int? pickUpReferenceNumber;
   PaymentRequestModel(
       {this.email,
       this.amount,
@@ -15,7 +16,8 @@ class PaymentRequestModel {
       this.customerName,
       this.paymentStatus,
       this.paymentType,
-      this.transactionId});
+      this.transactionId,
+      this.pickUpReferenceNumber});
 
   Map<String, dynamic> toJson() => {
         'order_id': orderId,
@@ -25,17 +27,19 @@ class PaymentRequestModel {
         'customer_name': customerName,
         'customer_phone': phoneNumber,
         'customer_email': email,
-        'payment_type': paymentType
+        'payment_type': paymentType,
+        'pickup_reference_no': pickUpReferenceNumber
       };
 }
 
 class PaymentRequestModelPos {
-  String? pickUpReferenceNumber;
+  int? pickUpReferenceNumber;
   String? orderId;
   String? paymentStatus;
   String? paymentType;
   String? amount;
   String? contactNumber;
+  String? paymentTransactionId;
 
   PaymentRequestModelPos(
       {this.orderId,
@@ -43,7 +47,8 @@ class PaymentRequestModelPos {
       this.paymentStatus,
       this.amount,
       this.contactNumber,
-      this.pickUpReferenceNumber});
+      this.pickUpReferenceNumber,
+      this.paymentTransactionId});
 
   Map<String, dynamic> toJson() => {
         'order_id': orderId,
@@ -52,5 +57,6 @@ class PaymentRequestModelPos {
         'payment_type': paymentType,
         'amount': amount,
         'customer_contact_no': contactNumber,
+        'payment_transaction_id': paymentTransactionId
       };
 }

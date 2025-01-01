@@ -39,6 +39,7 @@ class SharedPreferencesHelper {
     await prefs.clear();
     AppConfig.accessToken = '';
     await prefs.remove(authToken);
+    await prefs.remove(loginStatus);
   }
 
   Future<void> savePosToken(String token) async {

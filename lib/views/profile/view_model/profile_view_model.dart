@@ -71,22 +71,25 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
       {Function()? onSuccess, Function()? onFailure}) async {
     final network = await helpers.isInternetAvailable();
     if (network) {
-      updateLoadState(LoaderState.loading);
+      updateBtnLoaderState(true);
       profileRepo.deleteProfile().thenRight(
         (right) {
-          if (right['success']) {
+          if (right['status']) {
             if (onSuccess != null) onSuccess();
           } else {
             if (onFailure != null) onFailure();
           }
-          updateLoadState(LoaderState.loaded);
+          updateBtnLoaderState(false);
           return Right(right);
         },
       ).thenLeft((left) {
+        if (onFailure != null) onFailure();
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       }).onError((error, stackTrace) {
         updateLoadState(LoaderState.error);
+        updateBtnLoaderState(false);
         return Left(ApiResponse(exceptions: ApiExceptions.error));
       });
     } else {

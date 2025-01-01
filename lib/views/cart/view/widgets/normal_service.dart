@@ -219,7 +219,7 @@ class _NormalServiceState extends State<NormalService> {
                               ),
                               20.verticalSpace,
                               Text(
-                                "Add Your Comments",
+                                "Add Your Comments and Coupon Code",
                                 style: FontPalette.poppinsBold.copyWith(
                                     color: Colors.black, fontSize: 11.sp),
                               ),

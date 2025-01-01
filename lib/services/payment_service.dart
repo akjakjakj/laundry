@@ -46,7 +46,7 @@ class PaymentService {
         screentTitle: "Pay with Card",
         locale: PaymentSdkLocale
             .AR, //PaymentSdkLocale.AR or PaymentSdkLocale.DEFAULT
-        amount: amount,
+        amount: 1,
         currencyCode: "AED",
         merchantCountryCode: "AE",
         billingDetails: billingDetails,

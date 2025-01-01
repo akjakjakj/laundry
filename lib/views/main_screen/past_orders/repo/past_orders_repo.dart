@@ -69,8 +69,9 @@ class PastOrdersRepo {
         .postRequestForPos(
             'https://ledegraissage-online-v2.azureposae.com/api/laundry/receipt/store',
             param: paymentRequestModel.toJson())
-        .thenRight((right) => Right(right))
-        .thenLeft((left) {
+        .thenRight((right) {
+      return Right(right);
+    }).thenLeft((left) {
       return Left(left);
     }).onError((error, stackTrace) {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
