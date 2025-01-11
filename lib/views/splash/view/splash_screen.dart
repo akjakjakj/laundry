@@ -6,6 +6,8 @@ import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/services/shared_preference_helper.dart';
+import 'package:laundry/views/authentication/view_model/auth_view_model.dart';
+import 'package:provider/provider.dart';
 import 'package:video_player/video_player.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -57,6 +59,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     _fetchRemoteConfig();
+    context.read<AuthProvider>().checkAppFunction();
     Future.delayed(
       const Duration(seconds: 4),
       () {

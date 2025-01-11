@@ -27,4 +27,15 @@ class RegistrationRepo {
       return Left(ApiResponse(exceptions: ApiExceptions.networkError));
     });
   }
+
+  Future<Either<ApiResponse, dynamic>> appFunctionCheck() async {
+    return httpReq.getRequest('/api/check-app-function').thenRight((right) {
+      final appFunction = AppFunction.fromJson(right);
+      return Right(appFunction);
+    }).thenLeft((left) {
+      return Left(left);
+    }).onError((error, stackTrace) {
+      return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+    });
+  }
 }

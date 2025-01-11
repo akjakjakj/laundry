@@ -1,7 +1,9 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:laundry/common/extensions.dart';
+import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_button.dart';
 import 'package:laundry/common_widgets/custom_text_from_field.dart';
 import 'package:laundry/gen/assets.gen.dart';
@@ -105,6 +107,96 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                             color: ColorPalette.secondaryColor),
                       ),
                       40.verticalSpace,
+                      Row(
+                        children: [
+                          if (authProvider.checkAppFunctionStatus ?? false)
+                            Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    showCountryPicker(
+                                      context: context,
+                                      showPhoneCode: true,
+                                      countryListTheme: CountryListThemeData(
+                                          // Customize the popup height
+                                          bottomSheetHeight: 500
+                                              .h, // Set the desired height here
+                                          flagSize: 25,
+                                          backgroundColor: Colors.white,
+                                          textStyle: const TextStyle(
+                                              fontSize: 16,
+                                              color: Colors.black),
+                                          inputDecoration: InputDecoration(
+                                            labelText: 'Search Country',
+                                            hintText: 'Type to search',
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                              vertical:
+                                                  10.0, // Adjust height by changing vertical padding
+                                              horizontal: 15.w,
+                                            ),
+                                          )),
+                                      useSafeArea:
+                                          true, // Display the phone code next to the country name
+                                      onSelect: (Country country) =>
+                                          authProvider
+                                              .updateCountryData(country),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 40.r,
+                                    alignment: Alignment.center,
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          authProvider.selectedCountry
+                                              .flagEmoji, // Emoji flag
+                                          style: TextStyle(fontSize: 20.sp),
+                                        ),
+                                        5.horizontalSpace,
+                                        Text(
+                                          '+${authProvider.selectedCountry.phoneCode} ', // Emoji flag
+                                          style: TextStyle(fontSize: 13.sp),
+                                        ),
+                                        const Icon(Icons.arrow_drop_down),
+                                        5.horizontalSpace
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          Expanded(
+                            child: CustomTextField(
+                                controller: authProvider
+                                    .registrationMobileNumberController,
+                                focusNode:
+                                    authProvider.registerMobileNumberFocusNode,
+                                labelText: 'Mobile Number',
+                                hintText: 'Enter mobile number',
+                                maxLength: 12,
+                                textInputType: TextInputType.number,
+                                // prefix: Text('+971',
+                                //     style: FontPalette.poppinsRegular.copyWith(
+                                //       color: ColorPalette.hintColor,
+                                //     )),
+                                // prefix: Padding(
+                                //   padding: const EdgeInsets.only(right: 8.0),
+                                //   child: Text('+971',
+                                //       style: FontPalette.poppinsRegular.copyWith(
+                                //         color: ColorPalette.hintColor,
+                                //       )),
+                                // ),
+                                validator: (value) => validator.validateMobile(
+                                    context, value, maxLength: 15),
+                                textInputFormatter: validator.inputFormatter(
+                                    InputFormatType.phoneNumber)),
+                          ),
+                        ],
+                      ),
+                      35.verticalSpace,
                       CustomTextField(
                         controller: authProvider.registrationNameController,
                         labelText: 'Name',
@@ -120,30 +212,6 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                         validator: (value) =>
                             validator.validateEmail(context, value),
                       ),
-                      35.verticalSpace,
-                      CustomTextField(
-                          controller:
-                              authProvider.registrationMobileNumberController,
-                          focusNode: authProvider.registerMobileNumberFocusNode,
-                          labelText: 'Mobile Number',
-                          hintText: 'Enter mobile number with country code',
-                          maxLength: 12,
-                          textInputType: TextInputType.number,
-                          // prefix: Text('+971',
-                          //     style: FontPalette.poppinsRegular.copyWith(
-                          //       color: ColorPalette.hintColor,
-                          //     )),
-                          // prefix: Padding(
-                          //   padding: const EdgeInsets.only(right: 8.0),
-                          //   child: Text('+971',
-                          //       style: FontPalette.poppinsRegular.copyWith(
-                          //         color: ColorPalette.hintColor,
-                          //       )),
-                          // ),
-                          validator: (value) => validator.validateMobile(
-                              context, value, maxLength: 15),
-                          textInputFormatter: validator
-                              .inputFormatter(InputFormatType.phoneNumber)),
                       35.verticalSpace,
                       CustomTextField(
                         controller: authProvider.registrationPasswordController,

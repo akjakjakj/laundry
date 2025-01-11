@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:laundry/services/api_reponse.dart';
@@ -24,6 +25,21 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
   UserData? userData;
   PosUserData? posUserData;
   String? errorMessage;
+
+  bool? checkAppFunctionStatus;
+
+  Country selectedCountry = Country(
+    phoneCode: '971',
+    countryCode: 'AE',
+    e164Key: '971-AE',
+    name: 'United Arab Emirates',
+    e164Sc: 0,
+    geographic: true,
+    level: 0,
+    example: '',
+    displayName: '',
+    displayNameNoCountryCode: '',
+  );
 
   TextEditingController loginEmailController = TextEditingController();
   TextEditingController loginPasswordController = TextEditingController();
@@ -110,7 +126,7 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                 name: registrationNameController.text.trim(),
                 deviceToken: deviceToken,
                 mobileNumber:
-                    '+${registrationMobileNumberController.text.trim()}');
+                    '+${selectedCountry.phoneCode}${registrationMobileNumberController.text.trim()}');
         resp = registrationRepo
             .register(registrationRequestModel)
             .thenRight((right) async {
@@ -268,8 +284,33 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  Future<void> checkAppFunction() async {
+    final network = await helpers.isInternetAvailable();
+    if (network) {
+      try {
+        registrationRepo.appFunctionCheck().fold((left) => null, (right) {
+          checkAppFunctionStatus = right.flag;
+        });
+      } catch (e) {
+        updateErrorMessage('Oops..! Something went wrong');
+        updateBtnLoaderState(false);
+        //'Login $e'.log(name: 'LoginProvider');
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+    notifyListeners();
+  }
+
   void updateErrorMessage(String? msg) {
     errorMessage = msg;
+    notifyListeners();
+  }
+
+  void updateCountryData(Country country) {
+    selectedCountry = country;
     notifyListeners();
   }
 

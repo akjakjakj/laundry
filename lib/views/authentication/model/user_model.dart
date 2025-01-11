@@ -88,3 +88,13 @@ class Data {
     accessToken = json['access_token'];
   }
 }
+
+class AppFunction {
+  bool? flag;
+  String? message;
+
+  AppFunction.fromJson(Map<String, dynamic> json) {
+    flag = json['flag'];
+    message = json['message'];
+  }
+}
