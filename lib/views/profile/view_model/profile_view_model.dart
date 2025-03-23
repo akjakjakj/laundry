@@ -1,3 +1,4 @@
+import 'package:country_picker/country_picker.dart';
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:laundry/services/api_reponse.dart';
@@ -17,6 +18,19 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
   TextEditingController nameTextEditingController = TextEditingController();
   TextEditingController emailTextEditingController = TextEditingController();
   TextEditingController phoneTextEditingController = TextEditingController();
+
+  Country selectedCountry = Country(
+    phoneCode: '971',
+    countryCode: 'AE',
+    e164Key: '971-AE',
+    name: 'United Arab Emirates',
+    e164Sc: 0,
+    geographic: true,
+    level: 0,
+    example: '',
+    displayName: '',
+    displayNameNoCountryCode: '',
+  );
 
   Future<void> getProfileDetail() async {
     final network = await helpers.isInternetAvailable();
@@ -110,7 +124,14 @@ class ProfileProvider extends ChangeNotifier with ProviderHelperClass {
     nameTextEditingController.text = profileModel?.user?.name ?? '';
     emailTextEditingController.text = profileModel?.user?.email ?? '';
     phoneTextEditingController.text = profileModel?.user?.phone ?? '';
-    print('');
+    if (profileModel?.user?.country != null) {
+      selectedCountry = profileModel!.user!.country!;
+    }
+  }
+
+  void updateCountryData(Country country) {
+    selectedCountry = country;
+    notifyListeners();
   }
 
   @override

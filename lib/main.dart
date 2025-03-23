@@ -38,8 +38,11 @@ void main() async {
   runApp(const MyApp());
 }
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -49,6 +52,7 @@ class MyApp extends StatelessWidget {
         minTextAdapt: true,
         splitScreenMode: true,
         child: MaterialApp(
+          navigatorObservers: [routeObserver],
           title: 'Le Degraissage',
           navigatorKey: sl.get<NavigationService>().navigatorKey,
           debugShowCheckedModeBanner: false,

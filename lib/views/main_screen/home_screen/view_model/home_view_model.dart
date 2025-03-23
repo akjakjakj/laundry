@@ -9,6 +9,7 @@ import 'package:laundry/views/main_screen/home_screen/model/banners_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/categories_model.dart';
 import 'package:laundry/views/main_screen/home_screen/model/services_model.dart';
 import 'package:laundry/views/main_screen/home_screen/repo/home_screen_repo.dart';
+import 'package:video_player/video_player.dart';
 
 class HomeProvider extends ChangeNotifier with ProviderHelperClass {
   Helpers helpers = sl.get<Helpers>();
@@ -22,6 +23,8 @@ class HomeProvider extends ChangeNotifier with ProviderHelperClass {
   List<Services> servicesList = [];
   List<Categories> categoriesList = [];
   List<Banners> homeBanners = [];
+
+  VideoPlayerController? videoController;
 
   Future<void> getServices() async {
     final network = await helpers.isInternetAvailable();

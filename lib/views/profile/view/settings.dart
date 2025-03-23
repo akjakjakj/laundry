@@ -216,6 +216,19 @@ class _SettingsState extends State<Settings> {
                     ProfileTile(
                       childIcon: Padding(
                         padding: EdgeInsets.all(10.r),
+                        child: Assets.icons.policy.image(),
+                      ),
+                      title: "Cancelled Orders",
+                      onTap: () {
+                        Navigator.pushNamed(
+                            context, RouteGenerator.routeCancelledOrders);
+                      },
+                    ),
+
+                    5.verticalSpace,
+                    ProfileTile(
+                      childIcon: Padding(
+                        padding: EdgeInsets.all(10.r),
                         child: Assets.icons.terms.image(),
                       ),
                       title: "Terms Of Use",

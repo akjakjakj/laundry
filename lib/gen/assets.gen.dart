@@ -70,25 +70,25 @@ class $AssetsFontsGen {
 
   /// List of all assets
   List<String> get values => [
-        poppinsBlack,
-        poppinsBlackItalic,
-        poppinsBold,
-        poppinsBoldItalic,
-        poppinsExtraBold,
-        poppinsExtraBoldItalic,
-        poppinsExtraLight,
-        poppinsExtraLightItalic,
-        poppinsItalic,
-        poppinsLight,
-        poppinsLightItalic,
-        poppinsMedium,
-        poppinsMediumItalic,
-        poppinsRegular,
-        poppinsSemiBold,
-        poppinsSemiBoldItalic,
-        poppinsThin,
-        poppinsThinItalic
-      ];
+    poppinsBlack,
+    poppinsBlackItalic,
+    poppinsBold,
+    poppinsBoldItalic,
+    poppinsExtraBold,
+    poppinsExtraBoldItalic,
+    poppinsExtraLight,
+    poppinsExtraLightItalic,
+    poppinsItalic,
+    poppinsLight,
+    poppinsLightItalic,
+    poppinsMedium,
+    poppinsMediumItalic,
+    poppinsRegular,
+    poppinsSemiBold,
+    poppinsSemiBoldItalic,
+    poppinsThin,
+    poppinsThinItalic,
+  ];
 }
 
 class $AssetsIconsGen {
@@ -97,6 +97,10 @@ class $AssetsIconsGen {
   /// File path: assets/icons/active_orders.png
   AssetGenImage get activeOrders =>
       const AssetGenImage('assets/icons/active_orders.png');
+
+  /// File path: assets/icons/active_orders_latest.png
+  AssetGenImage get activeOrdersLatest =>
+      const AssetGenImage('assets/icons/active_orders_latest.png');
 
   /// File path: assets/icons/bag.png
   AssetGenImage get bag => const AssetGenImage('assets/icons/bag.png');
@@ -133,12 +137,20 @@ class $AssetsIconsGen {
   /// File path: assets/icons/order.png
   AssetGenImage get order => const AssetGenImage('assets/icons/order.png');
 
+  /// File path: assets/icons/past_orders_latest.png
+  AssetGenImage get pastOrdersLatest =>
+      const AssetGenImage('assets/icons/past_orders_latest.png');
+
   /// File path: assets/icons/policy.png
   AssetGenImage get policy => const AssetGenImage('assets/icons/policy.png');
 
   /// File path: assets/icons/settings.png
   AssetGenImage get settings =>
       const AssetGenImage('assets/icons/settings.png');
+
+  /// File path: assets/icons/settings_latest.png
+  AssetGenImage get settingsLatest =>
+      const AssetGenImage('assets/icons/settings_latest.png');
 
   /// File path: assets/icons/terms.png
   AssetGenImage get terms => const AssetGenImage('assets/icons/terms.png');
@@ -147,25 +159,33 @@ class $AssetsIconsGen {
   AssetGenImage get whatsapp =>
       const AssetGenImage('assets/icons/whatsapp.png');
 
+  /// File path: assets/icons/whatsapp_latest.png
+  AssetGenImage get whatsappLatest =>
+      const AssetGenImage('assets/icons/whatsapp_latest.png');
+
   /// List of all assets
   List<AssetGenImage> get values => [
-        activeOrders,
-        bag,
-        cart,
-        ecoDryClean,
-        home,
-        ironing,
-        laundry,
-        location,
-        logout,
-        male,
-        offers,
-        order,
-        policy,
-        settings,
-        terms,
-        whatsapp
-      ];
+    activeOrders,
+    activeOrdersLatest,
+    bag,
+    cart,
+    ecoDryClean,
+    home,
+    ironing,
+    laundry,
+    location,
+    logout,
+    male,
+    offers,
+    order,
+    pastOrdersLatest,
+    policy,
+    settings,
+    settingsLatest,
+    terms,
+    whatsapp,
+    whatsappLatest,
+  ];
 }
 
 class $AssetsImagesGen {
@@ -216,21 +236,26 @@ class $AssetsImagesGen {
   /// File path: assets/images/shoe.png
   AssetGenImage get shoe => const AssetGenImage('assets/images/shoe.png');
 
+  /// File path: assets/images/whatsapp_logo.jpg
+  AssetGenImage get whatsappLogo =>
+      const AssetGenImage('assets/images/whatsapp_logo.jpg');
+
   /// List of all assets
   List<AssetGenImage> get values => [
-        splashScreen,
-        bgImage,
-        blankImage,
-        designer,
-        designerLogo,
-        ecoFriendly,
-        electrolux,
-        kidsShoe,
-        loginLogo,
-        logo,
-        price,
-        shoe
-      ];
+    splashScreen,
+    bgImage,
+    blankImage,
+    designer,
+    designerLogo,
+    ecoFriendly,
+    electrolux,
+    kidsShoe,
+    loginLogo,
+    logo,
+    price,
+    shoe,
+    whatsappLogo,
+  ];
 }
 
 class $AssetsPdfGen {
@@ -244,7 +269,7 @@ class $AssetsPdfGen {
 }
 
 class Assets {
-  Assets._();
+  const Assets._();
 
   static const $AssetsFontsGen fonts = $AssetsFontsGen();
   static const $AssetsIconsGen icons = $AssetsIconsGen();
@@ -253,11 +278,7 @@ class Assets {
 }
 
 class AssetGenImage {
-  const AssetGenImage(
-    this._assetName, {
-    this.size,
-    this.flavors = const {},
-  });
+  const AssetGenImage(this._assetName, {this.size, this.flavors = const {}});
 
   final String _assetName;
 
@@ -282,10 +303,10 @@ class AssetGenImage {
     ImageRepeat repeat = ImageRepeat.noRepeat,
     Rect? centerSlice,
     bool matchTextDirection = false,
-    bool gaplessPlayback = false,
+    bool gaplessPlayback = true,
     bool isAntiAlias = false,
     String? package,
-    FilterQuality filterQuality = FilterQuality.low,
+    FilterQuality filterQuality = FilterQuality.medium,
     int? cacheWidth,
     int? cacheHeight,
   }) {
@@ -317,15 +338,8 @@ class AssetGenImage {
     );
   }
 
-  ImageProvider provider({
-    AssetBundle? bundle,
-    String? package,
-  }) {
-    return AssetImage(
-      _assetName,
-      bundle: bundle,
-      package: package,
-    );
+  ImageProvider provider({AssetBundle? bundle, String? package}) {
+    return AssetImage(_assetName, bundle: bundle, package: package);
   }
 
   String get path => _assetName;

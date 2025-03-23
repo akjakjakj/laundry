@@ -1,0 +1,2 @@
+E:/android_projects/laundry/android/app/.cxx/Debug/5x24u2l6/armeabi-v7a/CMakeFiles/edit_cache.dir
+E:/android_projects/laundry/android/app/.cxx/Debug/5x24u2l6/armeabi-v7a/CMakeFiles/rebuild_cache.dir

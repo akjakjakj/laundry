@@ -125,6 +125,7 @@ class AuthProvider extends ChangeNotifier with ProviderHelperClass {
                     registrationConfirmPasswordController.text.trim(),
                 name: registrationNameController.text.trim(),
                 deviceToken: deviceToken,
+                country: selectedCountry,
                 mobileNumber:
                     '+${selectedCountry.phoneCode}${registrationMobileNumberController.text.trim()}');
         resp = registrationRepo

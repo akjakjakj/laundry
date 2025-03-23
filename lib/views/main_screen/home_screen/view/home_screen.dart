@@ -33,14 +33,14 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Column(
             children: [
               SizedBox(
-                height: 50.h,
+                height: context.sw(size: .16),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
                       padding: EdgeInsets.only(left: 15.w),
                       child: Assets.images.logo.image(
-                        height: 50.h,
+                        height: context.sw(size: .13),
                       ),
                     ),
                     // GestureDetector(
@@ -56,11 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                  height: context.sw(size: 1.1.h),
+                  height: context.sw(size: 1.2.h),
                   child: VideoScreen(
                     link: context.read<HomeProvider>().homeVdoLink ?? '',
                   )),
-              5.verticalSpace,
+              10.verticalSpace,
               Text(
                 'CHOOSE OUR SERVICE',
                 style: FontPalette.poppinsBold

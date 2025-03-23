@@ -27,7 +27,7 @@ class HttpReq {
       //String storeCode = await sharedPreferencesHelper.toreCode();
       //ESCredentialModel credentialModel = AppData.getESCredentials(storeCode);
       var response = await http.get(
-        Uri.parse('https://ledegraissage.tortillon.in$endPoint'),
+        Uri.parse('https://dashboard.ledegraissage.com$endPoint'),
         headers: <String, String>{
           HttpHeaders.acceptHeader: _appJson,
           HttpHeaders.contentTypeHeader: _appJson,
@@ -49,7 +49,7 @@ class HttpReq {
         return Left(ApiResponse(exceptions: ApiExceptions.networkError));
       }
       var response = await http.post(
-        Uri.parse('https://ledegraissage.tortillon.in$endPoint'),
+        Uri.parse('https://dashboard.ledegraissage.com$endPoint'),
         body: jsonEncode(param),
         headers: <String, String>{
           HttpHeaders.acceptHeader: _appJson,
@@ -95,7 +95,7 @@ class HttpReq {
         return Left(ApiResponse(exceptions: ApiExceptions.networkError));
       }
       var request = http.MultipartRequest(
-          'POST', Uri.parse('https://ledegraissage.tortillon.in$endPoint'));
+          'POST', Uri.parse('https://dashboard.ledegraissage.com$endPoint'));
 
       files?.forEach((key, value) async {
         for (int i = 0; i < value.length; i++) {

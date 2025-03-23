@@ -93,7 +93,7 @@ class _ActiveOrdersScreenState extends State<ActiveOrdersScreen> {
                           case LoaderState.noProducts:
                             return Center(
                               child: Text(
-                                'No past orders found',
+                                'No active orders found',
                                 style: FontPalette.poppinsBold,
                               ),
                             );

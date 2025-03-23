@@ -4,7 +4,7 @@ import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/services/get_it.dart';
 import 'package:laundry/services/helpers.dart';
 import 'package:laundry/utils/color_palette.dart';
-import 'package:whatsapp_share/whatsapp_share.dart';
+// import 'package:whatsapp_share/whatsapp_share.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../utils/font_palette.dart';
@@ -59,10 +59,8 @@ class _WhatsappState extends State<Whatsapp> {
                       SizedBox(
                         height: 130.h,
                         width: 130.h,
-                        child: Image.network(
-                            "https://i.pinimg.com/originals/cf/96/e5/cf96e5b917fa2c520da5a9a73afced44.gif"),
+                        child: Image.asset("assets/images/whatsapp_logo.jpg"),
                       ),
-                      10.verticalSpace,
                       Text(
                         "Whatsapp Support",
                         style: FontPalette.poppinsBold
@@ -76,14 +74,18 @@ class _WhatsappState extends State<Whatsapp> {
                       ),
                       10.verticalSpace,
                       ElevatedButton(
-                          onPressed: _openWhatsApp,
+                          onPressed: () {},
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorPalette.greenColor,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(30.0),
                             ),
                           ),
-                          child: const Text('    Contact    ')),
+                          child: Text(
+                            'Contact',
+                            style: FontPalette.poppinsRegular
+                                .copyWith(color: Colors.white),
+                          )),
                     ],
                   ),
                 ),
@@ -95,32 +97,32 @@ class _WhatsappState extends State<Whatsapp> {
     );
   }
 
-  Future<void> isInstalled() async {
-    isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
-    isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
-    debugPrint('Whatsapp  is installed: $isWhatsapp');
-    if (isWhatsapp == true) share();
-    if (isWhatsapp == null || isWhatsapp == false) {
-      helpers.errorToast("Whatsapp is not installed");
-    }
-  }
+  // Future<void> isInstalled() async {
+  //   isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
+  //   isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
+  //   debugPrint('Whatsapp  is installed: $isWhatsapp');
+  //   if (isWhatsapp == true) share();
+  //   if (isWhatsapp == null || isWhatsapp == false) {
+  //     helpers.errorToast("Whatsapp is not installed");
+  //   }
+  // }
 
-  void _openWhatsApp() async {
-    String whatsappUrl = "whatsapp://send?phone=9710529496710";
-
-    if (await canLaunch(whatsappUrl)) {
-      await launch(whatsappUrl);
-    } else {
-      // Handle the error when WhatsApp is not installed
-      helpers.errorToast("Whatsapp is not installed");
-    }
-  }
-
-  Future<void> share() async {
-    await WhatsappShare.share(
-      text: 'Hi',
-      // linkUrl: 'https://flutter.dev/',
-      phone: '9710529496710',
-    );
-  }
+//   void _openWhatsApp() async {
+//     String whatsappUrl = "whatsapp://send?phone=9710529496710";
+//
+//     if (await canLaunch(whatsappUrl)) {
+//       await launch(whatsappUrl);
+//     } else {
+//       // Handle the error when WhatsApp is not installed
+//       helpers.errorToast("Whatsapp is not installed");
+//     }
+//   }
+//
+//   Future<void> share() async {
+//     await WhatsappShare.share(
+//       text: 'Hi',
+//       // linkUrl: 'https://flutter.dev/',
+//       phone: '9710529496710',
+//     );
+//   }
 }

@@ -112,13 +112,13 @@ class _MainScreenState extends State<MainScreen> {
                             height: 30,
                             width: 30,
                             padding: const EdgeInsets.all(1),
-                            child: Assets.icons.order.image(
+                            child: Assets.icons.pastOrdersLatest.image(
                                 height: 30,
                                 width: 30,
                                 fit: BoxFit.fill,
                                 color: Colors.white)))),
                 Center(
-                    child: Assets.icons.whatsapp.image(
+                    child: Assets.icons.whatsappLatest.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
@@ -134,13 +134,13 @@ class _MainScreenState extends State<MainScreen> {
                               fit: BoxFit.fill,
                             )))),
                 Center(
-                    child: Assets.icons.activeOrders.image(
+                    child: Assets.icons.activeOrdersLatest.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,
                         color: Colors.white)),
                 Center(
-                    child: Assets.icons.settings.image(
+                    child: Assets.icons.settingsLatest.image(
                         height: 30,
                         width: 30,
                         fit: BoxFit.fill,

@@ -40,6 +40,7 @@ class Orders {
   String? phoneNumber;
   String? email;
   String? orderStatus;
+  int? status;
   String? paymentStatus;
   String? paymentType;
   String? transactionId;
@@ -66,6 +67,7 @@ class Orders {
       this.branch,
       this.customer,
       this.orderStatus,
+      this.status,
       this.phoneNumber,
       this.invoice,
       this.email,
@@ -96,6 +98,7 @@ class Orders {
     pickupDate = json['pickup_date'];
     pickUpTimeSlot = json['pickup_time_slot'];
     orderStatus = json['order_status'];
+    status = int.parse(json['status'].toString());
     paymentStatus = json['payment_status'];
     paymentType = json['payment_type'];
     transactionId = json['transaction_id'];

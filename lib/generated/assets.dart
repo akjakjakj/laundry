@@ -22,6 +22,7 @@ class Assets {
   static const String fontsPoppinsThin = 'assets/fonts/Poppins-Thin.ttf';
   static const String fontsPoppinsThinItalic = 'assets/fonts/Poppins-ThinItalic.ttf';
   static const String iconsActiveOrders = 'assets/icons/active_orders.png';
+  static const String iconsActiveOrdersLatest = 'assets/icons/active_orders_latest.png';
   static const String iconsBag = 'assets/icons/bag.png';
   static const String iconsCart = 'assets/icons/cart.png';
   static const String iconsEcoDryClean = 'assets/icons/eco_dry_clean.png';
@@ -33,10 +34,13 @@ class Assets {
   static const String iconsMale = 'assets/icons/male.png';
   static const String iconsOffers = 'assets/icons/offers.png';
   static const String iconsOrder = 'assets/icons/order.png';
+  static const String iconsPastOrdersLatest = 'assets/icons/past_orders_latest.png';
   static const String iconsPolicy = 'assets/icons/policy.png';
   static const String iconsSettings = 'assets/icons/settings.png';
+  static const String iconsSettingsLatest = 'assets/icons/settings_latest.png';
   static const String iconsTerms = 'assets/icons/terms.png';
   static const String iconsWhatsapp = 'assets/icons/whatsapp.png';
+  static const String iconsWhatsappLatest = 'assets/icons/whatsapp_latest.png';
   static const String imagesBgImage = 'assets/images/bg_image.png';
   static const String imagesBlankImage = 'assets/images/blank_image.png';
   static const String imagesDesigner = 'assets/images/designer.png';
@@ -49,5 +53,6 @@ class Assets {
   static const String imagesPrice = 'assets/images/price.png';
   static const String imagesShoe = 'assets/images/shoe.png';
   static const String imagesSplashScreen = 'assets/images/Splash_Screen.gif';
+  static const String imagesWhatsappLogo = 'assets/images/whatsapp_logo.jpg';
 
 }

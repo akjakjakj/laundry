@@ -290,6 +290,24 @@ class _ActiveOrdersDetailsScreenState extends State<ActiveOrdersDetailsScreen> {
                                 arguments: TrackRiderArguments(
                                     activeOrdersProvider:
                                         widget.activeOrdersProvider))),
+                      if (widget.orders?.status == 0) 14.verticalSpace,
+                      if (widget.orders?.status == 0)
+                        CustomButton(
+                          title: 'Cancel Order',
+                          isLoading:
+                              widget.activeOrdersProvider.btnLoader ?? false,
+                          onTap: () => widget.activeOrdersProvider.cancelOrder(
+                            orderId: widget.orderId ?? 0,
+                            onSuccess: () {
+                              widget.activeOrdersProvider.helpers.successToast(
+                                  'Order cancelled successfully!');
+                              Navigator.pushNamed(
+                                  context, RouteGenerator.routeMainScreen);
+                            },
+                            onFailure: () => widget.activeOrdersProvider.helpers
+                                .errorToast('Order cancellation failed'),
+                          ),
+                        ),
                       14.verticalSpace,
                       if (widget.orders?.invoice != null)
                         Column(

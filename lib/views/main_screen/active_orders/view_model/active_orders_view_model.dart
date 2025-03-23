@@ -21,6 +21,7 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   PastOrdersRepo pastOrdersRepo = PastOrdersRepo();
 
   PastOrdersResponse? pastOrdersResponse;
+  PastOrdersResponse? cancelledOrdersResponse;
   OrderDetailsModel? orderDetailsModel;
   FullAddress? fullAddress;
   DriverLocationUpdatedEvent? driverLocation;
@@ -33,6 +34,7 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
   bool? btnLoader = false;
 
   List<Orders> ordersList = [];
+  List<Orders> cancelledOrdersList = [];
 
   GoogleMapController? mapController;
 
@@ -51,6 +53,33 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
         pastOrdersRepo.getActiveOrders().thenRight((right) {
           pastOrdersResponse = right;
           updateOrdersList(pastOrdersResponse);
+          return Right(right);
+        }).thenLeft((left) {
+          updateLoadState(LoaderState.error);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        }).onError((error, stackTrace) {
+          updateLoadState(LoaderState.error);
+          return Left(ApiResponse(exceptions: ApiExceptions.error));
+        });
+      } catch (e) {
+        updateBtnLoaderState(false);
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+  Future<void> getCancelledOrders() async {
+    updateLoadState(LoaderState.loading);
+    final network = await helpers.isInternetAvailable();
+    Future<Either<ApiResponse, dynamic>>? resp;
+    if (network) {
+      try {
+        resp = pastOrdersRepo.getCancelledOrders().thenRight((right) {
+          cancelledOrdersResponse = right;
+          updateCancelledOrdersList(cancelledOrdersResponse);
           return Right(right);
         }).thenLeft((left) {
           updateLoadState(LoaderState.error);
@@ -130,9 +159,52 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
     }
   }
 
+  Future<void> cancelOrder(
+      {required int orderId,
+      Function()? onSuccess,
+      Function()? onFailure}) async {
+    final network = await helpers.isInternetAvailable();
+    if (network) {
+      updateBtnLoader(true);
+      try {
+        pastOrdersRepo.cancelOrder(orderId: orderId).fold(
+          (left) {
+            updateBtnLoader(false);
+            updateMessage(left.message ?? 'Oops... Something went wrong');
+            if (onFailure != null) onFailure();
+          },
+          (right) {
+            updateBtnLoader(false);
+            updateMessage(right['message'] ?? 'Order Cancelled');
+            if (onSuccess != null) onSuccess();
+          },
+        );
+      } catch (e) {
+        updateBtnLoaderState(false);
+        updateLoadState(LoaderState.error);
+      }
+    } else {
+      helpers
+          .errorToast('Network Error... Please check your internet connection');
+    }
+  }
+
+
   updateOrdersList(PastOrdersResponse? pastOrdersResponse) {
     ordersList = pastOrdersResponse?.orders ?? [];
     if (ordersList.isNotEmpty) {
+      updateLoadState(LoaderState.loaded);
+    } else {
+      updateLoadState(LoaderState.noData);
+    }
+
+    notifyListeners();
+  }
+
+
+  updateCancelledOrdersList(PastOrdersResponse? cancelledOrdersResponse) {
+    cancelledOrdersList = cancelledOrdersResponse?.orders ?? [];
+    if (cancelledOrdersList.isNotEmpty) {
       updateLoadState(LoaderState.loaded);
     } else {
       updateLoadState(LoaderState.noData);
@@ -269,16 +341,16 @@ class ActiveOrdersProvider extends ChangeNotifier with ProviderHelperClass {
 
       // Fetch route from Google Maps API
       PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-        'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
-        PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
-        PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
-        travelMode: TravelMode.driving,
-        // request: PolylineRequest(
-        //     origin: PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
-        //     destination:
-        //         PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
-        //     mode: TravelMode.driving),
-        // googleApiKey: 'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
+        // 'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
+        // PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
+        // PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+        // travelMode: TravelMode.driving,
+        request: PolylineRequest(
+            origin: PointLatLng(riderLatLng.latitude, riderLatLng.longitude),
+            destination:
+                PointLatLng(customerLatLng.latitude, customerLatLng.longitude),
+            mode: TravelMode.driving),
+        googleApiKey: 'AIzaSyBb2wGZE012MilJ55Pw44d9WewvBmLsZSI',
         // travelMode: TravelMode.driving,
       );
       polylineCoordinates.clear();

@@ -91,4 +91,29 @@ class PastOrdersRepo {
           return Left(ApiResponse(exceptions: ApiExceptions.networkError));
         });
   }
+
+  Future<Either<ApiResponse, dynamic>> cancelOrder({required int orderId}) {
+    return httpReq
+        .postRequest('/api/customer/order/cancel', param: {'order_id': orderId})
+        .thenRight((right) => Right(right))
+        .thenLeft((left) {
+          return Left(left);
+        })
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
+
+  Future<Either<ApiResponse, dynamic>> getCancelledOrders() async {
+    return httpReq
+        .getRequest('/api/customer/cancelled-orders')
+        .thenRight((right) {
+          final pastOrdersResponse = PastOrdersResponse.fromJson(right);
+          return Right(pastOrdersResponse);
+        })
+        .thenLeft((left) => Left(left))
+        .onError((error, stackTrace) {
+          return Left(ApiResponse(exceptions: ApiExceptions.networkError));
+        });
+  }
 }

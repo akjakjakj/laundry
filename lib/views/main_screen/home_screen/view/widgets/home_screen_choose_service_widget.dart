@@ -5,6 +5,8 @@ import 'package:laundry/common_widgets/custom_alert_dialogue.dart';
 import 'package:laundry/services/route_generator.dart';
 import 'package:laundry/views/cart/model/normal_service_arguments.dart';
 import 'package:laundry/views/main_screen/home_screen/model/services_model.dart';
+import 'package:laundry/views/main_screen/home_screen/view_model/home_view_model.dart';
+import 'package:provider/provider.dart';
 
 import 'home_screen_service_container.dart';
 
@@ -31,13 +33,29 @@ class ChooseServiceWidget extends StatelessWidget {
                         cancelButtonText: 'Express Service',
                         height: 220.h,
                         isLoading: false,
-                        onCancelButtonPressed: () => Navigator.pushNamed(
-                            context, RouteGenerator.routeNormalServiceScreen,
-                            arguments: NormalServiceArguments(index: 1)),
+                        onCancelButtonPressed: () {
+                          context.read<HomeProvider>().videoController?.pause();
+                          Navigator.pushNamed(context,
+                                  RouteGenerator.routeNormalServiceScreen,
+                                  arguments: NormalServiceArguments(index: 1))
+                              .then(
+                            (value) => context
+                                .read<HomeProvider>()
+                                .videoController
+                                ?.play(),
+                          );
+                        },
                         onActionButtonPressed: () async {
-                          Navigator.pushNamed(
-                              context, RouteGenerator.routeNormalServiceScreen,
-                              arguments: NormalServiceArguments(index: 0));
+                          context.read<HomeProvider>().videoController?.pause();
+                          Navigator.pushNamed(context,
+                                  RouteGenerator.routeNormalServiceScreen,
+                                  arguments: NormalServiceArguments(index: 0))
+                              .then(
+                            (value) => context
+                                .read<HomeProvider>()
+                                .videoController
+                                ?.play(),
+                          );
                         },
                       ));
                   // Navigator.pushNamed(
