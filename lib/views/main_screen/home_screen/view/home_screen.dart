@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                  height: context.sw(size: 1.2.h),
+                  height: context.sw(size: 1.13),
                   child: VideoScreen(
                     link: context.read<HomeProvider>().homeVdoLink ?? '',
                   )),
@@ -94,6 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   arguments: EcoDryCleanArguments(title: '', serviceId: 1),
                 ),
               ),
+              80.verticalSpace
             ],
           )),
         ).withBackgroundImage(),

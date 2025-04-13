@@ -85,14 +85,9 @@ class _VideoScreenState extends State<VideoScreen> with RouteAware {
                     homeProvider!.videoController!.value.isInitialized
                 ? LayoutBuilder(
                     builder: (context, constraints) {
-                      double videoWidth =
-                          constraints.maxWidth; // Full screen width
-                      double videoHeight = videoWidth /
-                          homeProvider!.videoController!.value
-                              .aspectRatio; // Same height as the video
                       return SizedBox(
                         width: double.infinity, // Full width of the screen
-                        height: context.sw(size: 1.2.h),
+                        height: context.sw(size: 1.13),
                         child: AspectRatio(
                           aspectRatio:
                               homeProvider!.videoController!.value.aspectRatio,

@@ -75,6 +75,8 @@ dependencies:
   pusher_channels_flutter: ^2.2.1
   flutter_cache_manager: ^3.3.1
   country_picker: ^2.0.21
+  flutter_svg: ^2.0.17
+  share_plus: ^10.1.4
     
 
 

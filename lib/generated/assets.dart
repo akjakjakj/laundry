@@ -3,6 +3,10 @@ class Assets {
   Assets._();
 
   static const String assetsAssetlinks = 'assets/assetlinks.json';
+  static const String assetsIconsActiveOrders = 'assets/icons/active_orders.svg';
+  static const String assetsIconsCancelledOrders = 'assets/icons/cancelled_orders.svg';
+  static const String assetsIconsSettings = 'assets/icons/settings.svg';
+  static const String assetsIconsWhatsapp = 'assets/icons/whatsapp.svg';
   static const String fontsPoppinsBlack = 'assets/fonts/Poppins-Black.ttf';
   static const String fontsPoppinsBlackItalic = 'assets/fonts/Poppins-BlackItalic.ttf';
   static const String fontsPoppinsBold = 'assets/fonts/Poppins-Bold.ttf';
@@ -21,9 +25,11 @@ class Assets {
   static const String fontsPoppinsSemiBoldItalic = 'assets/fonts/Poppins-SemiBoldItalic.ttf';
   static const String fontsPoppinsThin = 'assets/fonts/Poppins-Thin.ttf';
   static const String fontsPoppinsThinItalic = 'assets/fonts/Poppins-ThinItalic.ttf';
+  static const String iconsAccountDeletion = 'assets/icons/account_deletion.svg';
   static const String iconsActiveOrders = 'assets/icons/active_orders.png';
   static const String iconsActiveOrdersLatest = 'assets/icons/active_orders_latest.png';
   static const String iconsBag = 'assets/icons/bag.png';
+  static const String iconsCancelledOrders = 'assets/icons/cancelled_orders.png';
   static const String iconsCart = 'assets/icons/cart.png';
   static const String iconsEcoDryClean = 'assets/icons/eco_dry_clean.png';
   static const String iconsHome = 'assets/icons/home.png';
@@ -34,12 +40,15 @@ class Assets {
   static const String iconsMale = 'assets/icons/male.png';
   static const String iconsOffers = 'assets/icons/offers.png';
   static const String iconsOrder = 'assets/icons/order.png';
+  static const String iconsPastOrders = 'assets/icons/past_orders.svg';
   static const String iconsPastOrdersLatest = 'assets/icons/past_orders_latest.png';
   static const String iconsPolicy = 'assets/icons/policy.png';
   static const String iconsSettings = 'assets/icons/settings.png';
+  static const String iconsSettingsFinal = 'assets/icons/settings-Final.svg';
   static const String iconsSettingsLatest = 'assets/icons/settings_latest.png';
   static const String iconsTerms = 'assets/icons/terms.png';
   static const String iconsWhatsapp = 'assets/icons/whatsapp.png';
+  static const String iconsWhatsappFinal = 'assets/icons/Whatsapp-Final.svg';
   static const String iconsWhatsappLatest = 'assets/icons/whatsapp_latest.png';
   static const String imagesBgImage = 'assets/images/bg_image.png';
   static const String imagesBlankImage = 'assets/images/blank_image.png';
@@ -54,5 +63,6 @@ class Assets {
   static const String imagesShoe = 'assets/images/shoe.png';
   static const String imagesSplashScreen = 'assets/images/Splash_Screen.gif';
   static const String imagesWhatsappLogo = 'assets/images/whatsapp_logo.jpg';
+  static const String imagesWhatsappshare = 'assets/images/whatsappshare.jpg';
 
 }

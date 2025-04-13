@@ -1,0 +1,2 @@
+E:/android_projects/laundry/android/app/.cxx/RelWithDebInfo/28b2y1r2/arm64-v8a/CMakeFiles/edit_cache.dir
+E:/android_projects/laundry/android/app/.cxx/RelWithDebInfo/28b2y1r2/arm64-v8a/CMakeFiles/rebuild_cache.dir

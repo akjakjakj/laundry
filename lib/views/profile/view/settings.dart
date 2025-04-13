@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:laundry/common/extensions.dart';
 import 'package:laundry/common_widgets/common_functions.dart';
 import 'package:laundry/common_widgets/custom_alert_dialogue.dart';
@@ -211,12 +212,13 @@ class _SettingsState extends State<Settings> {
                             context, RouteGenerator.routeAddressScreen);
                       },
                     ),
-
                     5.verticalSpace,
                     ProfileTile(
                       childIcon: Padding(
                         padding: EdgeInsets.all(10.r),
-                        child: Assets.icons.policy.image(),
+                        child: SvgPicture.asset(
+                          Assets.icons.cancelledOrdersSvg,
+                        ),
                       ),
                       title: "Cancelled Orders",
                       onTap: () {
@@ -282,7 +284,11 @@ class _SettingsState extends State<Settings> {
                     ProfileTile(
                       childIcon: Padding(
                         padding: EdgeInsets.all(11.r),
-                        child: Assets.icons.logout.image(),
+                        child: SvgPicture.asset(
+                          Assets.icons.accountDeletion,
+                          colorFilter: const ColorFilter.mode(
+                              Colors.white, BlendMode.srcIn),
+                        ),
                       ),
                       title: "Delete Account",
                       onTap: () => CommonFunctions.showDialogPopUp(

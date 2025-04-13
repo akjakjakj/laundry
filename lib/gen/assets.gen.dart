@@ -94,9 +94,18 @@ class $AssetsFontsGen {
 class $AssetsIconsGen {
   const $AssetsIconsGen();
 
+  /// File path: assets/icons/Whatsapp-Final.svg
+  String get whatsappFinal => 'assets/icons/Whatsapp-Final.svg';
+
+  /// File path: assets/icons/account_deletion.svg
+  String get accountDeletion => 'assets/icons/account_deletion.svg';
+
   /// File path: assets/icons/active_orders.png
-  AssetGenImage get activeOrders =>
+  AssetGenImage get activeOrdersPng =>
       const AssetGenImage('assets/icons/active_orders.png');
+
+  /// File path: assets/icons/active_orders.svg
+  String get activeOrdersSvg => 'assets/icons/active_orders.svg';
 
   /// File path: assets/icons/active_orders_latest.png
   AssetGenImage get activeOrdersLatest =>
@@ -104,6 +113,13 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/bag.png
   AssetGenImage get bag => const AssetGenImage('assets/icons/bag.png');
+
+  /// File path: assets/icons/cancelled_orders.png
+  AssetGenImage get cancelledOrdersPng =>
+      const AssetGenImage('assets/icons/cancelled_orders.png');
+
+  /// File path: assets/icons/cancelled_orders.svg
+  String get cancelledOrdersSvg => 'assets/icons/cancelled_orders.svg';
 
   /// File path: assets/icons/cart.png
   AssetGenImage get cart => const AssetGenImage('assets/icons/cart.png');
@@ -137,6 +153,9 @@ class $AssetsIconsGen {
   /// File path: assets/icons/order.png
   AssetGenImage get order => const AssetGenImage('assets/icons/order.png');
 
+  /// File path: assets/icons/past_orders.svg
+  String get pastOrders => 'assets/icons/past_orders.svg';
+
   /// File path: assets/icons/past_orders_latest.png
   AssetGenImage get pastOrdersLatest =>
       const AssetGenImage('assets/icons/past_orders_latest.png');
@@ -144,9 +163,15 @@ class $AssetsIconsGen {
   /// File path: assets/icons/policy.png
   AssetGenImage get policy => const AssetGenImage('assets/icons/policy.png');
 
+  /// File path: assets/icons/settings-Final.svg
+  String get settingsFinal => 'assets/icons/settings-Final.svg';
+
   /// File path: assets/icons/settings.png
-  AssetGenImage get settings =>
+  AssetGenImage get settingsPng =>
       const AssetGenImage('assets/icons/settings.png');
+
+  /// File path: assets/icons/settings.svg
+  String get settingsSvg => 'assets/icons/settings.svg';
 
   /// File path: assets/icons/settings_latest.png
   AssetGenImage get settingsLatest =>
@@ -156,18 +181,26 @@ class $AssetsIconsGen {
   AssetGenImage get terms => const AssetGenImage('assets/icons/terms.png');
 
   /// File path: assets/icons/whatsapp.png
-  AssetGenImage get whatsapp =>
+  AssetGenImage get whatsappPng =>
       const AssetGenImage('assets/icons/whatsapp.png');
+
+  /// File path: assets/icons/whatsapp.svg
+  String get whatsappSvg => 'assets/icons/whatsapp.svg';
 
   /// File path: assets/icons/whatsapp_latest.png
   AssetGenImage get whatsappLatest =>
       const AssetGenImage('assets/icons/whatsapp_latest.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [
-    activeOrders,
+  List<dynamic> get values => [
+    whatsappFinal,
+    accountDeletion,
+    activeOrdersPng,
+    activeOrdersSvg,
     activeOrdersLatest,
     bag,
+    cancelledOrdersPng,
+    cancelledOrdersSvg,
     cart,
     ecoDryClean,
     home,
@@ -178,12 +211,16 @@ class $AssetsIconsGen {
     male,
     offers,
     order,
+    pastOrders,
     pastOrdersLatest,
     policy,
-    settings,
+    settingsFinal,
+    settingsPng,
+    settingsSvg,
     settingsLatest,
     terms,
-    whatsapp,
+    whatsappPng,
+    whatsappSvg,
     whatsappLatest,
   ];
 }
@@ -240,6 +277,10 @@ class $AssetsImagesGen {
   AssetGenImage get whatsappLogo =>
       const AssetGenImage('assets/images/whatsapp_logo.jpg');
 
+  /// File path: assets/images/whatsappshare.jpg
+  AssetGenImage get whatsappshare =>
+      const AssetGenImage('assets/images/whatsappshare.jpg');
+
   /// List of all assets
   List<AssetGenImage> get values => [
     splashScreen,
@@ -255,6 +296,7 @@ class $AssetsImagesGen {
     price,
     shoe,
     whatsappLogo,
+    whatsappshare,
   ];
 }
 

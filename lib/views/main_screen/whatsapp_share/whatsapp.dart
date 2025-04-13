@@ -6,7 +6,6 @@ import 'package:laundry/services/helpers.dart';
 import 'package:laundry/utils/color_palette.dart';
 // import 'package:whatsapp_share/whatsapp_share.dart';
 import 'package:url_launcher/url_launcher.dart';
-
 import '../../../utils/font_palette.dart';
 
 class Whatsapp extends StatefulWidget {
@@ -59,7 +58,7 @@ class _WhatsappState extends State<Whatsapp> {
                       SizedBox(
                         height: 130.h,
                         width: 130.h,
-                        child: Image.asset("assets/images/whatsapp_logo.jpg"),
+                        child: Image.asset("assets/images/whatsappshare.jpg"),
                       ),
                       Text(
                         "Whatsapp Support",
@@ -74,7 +73,7 @@ class _WhatsappState extends State<Whatsapp> {
                       ),
                       10.verticalSpace,
                       ElevatedButton(
-                          onPressed: () {},
+                          onPressed: () => shareToWhatsAppDirect('Hello..'),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: ColorPalette.greenColor,
                             shape: RoundedRectangleBorder(
@@ -97,7 +96,18 @@ class _WhatsappState extends State<Whatsapp> {
     );
   }
 
-  // Future<void> isInstalled() async {
+  void shareToWhatsAppDirect(String message) async {
+    final url = Uri.parse(
+        "https://wa.me/9710529496710?text=${Uri.encodeComponent(message)}");
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      throw 'Could not launch WhatsApp';
+    }
+  }
+
+// Future<void> isInstalled() async {
   //   isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
   //   isWhatsapp = await WhatsappShare.isInstalled(package: Package.whatsapp);
   //   debugPrint('Whatsapp  is installed: $isWhatsapp');

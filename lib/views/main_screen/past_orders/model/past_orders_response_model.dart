@@ -81,12 +81,12 @@ class Orders {
       this.returnRiderId});
 
   Orders.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
+    id = int.tryParse(json['id'].toString()) ?? 0;
     pickUpReferenceNumber = json['pickup_reference_no'];
-    orderNumber = json['order_number'];
+    orderNumber = json['order_number']?.toString() ?? '';
     category = json['category'];
     product = json['product'];
-    quantity = json['quantity'];
+    quantity = int.tryParse(json['quantity'].toString()) ?? 0;
     date = json['date'];
     customer = json['customer'];
     phoneNumber = json['contact_number'];
@@ -149,8 +149,8 @@ class Invoice {
       this.invoiceNumber});
 
   Invoice.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    orderId = json['order_id'];
+    id = int.tryParse(json['id'].toString()) ?? 0;
+    orderId = json['order_number']?.toString() ?? '';
     totalBillNumber = json['total_bill_no'];
     discountAmount = json['discount_amount'];
     netAmount = json['net_amount'];
@@ -205,8 +205,8 @@ class FullAddress {
       this.updatedAt});
 
   FullAddress.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    customerId = json['customer_id'];
+    id = int.tryParse(json['id'].toString()) ?? 0;
+    customerId = int.tryParse(json['customer_id'].toString()) ?? 0;
     address = json['address'];
     city = json['city'];
     houseNo = json['house_no'];

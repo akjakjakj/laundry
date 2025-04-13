@@ -27,7 +27,7 @@ class Terms extends StatelessWidget {
           },
         ),
       )
-      ..loadRequest(Uri.parse('https://ledegraissage.com/terms.html'));
+      ..loadRequest(Uri.parse('https://ledegraissage.com/terms/'));
     return Scaffold(
       appBar: AppBar(
         title: Text(

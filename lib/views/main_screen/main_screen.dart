@@ -1,5 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:laundry/gen/assets.gen.dart';
 import 'package:laundry/utils/color_palette.dart';
 import 'package:laundry/utils/enums.dart';
@@ -107,22 +109,29 @@ class _MainScreenState extends State<MainScreen> {
               backgroundColor: Colors.white,
               items: <Widget>[
                 Center(
-                    child: Center(
-                        child: Container(
-                            height: 30,
-                            width: 30,
-                            padding: const EdgeInsets.all(1),
-                            child: Assets.icons.pastOrdersLatest.image(
-                                height: 30,
-                                width: 30,
-                                fit: BoxFit.fill,
-                                color: Colors.white)))),
+                    child: Container(
+                  height: 30,
+                  width: 30,
+                  padding: const EdgeInsets.all(1),
+                  child: SvgPicture.asset(Assets.icons.pastOrders),
+                  // child: Assets.icons.pastOrdersLatest.image(
+                  //     height: 30,
+                  //     width: 30,
+                  //     fit: BoxFit.fill,
+                  //     color: Colors.white)
+                )),
                 Center(
-                    child: Assets.icons.whatsappLatest.image(
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.fill,
-                        color: Colors.white)),
+                    child: Container(
+                  height: 30,
+                  width: 30,
+                  padding: const EdgeInsets.all(1),
+                  child: SvgPicture.asset(Assets.icons.whatsappFinal),
+                  // child: Assets.icons.pastOrdersLatest.image(
+                  //     height: 30,
+                  //     width: 30,
+                  //     fit: BoxFit.fill,
+                  //     color: Colors.white)
+                )),
                 Center(
                     child: Center(
                         child: SizedBox(
@@ -134,17 +143,29 @@ class _MainScreenState extends State<MainScreen> {
                               fit: BoxFit.fill,
                             )))),
                 Center(
-                    child: Assets.icons.activeOrdersLatest.image(
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.fill,
-                        color: Colors.white)),
+                    child: Container(
+                  height: 29.r,
+                  width: 29.r,
+                  padding: const EdgeInsets.all(1),
+                  child: SvgPicture.asset(Assets.icons.activeOrdersSvg),
+                  // child: Assets.icons.pastOrdersLatest.image(
+                  //     height: 30,
+                  //     width: 30,
+                  //     fit: BoxFit.fill,
+                  //     color: Colors.white)
+                )),
                 Center(
-                    child: Assets.icons.settingsLatest.image(
-                        height: 30,
-                        width: 30,
-                        fit: BoxFit.fill,
-                        color: Colors.white)),
+                    child: Container(
+                  height: 30,
+                  width: 30,
+                  padding: const EdgeInsets.all(1),
+                  child: SvgPicture.asset(Assets.icons.settingsFinal),
+                  // child: Assets.icons.pastOrdersLatest.image(
+                  //     height: 30,
+                  //     width: 30,
+                  //     fit: BoxFit.fill,
+                  //     color: Colors.white)
+                )),
               ],
               onTap: (index) {
                 onBottomNavTap(index);
