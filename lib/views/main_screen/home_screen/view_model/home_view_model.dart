@@ -124,6 +124,12 @@ class HomeProvider extends ChangeNotifier with ProviderHelperClass {
     notifyListeners();
   }
 
+  void muteOrUnMuteVideo() {
+    final isMuted = videoController?.value.volume == 0;
+    videoController?.setVolume(isMuted ? 1.0 : 0.0);
+    notifyListeners();
+  }
+
   @override
   void updateLoadState(LoaderState state) {
     loaderState = state;

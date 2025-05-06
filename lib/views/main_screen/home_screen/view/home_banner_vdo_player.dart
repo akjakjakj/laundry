@@ -85,14 +85,43 @@ class _VideoScreenState extends State<VideoScreen> with RouteAware {
                     homeProvider!.videoController!.value.isInitialized
                 ? LayoutBuilder(
                     builder: (context, constraints) {
-                      return SizedBox(
-                        width: double.infinity, // Full width of the screen
-                        height: context.sw(size: 1.13),
-                        child: AspectRatio(
-                          aspectRatio:
-                              homeProvider!.videoController!.value.aspectRatio,
-                          child: VideoPlayer(homeProvider!.videoController!),
-                        ),
+                      return Stack(
+                        children: [
+                          SizedBox(
+                            width: double.infinity,
+                            height: context.sw(size: 1.13),
+                            child: AspectRatio(
+                              aspectRatio: homeProvider!
+                                  .videoController!.value.aspectRatio,
+                              child:
+                                  VideoPlayer(homeProvider!.videoController!),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: 12,
+                            right: 12,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.black.withOpacity(0.5),
+                                shape: BoxShape.circle,
+                              ),
+                              child: IconButton(
+                                icon: Selector<HomeProvider, double?>(
+                                  selector: (context, provider) =>
+                                      provider.videoController?.value.volume,
+                                  builder: (context, value, child) => Icon(
+                                    value == 0
+                                        ? Icons.volume_off
+                                        : Icons.volume_up,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                                onPressed: () =>
+                                    homeProvider?.muteOrUnMuteVideo(),
+                              ),
+                            ),
+                          ),
+                        ],
                       );
                     },
                   )
